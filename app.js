@@ -1,9 +1,33 @@
 
 var GOOGLE_FORM_URL = "https://forms.gle/YOUR_FORM_ID";
 function applyNow() { window.open(GOOGLE_FORM_URL, "_blank"); }
-function openModal() { document.getElementById("modal").style.display = "flex"; document.getElementById("modal-form").style.display = "block"; document.getElementById("modal-success").style.display = "none"; }
+function openModal() {
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("modal-form").style.display = "block";
+  document.getElementById("modal-success").style.display = "none";
+  var btn = document.querySelector("#modal-form button[type=submit]");
+  if (btn) btn.disabled = false;
+}
 function closeModal() { document.getElementById("modal").style.display = "none"; }
-function submitEmail(e) { e.preventDefault(); document.getElementById("modal-form").style.display = "none"; document.getElementById("modal-success").style.display = "block"; setTimeout(closeModal, 2000); }
+async function submitEmail(e) {
+  e.preventDefault();
+  var btn = e.target.querySelector("button[type=submit]");
+  btn.disabled = true;
+  var fd = new FormData();
+  fd.set("field_0", document.getElementById("email-input").value);
+  fd.set("hpc4b27b6e-eb38-11e9-be00-06b4694bee2a", "");
+  try {
+    var res = await fetch("https://eomail5.com/form/eea8ce16-4253-11f1-8928-15f023a35e73", { method: "POST", mode: "cors", cache: "no-cache", body: fd });
+    var json = await res.json();
+    if (!json.success) throw new Error((json.error && json.error.code) || "unknown");
+    document.getElementById("modal-form").style.display = "none";
+    document.getElementById("modal-success").style.display = "block";
+    setTimeout(closeModal, 2000);
+  } catch (err) {
+    btn.disabled = false;
+    alert("Sign-up failed. Please try again.");
+  }
+}
 
 var mobileMenuOpen = false;
 function toggleMobileMenu() { mobileMenuOpen ? closeMobileMenu() : openMobileMenu(); }
