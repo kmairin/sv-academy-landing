@@ -226,7 +226,6 @@ img{max-width:100%;display:block}
     <a href="#about" class="nav-link" style="font-size:14px" data-i18n="nav_about">About</a>
     <a href="#mentors" class="nav-link" style="font-size:14px" data-i18n="nav_mentors">Mentors</a>
     <a href="#program" class="nav-link" style="font-size:14px" data-i18n="nav_program">Program</a>
-    <a href="#apply" class="nav-link" style="font-size:14px" data-i18n="nav_apply">Apply</a>
   </div>
   <div class="toggle-group">
     <button class="lang-toggle" onclick="toggleLang()" id="lang-btn" aria-label="Toggle language">TH</button>
@@ -235,7 +234,6 @@ img{max-width:100%;display:block}
       <span id="theme-icon-moon">&#127769;</span>
     </button>
     <button onclick="openModal()" class="join-list-btn nav-join-btn" data-i18n="nav_join">Join Mailing List</button>
-    <button onclick="applyNow()" class="btn-glow" style="background:#0071E3;color:#fff;padding:8px 20px;border-radius:9999px;font-size:14px;font-weight:500;transition:all 0.3s" data-i18n="nav_apply_btn">Apply Now</button>
     <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-expanded="false" aria-label="Toggle navigation menu">
       <svg id="menu-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="transition:all 0.25s cubic-bezier(0.4,0,0.2,1)"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       <svg id="menu-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;transition:all 0.25s cubic-bezier(0.4,0,0.2,1)"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -247,10 +245,8 @@ img{max-width:100%;display:block}
   <a href="#about" onclick="closeMobileMenu()" data-i18n="nav_about">About</a>
   <a href="#mentors" onclick="closeMobileMenu()" data-i18n="nav_mentors">Mentors</a>
   <a href="#program" onclick="closeMobileMenu()" data-i18n="nav_program">Program</a>
-  <a href="#apply" onclick="closeMobileMenu()" data-i18n="nav_apply">Apply</a>
   <div class="mobile-cta">
     <button onclick="closeMobileMenu();openModal()" class="mobile-join-btn" data-i18n="nav_join_full">Join Mailing List</button>
-    <button onclick="closeMobileMenu();applyNow()" class="btn-glow" style="background:linear-gradient(to right,#0071E3,#3b82f6);color:#fff;padding:14px 36px;border-radius:9999px;font-weight:700;font-size:16px" data-i18n="nav_apply_btn">Apply Now</button>
   </div>
 </div>
 
@@ -301,12 +297,9 @@ img{max-width:100%;display:block}
     </div>
 
     <div class="hero-cta" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;margin-bottom:24px">
-      <button onclick="applyNow()" class="btn-glow sm-w-auto" style="width:100%;background:linear-gradient(to right,#0071E3,#3b82f6);color:#fff;padding:16px 40px;border-radius:9999px;font-weight:700;font-size:18px;transition:all 0.3s;box-shadow:0 0 20px rgba(59,130,246,0.25);display:inline-flex;align-items:center;justify-content:center;gap:8px">
-        <span data-i18n="cta_apply">Apply Now</span>
+      <button onclick="openModal()" class="btn-glow sm-w-auto" style="width:100%;background:linear-gradient(to right,#0071E3,#3b82f6);color:#fff;padding:16px 40px;border-radius:9999px;font-weight:700;font-size:18px;transition:all 0.3s;box-shadow:0 0 20px rgba(59,130,246,0.25);display:inline-flex;align-items:center;justify-content:center;gap:8px">
+        <span data-i18n="cta_join">Join Mailing List</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-      <button onclick="openModal()" class="btn-secondary sm-w-auto" style="width:100%;padding:16px 40px;font-size:18px" data-i18n="cta_join">
-        Join Mailing List
       </button>
     </div>
   </div>
@@ -528,8 +521,8 @@ img{max-width:100%;display:block}
 
     </div>
     <div style="text-align:center;margin-top:40px" class="fade-up">
-      <button onclick="applyNow()" class="btn-glow btn-cta-animated" style="background:linear-gradient(135deg,#0071E3,#3b82f6,#8b5cf6);color:#fff;padding:18px 48px;border-radius:9999px;font-weight:700;font-size:18px;transition:all 0.3s;display:inline-flex;align-items:center;gap:10px">
-        <span data-i18n="show3_btn">Join the Summer Cohort</span>
+      <button onclick="openModal()" class="btn-glow btn-cta-animated" style="background:linear-gradient(135deg,#0071E3,#3b82f6,#8b5cf6);color:#fff;padding:18px 48px;border-radius:9999px;font-weight:700;font-size:18px;transition:all 0.3s;display:inline-flex;align-items:center;gap:10px">
+        <span data-i18n="show3_btn">Join the Mailing List</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
     </div>
@@ -549,12 +542,9 @@ img{max-width:100%;display:block}
       <div class="text-linear" style="font-weight:900;margin-bottom:8px;font-size:clamp(36px,8vw,60px)">&#x0E3F;20,000</div>
       <div style="font-size:14px;color:var(--text3);margin-bottom:32px;transition:color 0.6s" data-i18n="cta_price_sub">per student &middot; 5 sessions &middot; all materials included</div>
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;margin-bottom:40px">
-        <button onclick="applyNow()" class="btn-glow sm-w-auto" style="width:100%;background:linear-gradient(to right,#0071E3,#3b82f6);color:#fff;padding:20px 48px;border-radius:9999px;font-weight:700;font-size:20px;transition:all 0.3s;box-shadow:0 0 30px rgba(59,130,246,0.25);display:inline-flex;align-items:center;justify-content:center;gap:8px">
-          <span data-i18n="cta_apply">Apply Now</span>
+        <button onclick="openModal()" class="btn-glow sm-w-auto" style="width:100%;background:linear-gradient(to right,#0071E3,#3b82f6);color:#fff;padding:20px 48px;border-radius:9999px;font-weight:700;font-size:20px;transition:all 0.3s;box-shadow:0 0 30px rgba(59,130,246,0.25);display:inline-flex;align-items:center;justify-content:center;gap:8px">
+          <span data-i18n="cta_join">Join Mailing List</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-        <button onclick="openModal()" class="sm-w-auto" style="width:100%;border:1px solid var(--border5);color:var(--text);padding:20px 48px;border-radius:9999px;font-weight:500;font-size:20px;transition:all 0.3s" data-i18n="cta_join">
-          Join Mailing List
         </button>
       </div>
       <div class="cta-details" style="display:flex;flex-wrap:wrap;justify-content:center;gap:32px;border-top:1px solid var(--border4);padding-top:32px">
@@ -599,7 +589,6 @@ img{max-width:100%;display:block}
       <div style="font-size:30px;margin-bottom:8px">&#10003;</div>
       <p style="color:#4DA3FF;font-weight:600" data-i18n="modal_success">You're on the list!</p>
     </div>
-    <p style="font-size:11px;color:var(--text3);margin-top:16px;text-align:center;transition:color 0.6s"><span data-i18n="modal_alt">Or apply directly via</span> <button onclick="applyNow()" style="color:#4DA3FF;text-decoration:underline;font-size:11px">Google Forms</button></p>
   </div>
 </div>
 
