@@ -247,7 +247,7 @@ function toggleLang() {
   applyLang();
 }
 
-if (currentLang !== "en") applyLang();
+applyLang();
 
 var currentSlide = 0;
 var slideCount = 3;
