@@ -82,7 +82,7 @@ window.addEventListener("resize", function() { document.getElementById("nav-bran
 
 var storedTheme = null;
 try { storedTheme = localStorage.getItem("sv-theme"); } catch(e){}
-var currentTheme = storedTheme || (Math.random() > 0.5 ? "dark" : "light");
+var currentTheme = storedTheme || "dark";
 document.documentElement.setAttribute("data-theme", currentTheme);
 updateThemeIcon();
 
@@ -223,12 +223,15 @@ var translations = {
   }
 };
 
-var currentLang = "en";
-function toggleLang() {
-  currentLang = currentLang === "en" ? "th" : "en";
+var storedLang = null;
+try { storedLang = localStorage.getItem("sv-lang"); } catch(e){}
+var currentLang = storedLang === "th" ? "th" : "en";
+
+function applyLang() {
   document.documentElement.setAttribute("data-lang", currentLang);
   document.documentElement.setAttribute("lang", currentLang);
-  document.getElementById("lang-btn").textContent = currentLang === "en" ? "TH" : "EN";
+  var btn = document.getElementById("lang-btn");
+  if (btn) btn.textContent = currentLang === "en" ? "TH" : "EN";
   var els = document.querySelectorAll("[data-i18n]");
   for (var i = 0; i < els.length; i++) {
     var key = els[i].getAttribute("data-i18n");
@@ -237,6 +240,14 @@ function toggleLang() {
     }
   }
 }
+
+function toggleLang() {
+  currentLang = currentLang === "en" ? "th" : "en";
+  try { localStorage.setItem("sv-lang", currentLang); } catch(e){}
+  applyLang();
+}
+
+if (currentLang !== "en") applyLang();
 
 var currentSlide = 0;
 var slideCount = 3;
