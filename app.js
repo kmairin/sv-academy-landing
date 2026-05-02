@@ -239,6 +239,7 @@ function applyLang() {
       els[i].innerHTML = translations[currentLang][key];
     }
   }
+  document.documentElement.classList.remove("lang-loading");
 }
 
 function toggleLang() {

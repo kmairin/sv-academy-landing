@@ -3,6 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<script>
+(function(){
+  try { var t = localStorage.getItem('sv-theme') || 'dark'; document.documentElement.setAttribute('data-theme', t); } catch(e){}
+  try {
+    var l = localStorage.getItem('sv-lang');
+    if (l === 'th') {
+      document.documentElement.setAttribute('lang', 'th');
+      document.documentElement.setAttribute('data-lang', 'th');
+      document.documentElement.classList.add('lang-loading');
+    }
+  } catch(e){}
+})();
+</script>
+<style>html.lang-loading body{visibility:hidden}</style>
 <title>SV Academy - Young Founders Bootcamp</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIyNCIgZmlsbD0iIzBjMGMxNCIvPjxyZWN0IHg9IjIiIHk9IjIiIHdpZHRoPSIxMTYiIGhlaWdodD0iMTE2IiByeD0iMjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFhMWEyZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTQiIHk9IjI4IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXdlaWdodD0iNzAwIiBmb250LXNpemU9IjEyIiBmaWxsPSIjMjJjNTVlIiBvcGFjaXR5PSIwLjYiPiZndDtfPC90ZXh0Pjx0ZXh0IHg9IjYwIiB5PSI3NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InN5c3RlbS11aSxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iNzAwIiBmb250LXNpemU9IjUyIiBmaWxsPSIjZmZmIj5TVjwvdGV4dD48Y2lyY2xlIGN4PSIxOCIgY3k9IjEwNiIgcj0iMyIgZmlsbD0iI2ZmNWY1NyIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMTA2IiByPSIzIiBmaWxsPSIjZmViYzJlIi8+PGNpcmNsZSBjeD0iNDIiIGN5PSIxMDYiIHI9IjMiIGZpbGw9IiMyOGM4NDAiLz48L3N2Zz4=">
 <style>
