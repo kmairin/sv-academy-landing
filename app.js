@@ -1,32 +1,55 @@
 
-var GOOGLE_FORM_URL = "https://forms.gle/YOUR_FORM_ID";
-function applyNow() { window.open(GOOGLE_FORM_URL, "_blank"); }
-function openModal() {
-  document.getElementById("modal").style.display = "flex";
-  document.getElementById("modal-form").style.display = "block";
-  document.getElementById("modal-success").style.display = "none";
-  var btn = document.querySelector("#modal-form button[type=submit]");
-  if (btn) btn.disabled = false;
+var FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID"; // Replace YOUR_FORM_ID with your Formspree form ID
+
+function scrollToApplyForm() {
+  var el = document.getElementById("apply-form");
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 }
+
+function openModal() {
+  scrollToApplyForm();
+}
+
 function closeModal() { document.getElementById("modal").style.display = "none"; }
-async function submitEmail(e) {
+
+async function submitApplication(e) {
   e.preventDefault();
-  var btn = e.target.querySelector("button[type=submit]");
+  var form = e.target;
+  var btn = form.querySelector("button[type=submit]");
   btn.disabled = true;
-  var fd = new FormData();
-  fd.set("field_0", document.getElementById("email-input").value);
-  fd.set("hpc4b27b6e-eb38-11e9-be00-06b4694bee2a", "");
+  btn.textContent = currentLang === "th" ? "กำลังส่ง..." : "Submitting...";
+
+  var data = {};
+  var inputs = form.querySelectorAll("input,select,textarea");
+  for (var i = 0; i < inputs.length; i++) {
+    if (inputs[i].name && inputs[i].name !== "_honey") {
+      data[inputs[i].name] = inputs[i].value;
+    }
+  }
+  data["_subject"] = "New SV Academy Application — " + (data["full_name"] || "Unknown");
+
   try {
-    var res = await fetch("https://eomail5.com/form/eea8ce16-4253-11f1-8928-15f023a35e73", { method: "POST", mode: "cors", cache: "no-cache", body: fd });
+    var res = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(data)
+    });
     var json = await res.json();
-    if (!json.success) throw new Error((json.error && json.error.code) || "unknown");
-    document.getElementById("modal-form").style.display = "none";
-    document.getElementById("modal-success").style.display = "block";
-    setTimeout(closeModal, 2000);
+    if (!res.ok) throw new Error(json.error || "unknown");
+    document.getElementById("apply-form-content").style.display = "none";
+    document.getElementById("apply-form-success").style.display = "block";
   } catch (err) {
     btn.disabled = false;
-    alert("Sign-up failed. Please try again.");
+    btn.textContent = currentLang === "th" ? "ส่งใบสมัคร / Submit Application" : "Submit Application / ส่งใบสมัคร";
+    alert(currentLang === "th" ? "เกิดข้อผิดพลาด กรุณาลองใหม่" : "Submission failed. Please try again.");
   }
+}
+
+async function submitEmail(e) {
+  e.preventDefault();
+  scrollToApplyForm();
 }
 
 var mobileMenuOpen = false;
@@ -75,7 +98,7 @@ function closeMobileMenu() {
   document.getElementById("mobile-menu").classList.remove("open");
   document.body.style.overflow = "";
 }
-document.addEventListener("keydown", function(e) { if (e.key === "Escape") { if (mobileMenuOpen) closeMobileMenu(); if (document.getElementById("modal").style.display === "flex") closeModal(); } });
+document.addEventListener("keydown", function(e) { if (e.key === "Escape") { if (mobileMenuOpen) closeMobileMenu(); } });
 
 if (window.innerWidth >= 640) document.getElementById("nav-brand").style.display = "flex";
 window.addEventListener("resize", function() { document.getElementById("nav-brand").style.display = window.innerWidth >= 640 ? "flex" : "none"; });
@@ -129,97 +152,171 @@ function toggleTheme(e) {
 var translations = {
   en: {
     nav_about: "About", nav_mentors: "Mentors", nav_program: "Program", nav_apply: "Apply",
-    nav_join: "Join Mailing List", nav_join_full: "Join Mailing List", nav_apply_btn: "Apply Now",
+    nav_join: "Apply Now", nav_join_full: "Apply Now", nav_apply_btn: "Apply Now",
     hero_badge: "Summer 2026 &middot; Limited to 10 Students",
     hero_title_1: "Build the Future,", hero_title_2: "One App at a Time.",
-    hero_desc: '<strong style="color:var(--text);font-weight:500">Grade 6\u20119</strong> students design, build, and ship a real AI\u2011powered app in 5\u00a0weeks \u2014 mentored by <strong style="color:var(--text);font-weight:500">Silicon\u00a0Valley engineers</strong>.',
+    hero_desc: '<strong style="color:var(--text);font-weight:500">Grade 6‑9</strong> students design, build, and ship a real AI‑powered app in 5 weeks — mentored by <strong style="color:var(--text);font-weight:500">Silicon Valley engineers</strong>.',
+    hero_no_code: "No coding experience needed.",
     stat_sat: "Saturdays", stat_stu: "Students Max", stat_app: "Real App", stat_men: "Mentors",
-    cta_apply: "Apply Now", cta_join: "Join Mailing List",
-    mentors_label: "Your Mentors", mentors_title: "Guided by builders,<br>not\u00a0textbooks.",
+    cta_apply: "Apply Now", cta_join: "Apply Now",
+    mentors_label: "Your Mentors", mentors_title: "Guided by builders,<br>not textbooks.",
     dot_prom: "Prom", dot_march: "March", dot_charlie: "Charlie",
     prom_role: "Creative Director & Operations Lead",
     prom_tag2: "Asst. Director", prom_tag4: "Graphic Design",
-    prom_bio: "Assistant Director at Lertlah School with a BA in Graphic Communication & Design from the University of Sunderland, UK. Prom leads promotional strategy, application design, and in-class creative coaching \u2014 teaching students to use AI-powered UI design tools for polished results.",
+    prom_bio: "Assistant Director at Lertlah School with a BA in Graphic Communication & Design from the University of Sunderland, UK. Prom leads promotional strategy, application design, and in-class creative coaching — teaching students to use AI-powered UI design tools for polished results.",
     march_role: "Technical Lead",
-    march_bio: "Senior Software Engineer at Magic Eden in San Francisco with deep expertise in Web3, distributed systems, and product engineering. Previously shipped production systems at Uniswap Labs, Amazon, and Databricks. Chulalongkorn undergrad, Johns Hopkins master\u2019s. On-site in Bangkok for all 5 sessions.",
-    charlie_role: "Product, Strategy & Student Experience",
-    charlie_bio: "Senior Software Engineer at Robinhood. Previously built autonomous delivery at Google X\u2019s Wing and hyper-scale infrastructure at Meta. Expert in scaling mission-critical systems for billions of users. Leads program strategy, Demo Day coaching, and student experience. On-site for all 5 sessions.",
+    march_bio: "Senior Software Engineer at Magic Eden in San Francisco with deep expertise in Web3, distributed systems, and product engineering. Previously shipped production systems at Uniswap Labs, Amazon, and Databricks. Chulalongkorn undergrad, Johns Hopkins master’s. On-site in Bangkok for all 5 sessions.",
+    charlie_role: "Infrastructure & Backend",
+    charlie_bio: "Senior Software Engineer at Robinhood. Previously built autonomous delivery at Google X’s Wing and hyper-scale infrastructure at Meta. Expert in backend systems, infrastructure, and scaling. Leads technical architecture and Demo Day coaching. On-site for all 5 sessions.",
     program_label: "The Program", program_title: "5 Saturdays.<br>1 real app.",
-    program_desc: "Every Saturday 9:00 AM \u2013 12:00 PM at the Lertlah School Apple Computer Lab. Pre-configured machines, professional environment \u2014 no laptop required.",
-    w1_label: "Week 1", w1_title: "The Blueprint", w1_desc: "Scope your app idea, write a Design Doc with KPIs, and deploy your first version live.",
-    w2_label: "Week 2", w2_title: "Debug & Polish", w2_desc: "Mobile-first refinement, AI pair-programming, and writing tests to prevent regression.",
-    w3_label: "Week 3", w3_title: "Ship & Observe", w3_desc: "Install analytics, run user testing, take feedback and iterate on your live app.",
-    w4_label: "Week 4", w4_title: "Feature Sprint", w4_desc: "Add features based on real feedback, stress-test your app, and run peer critique sessions.",
-    w5_label: "Week 5", w5_title: "The Keynote", w5_desc: "Build your pitch deck, final deploy, and Demo Day \u2014 parents attend at 11:00 AM.",
+    program_desc: "Every Saturday 9:00 AM – 12:00 PM at the Lertlah School Apple Computer Lab. Pre-configured machines, professional environment — no laptop required.",
+    w1_label: "Week 1", w1_title: "The Blueprint",
+    w1_desc: "Meet the tools (Claude Chat, Stitch, Claude Code, Vercel, GitHub). Learn what a prompt is, how AI works, and key terminology. Build a template app together. Then start YOUR app — write a PRD with KPIs and design your first UI.",
+    w1_deliverables: "Template app deployed &middot; PRD complete &middot; V1 design started",
+    w2_label: "Week 2", w2_title: "Debug & Polish",
+    w2_desc: "Quiz on Week 1 concepts. Build your app — design, code, preview, fix. Install analytics and error tracking. Push to GitHub. Deploy to Vercel. Your app is now LIVE.",
+    w2_deliverables: "App deployed with live URL &middot; analytics installed &middot; code on GitHub",
+    w3_label: "Week 3", w3_title: "Ship & Observe",
+    w3_desc: "Peer critique session — learn constructive feedback, present your app, get real comments. Improve based on feedback. Update your PRD. Add automated tests. Learn what ‘regression’ means and why it matters.",
+    w3_deliverables: "Improved app &middot; updated PRD &middot; test cases added",
+    w4_label: "Week 4", w4_title: "Feature Sprint",
+    w4_desc: "Analyze real user data — page views, latency, daily users, error logs, web vitals. Build new features based on data and user feedback. Prepare your 5-slide pitch deck for Demo Day.",
+    w4_deliverables: "New feature shipped &middot; pitch deck ready",
+    w5_label: "Week 5", w5_title: "The Keynote",
+    w5_desc: "Final polish. Parents arrive at 10:30. Each student pitches their app: 3 minutes + 2 minutes Q&amp;A. Certificates awarded. You are now an app builder.",
+    w5_deliverables: "Pitch delivered &middot; certificate earned &middot; app live",
+    learn_label: "What You'll Learn",
+    learn_title: "What You'll Actually Learn",
+    learn_01: "01", learn_01_title: "Product Thinking",
+    learn_01_desc: "Plan what to build, why you’re building it, and who will use it. Write a PRD like a real product manager at a tech company.",
+    learn_02: "02", learn_02_title: "AI Literacy",
+    learn_02_desc: "Use AI as a real building tool — not just a toy. Learn to prompt, direct, and iterate with AI to create production-quality apps.",
+    learn_03: "03", learn_03_title: "Ship It",
+    learn_03_desc: "Build a real app, deploy it on the internet, get real users, analyze real data, and present it to parents on Demo Day.",
     workflow_label: "The Workflow", workflow_title: "Design. Build. Ship. Repeat.",
-    tool1_sub: "Design", tool1_desc: "Turn your idea into a pixel-perfect UI with Google\u2019s AI design tool. No Figma skills needed.",
-    tool2_sub: "Implement", tool2_desc: "AI pair-programs with you to turn designs into working React Native code, deployed live.",
-    tool3_sub: "Brainstorm", tool3_desc: "Chat with Google\u2019s most advanced AI to brainstorm features, debug code, and explore ideas.",
-    tool4_sub: "Deploy", tool4_desc: "Ship your app to the world on Cloudflare\u2019s edge network. Real URL, real users, real impact.",
-    tool_footer: "Powered by Google Suite &middot; All tools provided in-class",
+    tool1_name: "Stitch", tool1_sub: "Design",
+    tool1_desc: "Turn your idea into a pixel-perfect UI with Google’s AI design tool. Describe what you want, refine until you’re happy — no Figma skills needed.",
+    tool2_name: "Claude Code", tool2_sub: "Build",
+    tool2_desc: "AI pair-programs with you to turn designs into a working app. NextJS frontend, NestJS backend, TypeScript — real production code.",
+    tool3_name: "Claude Chat", tool3_sub: "Brainstorm + PRD",
+    tool3_desc: "Chat with Claude to brainstorm your app idea, define features, write a PRD with KPIs, and debug problems along the way.",
+    tool4_name: "Vercel", tool4_sub: "Deploy",
+    tool4_desc: "Ship your app to the internet with one click. Real URL, real users. Auto-deploys every time you push to GitHub.",
+    tool_footer: "Powered by Claude + Stitch + Vercel &middot; All tools provided in-class",
+    tech_stack: "NextJS &middot; NestJS &middot; TypeScript &middot; Postgres &middot; R2 &middot; Redis &middot; PostHog &middot; Sentry",
     show1_title: "Real Infrastructure,<br>Not Just Syntax",
-    show1_desc: "Every student works with the same professional tools used by top tech companies \u2014 Google AI Studio, Cloudflare, and real APIs. No toy environments.",
-    show2_title: "AI-Powered Design Pipeline",
-    show2_desc: "From Google Stitch UI designs to Gemini-powered code generation to live deployment \u2014 students learn the complete modern app development workflow.",
+    show1_desc: "Every student works with production-grade tools — NextJS, NestJS, TypeScript, Postgres, PostHog analytics, and Sentry error tracking. The same stack used by real startups.",
+    show2_title: "From Idea to Live App",
+    show2_desc: "Claude Chat for brainstorming, Stitch for UI design, Claude Code for building, Vercel for deployment — a complete pipeline where each step flows naturally into the next.",
     show3_title: "Demo Day:<br>Pitch Like a Founder",
-    show3_desc: "On Week 5, parents attend as students present their live apps with polished pitch decks \u2014 just like real startup founders.",
-    show3_btn: "Join the Mailing List",
+    show3_desc: "On Week 5, parents attend as students present their live apps with polished pitch decks — just like real startup founders.",
+    show3_btn: "Apply Now",
+    prereq_label: "Before Day 1",
+    prereq_title: "Before Day 1",
+    prereq_sub: "Students need these 4 accounts ready — we’ll send setup instructions one week before.",
+    prereq_note: "All lab computers come pre-configured with Claude Code, Git, and development tools. No laptop needed.",
     cta_title: "Reserve Your Spot", cta_sub: "Limited to 10 students per cohort. First come, first served.",
+    cta_no_code: "No coding experience needed.",
     cta_price_sub: "per student &middot; 5 sessions &middot; all materials included",
-    detail_date: "Jun 13 \u2013 Jul 11", detail_date_sub: "Every Saturday",
-    detail_time: "9 AM \u2013 12 PM", detail_time_sub: "3 hours / session",
-    detail_grade: "Grades 6\u20139", detail_grade_sub: "Ages 11\u201315",
+    detail_date: "Jun 13 – Jul 11", detail_date_sub: "Every Saturday",
+    detail_time: "9 AM – 12 PM", detail_time_sub: "3 hours / session",
+    detail_grade: "Grades 6–9", detail_grade_sub: "Ages 11–15",
     detail_loc: "Lertlah School", detail_loc_sub: "Kanchanapisek Road",
     footer_text: "SV Academy &times; Lertlah School, Kanchanapisek Road &middot; Summer 2026",
+    form_title: "Apply Now",
+    form_sub: "Limited to 10 students. Tell us about yourself and your ideas.",
+    form_sec1: "About You",
+    form_sec2: "Your Ideas",
+    form_sec3: "You as a Builder",
+    form_submit: "Submit Application / ส่งใบสมัคร",
+    form_success: "Application submitted! We’ll contact you via LINE within 3 days.",
+    form_success_th: "ส่งใบสมัครเรียบร้อย! เราจะติดต่อกลับทาง LINE ภายใน 3 วัน",
     modal_title: "Stay in the Loop", modal_desc: "Get updates on enrollment, schedules, and early-bird offers.",
-    modal_submit: "Join Mailing List", modal_success: "You\u2019re on the list!", modal_alt: "Or apply directly via"
+    modal_submit: "Join Mailing List", modal_success: "You’re on the list!", modal_alt: "Or apply directly via"
   },
   th: {
-    nav_about: "\u0e40\u0e01\u0e35\u0e48\u0e22\u0e27\u0e01\u0e31\u0e1a\u0e40\u0e23\u0e32", nav_mentors: "\u0e17\u0e35\u0e48\u0e1b\u0e23\u0e36\u0e01\u0e29\u0e32", nav_program: "\u0e42\u0e1b\u0e23\u0e41\u0e01\u0e23\u0e21", nav_apply: "\u0e2a\u0e21\u0e31\u0e04\u0e23",
-    nav_join: "\u0e25\u0e07\u0e17\u0e30\u0e40\u0e1a\u0e35\u0e22\u0e19\u0e23\u0e31\u0e1a\u0e02\u0e48\u0e32\u0e27", nav_join_full: "\u0e25\u0e07\u0e17\u0e30\u0e40\u0e1a\u0e35\u0e22\u0e19\u0e23\u0e31\u0e1a\u0e02\u0e48\u0e32\u0e27\u0e2a\u0e32\u0e23", nav_apply_btn: "\u0e2a\u0e21\u0e31\u0e04\u0e23\u0e40\u0e25\u0e22",
-    hero_badge: "\u0e0b\u0e31\u0e21\u0e40\u0e21\u0e2d\u0e23\u0e4c 2569 &middot; \u0e23\u0e31\u0e1a\u0e08\u0e33\u0e01\u0e31\u0e14\u0e40\u0e1e\u0e35\u0e22\u0e07 10 \u0e04\u0e19",
-    hero_title_1: "\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e2d\u0e19\u0e32\u0e04\u0e15,", hero_title_2: "\u0e17\u0e35\u0e25\u0e30\u0e41\u0e2d\u0e1b",
-    hero_desc: '\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19<strong style="color:var(--text);font-weight:500">\u0e1b.6\u2013\u0e21.3</strong> \u0e2d\u0e2d\u0e01\u0e41\u0e1a\u0e1a, \u0e2a\u0e23\u0e49\u0e32\u0e07, \u0e41\u0e25\u0e30\u0e1b\u0e25\u0e48\u0e2d\u0e22\u0e41\u0e2d\u0e1b AI \u0e02\u0e2d\u0e07\u0e08\u0e23\u0e34\u0e07\u0e43\u0e19 5\u00a0\u0e2a\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c \u2014 \u0e42\u0e14\u0e22\u0e21\u0e35<strong style="color:var(--text);font-weight:500">\u0e27\u0e34\u0e28\u0e27\u0e01\u0e23\u0e08\u0e32\u0e01 Silicon Valley</strong> \u0e40\u0e1b\u0e47\u0e19\u0e17\u0e35\u0e48\u0e1b\u0e23\u0e36\u0e01\u0e29\u0e32',
-    stat_sat: "\u0e27\u0e31\u0e19\u0e40\u0e2a\u0e32\u0e23\u0e4c", stat_stu: "\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e2a\u0e39\u0e07\u0e2a\u0e38\u0e14", stat_app: "\u0e41\u0e2d\u0e1b\u0e08\u0e23\u0e34\u0e07", stat_men: "\u0e17\u0e35\u0e48\u0e1b\u0e23\u0e36\u0e01\u0e29\u0e32",
-    cta_apply: "\u0e2a\u0e21\u0e31\u0e04\u0e23\u0e40\u0e25\u0e22", cta_join: "\u0e25\u0e07\u0e17\u0e30\u0e40\u0e1a\u0e35\u0e22\u0e19\u0e23\u0e31\u0e1a\u0e02\u0e48\u0e32\u0e27\u0e2a\u0e32\u0e23",
-    mentors_label: "\u0e17\u0e35\u0e48\u0e1b\u0e23\u0e36\u0e01\u0e29\u0e32\u0e02\u0e2d\u0e07\u0e04\u0e38\u0e13", mentors_title: "\u0e2a\u0e2d\u0e19\u0e42\u0e14\u0e22\u0e1c\u0e39\u0e49\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e08\u0e23\u0e34\u0e07,<br>\u0e44\u0e21\u0e48\u0e43\u0e0a\u0e48\u0e41\u0e04\u0e48\u0e15\u0e33\u0e23\u0e32\u0e40\u0e23\u0e35\u0e22\u0e19",
-    dot_prom: "\u0e1e\u0e23\u0e2b\u0e21", dot_march: "March", dot_charlie: "Charlie",
-    prom_role: "\u0e1c\u0e39\u0e49\u0e2d\u0e33\u0e19\u0e27\u0e22\u0e01\u0e32\u0e23\u0e1d\u0e48\u0e32\u0e22\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e2a\u0e23\u0e23\u0e04\u0e4c & \u0e1a\u0e23\u0e34\u0e2b\u0e32\u0e23\u0e07\u0e32\u0e19",
-    prom_tag2: "\u0e1c\u0e39\u0e49\u0e0a\u0e48\u0e27\u0e22\u0e1c\u0e39\u0e49\u0e2d\u0e33\u0e19\u0e27\u0e22\u0e01\u0e32\u0e23", prom_tag4: "\u0e01\u0e23\u0e32\u0e1f\u0e34\u0e01\u0e14\u0e35\u0e44\u0e0b\u0e19\u0e4c",
-    prom_bio: "\u0e1c\u0e39\u0e49\u0e0a\u0e48\u0e27\u0e22\u0e1c\u0e39\u0e49\u0e2d\u0e33\u0e19\u0e27\u0e22\u0e01\u0e32\u0e23\u0e42\u0e23\u0e07\u0e40\u0e23\u0e35\u0e22\u0e19\u0e40\u0e25\u0e34\u0e28\u0e2b\u0e25\u0e49\u0e32 \u0e08\u0e1a\u0e1b\u0e23\u0e34\u0e0d\u0e0d\u0e32\u0e15\u0e23\u0e35\u0e14\u0e49\u0e32\u0e19 Graphic Communication & Design \u0e08\u0e32\u0e01 University of Sunderland, UK \u0e04\u0e38\u0e13\u0e1e\u0e23\u0e2b\u0e21\u0e14\u0e39\u0e41\u0e25\u0e01\u0e25\u0e22\u0e38\u0e17\u0e18\u0e4c\u0e1b\u0e23\u0e30\u0e0a\u0e32\u0e2a\u0e31\u0e21\u0e1e\u0e31\u0e19\u0e18\u0e4c \u0e2d\u0e2d\u0e01\u0e41\u0e1a\u0e1a\u0e41\u0e2d\u0e1b \u0e41\u0e25\u0e30\u0e2a\u0e2d\u0e19\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e43\u0e0a\u0e49\u0e40\u0e04\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e21\u0e37\u0e2d AI \u0e2d\u0e2d\u0e01\u0e41\u0e1a\u0e1a UI \u0e43\u0e19\u0e0a\u0e31\u0e49\u0e19\u0e40\u0e23\u0e35\u0e22\u0e19",
-    march_role: "\u0e2b\u0e31\u0e27\u0e2b\u0e19\u0e49\u0e32\u0e1d\u0e48\u0e32\u0e22\u0e40\u0e17\u0e04\u0e19\u0e34\u0e04",
-    march_bio: "\u0e27\u0e34\u0e28\u0e27\u0e01\u0e23\u0e0b\u0e2d\u0e1f\u0e15\u0e4c\u0e41\u0e27\u0e23\u0e4c\u0e2d\u0e32\u0e27\u0e38\u0e42\u0e2a\u0e17\u0e35\u0e48 Magic Eden \u0e0b\u0e32\u0e19\u0e1f\u0e23\u0e32\u0e19\u0e0b\u0e34\u0e2a\u0e42\u0e01 \u0e40\u0e0a\u0e35\u0e48\u0e22\u0e27\u0e0a\u0e32\u0e0d\u0e14\u0e49\u0e32\u0e19 Web3, \u0e23\u0e30\u0e1a\u0e1a\u0e01\u0e23\u0e30\u0e08\u0e32\u0e22 \u0e41\u0e25\u0e30\u0e27\u0e34\u0e28\u0e27\u0e01\u0e23\u0e23\u0e21\u0e1c\u0e25\u0e34\u0e15\u0e20\u0e31\u0e13\u0e11\u0e4c \u0e40\u0e04\u0e22\u0e17\u0e33\u0e07\u0e32\u0e19\u0e17\u0e35\u0e48 Uniswap Labs, Amazon \u0e41\u0e25\u0e30 Databricks \u0e08\u0e1a\u0e08\u0e32\u0e01\u0e08\u0e38\u0e2c\u0e32\u0e25\u0e07\u0e01\u0e23\u0e13\u0e4c \u0e1b\u0e23\u0e34\u0e0d\u0e0d\u0e32\u0e42\u0e17 Johns Hopkins \u0e2d\u0e22\u0e39\u0e48\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e01\u0e23\u0e38\u0e07\u0e40\u0e17\u0e1e\u0e2f\u0e15\u0e25\u0e2d\u0e14 5 \u0e2a\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c",
-    charlie_role: "\u0e1c\u0e25\u0e34\u0e15\u0e20\u0e31\u0e13\u0e11\u0e4c, \u0e01\u0e25\u0e22\u0e38\u0e17\u0e18\u0e4c & \u0e1b\u0e23\u0e30\u0e2a\u0e1a\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19",
-    charlie_bio: "\u0e27\u0e34\u0e28\u0e27\u0e01\u0e23\u0e0b\u0e2d\u0e1f\u0e15\u0e4c\u0e41\u0e27\u0e23\u0e4c\u0e2d\u0e32\u0e27\u0e38\u0e42\u0e2a\u0e17\u0e35\u0e48 Robinhood \u0e40\u0e04\u0e22\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e23\u0e30\u0e1a\u0e1a\u0e2a\u0e48\u0e07\u0e02\u0e2d\u0e07\u0e2d\u0e31\u0e15\u0e42\u0e19\u0e21\u0e31\u0e15\u0e34\u0e17\u0e35\u0e48 Google X Wing \u0e41\u0e25\u0e30\u0e42\u0e04\u0e23\u0e07\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e1e\u0e37\u0e49\u0e19\u0e10\u0e32\u0e19\u0e23\u0e30\u0e14\u0e31\u0e1a\u0e42\u0e25\u0e01\u0e17\u0e35\u0e48 Meta \u0e40\u0e0a\u0e35\u0e48\u0e22\u0e27\u0e0a\u0e32\u0e0d\u0e01\u0e32\u0e23\u0e02\u0e22\u0e32\u0e22\u0e23\u0e30\u0e1a\u0e1a\u0e2a\u0e33\u0e04\u0e31\u0e0d\u0e2a\u0e33\u0e2b\u0e23\u0e31\u0e1a\u0e1c\u0e39\u0e49\u0e43\u0e0a\u0e49\u0e2b\u0e25\u0e32\u0e22\u0e1e\u0e31\u0e19\u0e25\u0e49\u0e32\u0e19 \u0e14\u0e39\u0e41\u0e25\u0e01\u0e25\u0e22\u0e38\u0e17\u0e18\u0e4c\u0e42\u0e1b\u0e23\u0e41\u0e01\u0e23\u0e21 Demo Day \u0e41\u0e25\u0e30\u0e1b\u0e23\u0e30\u0e2a\u0e1a\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19 \u0e2d\u0e22\u0e39\u0e48\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e25\u0e2d\u0e14 5 \u0e2a\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c",
-    program_label: "\u0e42\u0e1b\u0e23\u0e41\u0e01\u0e23\u0e21", program_title: "5 \u0e27\u0e31\u0e19\u0e40\u0e2a\u0e32\u0e23\u0e4c<br>1 \u0e41\u0e2d\u0e1b\u0e08\u0e23\u0e34\u0e07",
-    program_desc: "\u0e17\u0e38\u0e01\u0e27\u0e31\u0e19\u0e40\u0e2a\u0e32\u0e23\u0e4c 9:00 \u2013 12:00 \u0e19. \u0e17\u0e35\u0e48\u0e2b\u0e49\u0e2d\u0e07\u0e04\u0e2d\u0e21\u0e1e\u0e34\u0e27\u0e40\u0e15\u0e2d\u0e23\u0e4c Apple \u0e42\u0e23\u0e07\u0e40\u0e23\u0e35\u0e22\u0e19\u0e40\u0e25\u0e34\u0e28\u0e2b\u0e25\u0e49\u0e32 \u0e40\u0e04\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e1e\u0e23\u0e49\u0e2d\u0e21\u0e43\u0e0a\u0e49\u0e07\u0e32\u0e19 \u0e2a\u0e20\u0e32\u0e1e\u0e41\u0e27\u0e14\u0e25\u0e49\u0e2d\u0e21\u0e21\u0e37\u0e2d\u0e2d\u0e32\u0e0a\u0e35\u0e1e \u2014 \u0e44\u0e21\u0e48\u0e15\u0e49\u0e2d\u0e07\u0e1e\u0e01\u0e41\u0e25\u0e47\u0e1b\u0e17\u0e47\u0e2d\u0e1b\u0e21\u0e32",
-    w1_label: "\u0e2a\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c\u0e17\u0e35\u0e48 1", w1_title: "\u0e41\u0e1a\u0e1a\u0e41\u0e1c\u0e19", w1_desc: "\u0e01\u0e33\u0e2b\u0e19\u0e14\u0e44\u0e2d\u0e40\u0e14\u0e35\u0e22\u0e41\u0e2d\u0e1b \u0e40\u0e02\u0e35\u0e22\u0e19 Design Doc \u0e1e\u0e23\u0e49\u0e2d\u0e21 KPIs \u0e41\u0e25\u0e30\u0e1b\u0e25\u0e48\u0e2d\u0e22\u0e40\u0e27\u0e2d\u0e23\u0e4c\u0e0a\u0e31\u0e19\u0e41\u0e23\u0e01",
-    w2_label: "\u0e2a\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c\u0e17\u0e35\u0e48 2", w2_title: "\u0e41\u0e01\u0e49\u0e1a\u0e31\u0e04 & \u0e02\u0e31\u0e14\u0e40\u0e01\u0e25\u0e32", w2_desc: "\u0e1b\u0e23\u0e31\u0e1a\u0e41\u0e15\u0e48\u0e07\u0e2a\u0e33\u0e2b\u0e23\u0e31\u0e1a\u0e21\u0e37\u0e2d\u0e16\u0e37\u0e2d\u0e01\u0e48\u0e2d\u0e19, \u0e40\u0e02\u0e35\u0e22\u0e19\u0e42\u0e04\u0e49\u0e14\u0e04\u0e39\u0e48\u0e01\u0e31\u0e1a AI \u0e41\u0e25\u0e30\u0e40\u0e02\u0e35\u0e22\u0e19\u0e40\u0e17\u0e2a\u0e15\u0e4c\u0e1b\u0e49\u0e2d\u0e07\u0e01\u0e31\u0e19\u0e1a\u0e31\u0e04",
-    w3_label: "\u0e2a\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c\u0e17\u0e35\u0e48 3", w3_title: "\u0e1b\u0e25\u0e48\u0e2d\u0e22 & \u0e2a\u0e31\u0e07\u0e40\u0e01\u0e15", w3_desc: "\u0e15\u0e34\u0e14\u0e15\u0e31\u0e49\u0e07 analytics \u0e17\u0e14\u0e2a\u0e2d\u0e1a\u0e01\u0e31\u0e1a\u0e1c\u0e39\u0e49\u0e43\u0e0a\u0e49\u0e08\u0e23\u0e34\u0e07 \u0e23\u0e31\u0e1a\u0e1f\u0e35\u0e14\u0e41\u0e1a\u0e47\u0e04\u0e41\u0e25\u0e30\u0e1b\u0e23\u0e31\u0e1a\u0e1b\u0e23\u0e38\u0e07\u0e41\u0e2d\u0e1b",
-    w4_label: "\u0e2a\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c\u0e17\u0e35\u0e48 4", w4_title: "\u0e2a\u0e1b\u0e23\u0e34\u0e19\u0e17\u0e4c\u0e1f\u0e35\u0e40\u0e08\u0e2d\u0e23\u0e4c", w4_desc: "\u0e40\u0e1e\u0e34\u0e48\u0e21\u0e1f\u0e35\u0e40\u0e08\u0e2d\u0e23\u0e4c\u0e15\u0e32\u0e21\u0e1f\u0e35\u0e14\u0e41\u0e1a\u0e47\u0e04\u0e08\u0e23\u0e34\u0e07 \u0e17\u0e14\u0e2a\u0e2d\u0e1a\u0e04\u0e27\u0e32\u0e21\u0e40\u0e2a\u0e16\u0e35\u0e22\u0e23 \u0e41\u0e25\u0e30\u0e27\u0e34\u0e08\u0e32\u0e23\u0e13\u0e4c\u0e23\u0e48\u0e27\u0e21\u0e01\u0e31\u0e19",
-    w5_label: "\u0e2a\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c\u0e17\u0e35\u0e48 5", w5_title: "\u0e1b\u0e23\u0e30\u0e01\u0e32\u0e28\u0e1c\u0e25\u0e07\u0e32\u0e19", w5_desc: "\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e2a\u0e44\u0e25\u0e14\u0e4c\u0e1e\u0e34\u0e17\u0e0a\u0e4c \u0e1b\u0e25\u0e48\u0e2d\u0e22\u0e23\u0e2d\u0e1a\u0e2a\u0e38\u0e14\u0e17\u0e49\u0e32\u0e22 \u0e41\u0e25\u0e30 Demo Day \u2014 \u0e1c\u0e39\u0e49\u0e1b\u0e01\u0e04\u0e23\u0e2d\u0e07\u0e23\u0e48\u0e27\u0e21\u0e0a\u0e21\u0e40\u0e27\u0e25\u0e32 11:00 \u0e19.",
-    workflow_label: "\u0e40\u0e27\u0e34\u0e23\u0e4c\u0e04\u0e42\u0e1f\u0e25\u0e27\u0e4c", workflow_title: "\u0e2d\u0e2d\u0e01\u0e41\u0e1a\u0e1a. \u0e2a\u0e23\u0e49\u0e32\u0e07. \u0e1b\u0e25\u0e48\u0e2d\u0e22. \u0e17\u0e33\u0e0b\u0e49\u0e33.",
-    tool1_sub: "\u0e2d\u0e2d\u0e01\u0e41\u0e1a\u0e1a", tool1_desc: "\u0e40\u0e1b\u0e25\u0e35\u0e48\u0e22\u0e19\u0e44\u0e2d\u0e40\u0e14\u0e35\u0e22\u0e02\u0e2d\u0e07\u0e04\u0e38\u0e13\u0e40\u0e1b\u0e47\u0e19 UI \u0e2a\u0e27\u0e22\u0e07\u0e32\u0e21\u0e14\u0e49\u0e27\u0e22\u0e40\u0e04\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e21\u0e37\u0e2d AI \u0e02\u0e2d\u0e07 Google \u0e44\u0e21\u0e48\u0e15\u0e49\u0e2d\u0e07\u0e21\u0e35\u0e1b\u0e23\u0e30\u0e2a\u0e1a\u0e01\u0e32\u0e23\u0e13\u0e4c Figma",
-    tool2_sub: "\u0e1e\u0e31\u0e12\u0e19\u0e32", tool2_desc: "AI \u0e0a\u0e48\u0e27\u0e22\u0e40\u0e02\u0e35\u0e22\u0e19\u0e42\u0e04\u0e49\u0e14\u0e04\u0e39\u0e48\u0e01\u0e31\u0e1a\u0e04\u0e38\u0e13 \u0e40\u0e1b\u0e25\u0e35\u0e48\u0e22\u0e19\u0e14\u0e35\u0e44\u0e0b\u0e19\u0e4c\u0e40\u0e1b\u0e47\u0e19\u0e42\u0e04\u0e49\u0e14 React Native \u0e41\u0e25\u0e30\u0e1b\u0e25\u0e48\u0e2d\u0e22\u0e17\u0e31\u0e19\u0e17\u0e35",
-    tool3_sub: "\u0e23\u0e30\u0e14\u0e21\u0e44\u0e2d\u0e40\u0e14\u0e35\u0e22", tool3_desc: "\u0e04\u0e38\u0e22\u0e01\u0e31\u0e1a AI \u0e17\u0e35\u0e48\u0e25\u0e49\u0e33\u0e2a\u0e21\u0e31\u0e22\u0e17\u0e35\u0e48\u0e2a\u0e38\u0e14\u0e02\u0e2d\u0e07 Google \u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e23\u0e30\u0e14\u0e21\u0e1f\u0e35\u0e40\u0e08\u0e2d\u0e23\u0e4c \u0e41\u0e01\u0e49\u0e1a\u0e31\u0e04 \u0e41\u0e25\u0e30\u0e2a\u0e33\u0e23\u0e27\u0e08\u0e44\u0e2d\u0e40\u0e14\u0e35\u0e22",
-    tool4_sub: "\u0e1b\u0e25\u0e48\u0e2d\u0e22", tool4_desc: "\u0e2a\u0e48\u0e07\u0e41\u0e2d\u0e1b\u0e02\u0e2d\u0e07\u0e04\u0e38\u0e13\u0e2a\u0e39\u0e48\u0e42\u0e25\u0e01\u0e1a\u0e19\u0e40\u0e04\u0e23\u0e37\u0e2d\u0e02\u0e48\u0e32\u0e22 Cloudflare URL \u0e08\u0e23\u0e34\u0e07 \u0e1c\u0e39\u0e49\u0e43\u0e0a\u0e49\u0e08\u0e23\u0e34\u0e07 \u0e1c\u0e25\u0e01\u0e23\u0e30\u0e17\u0e1a\u0e08\u0e23\u0e34\u0e07",
-    tool_footer: "\u0e02\u0e31\u0e1a\u0e40\u0e04\u0e25\u0e37\u0e48\u0e2d\u0e19\u0e42\u0e14\u0e22 Google Suite &middot; \u0e40\u0e04\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e21\u0e37\u0e2d\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14\u0e08\u0e31\u0e14\u0e43\u0e2b\u0e49\u0e43\u0e19\u0e0a\u0e31\u0e49\u0e19\u0e40\u0e23\u0e35\u0e22\u0e19",
-    show1_title: "\u0e42\u0e04\u0e23\u0e07\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e1e\u0e37\u0e49\u0e19\u0e10\u0e32\u0e19\u0e08\u0e23\u0e34\u0e07,<br>\u0e44\u0e21\u0e48\u0e43\u0e0a\u0e48\u0e41\u0e04\u0e48\u0e44\u0e27\u0e22\u0e32\u0e01\u0e23\u0e13\u0e4c",
-    show1_desc: "\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e17\u0e38\u0e01\u0e04\u0e19\u0e43\u0e0a\u0e49\u0e40\u0e04\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e21\u0e37\u0e2d\u0e21\u0e37\u0e2d\u0e2d\u0e32\u0e0a\u0e35\u0e1e\u0e23\u0e30\u0e14\u0e31\u0e1a\u0e40\u0e14\u0e35\u0e22\u0e27\u0e01\u0e31\u0e1a\u0e1a\u0e23\u0e34\u0e29\u0e31\u0e17\u0e40\u0e17\u0e04\u0e0a\u0e31\u0e49\u0e19\u0e19\u0e33 \u2014 Google AI Studio, Cloudflare \u0e41\u0e25\u0e30 API \u0e08\u0e23\u0e34\u0e07 \u0e44\u0e21\u0e48\u0e43\u0e0a\u0e48\u0e2a\u0e20\u0e32\u0e1e\u0e41\u0e27\u0e14\u0e25\u0e49\u0e2d\u0e21\u0e08\u0e33\u0e25\u0e2d\u0e07",
-    show2_title: "\u0e44\u0e1b\u0e1b\u0e4c\u0e44\u0e25\u0e19\u0e4c\u0e01\u0e32\u0e23\u0e2d\u0e2d\u0e01\u0e41\u0e1a\u0e1a\u0e14\u0e49\u0e27\u0e22 AI",
-    show2_desc: "\u0e15\u0e31\u0e49\u0e07\u0e41\u0e15\u0e48\u0e2d\u0e2d\u0e01\u0e41\u0e1a\u0e1a UI \u0e14\u0e49\u0e27\u0e22 Google Stitch \u0e2a\u0e23\u0e49\u0e32\u0e07\u0e42\u0e04\u0e49\u0e14\u0e14\u0e49\u0e27\u0e22 Gemini \u0e08\u0e19\u0e16\u0e36\u0e07\u0e01\u0e32\u0e23\u0e1b\u0e25\u0e48\u0e2d\u0e22\u0e08\u0e23\u0e34\u0e07 \u2014 \u0e40\u0e23\u0e35\u0e22\u0e19\u0e23\u0e39\u0e49\u0e40\u0e27\u0e34\u0e23\u0e4c\u0e04\u0e42\u0e1f\u0e25\u0e27\u0e4c\u0e01\u0e32\u0e23\u0e1e\u0e31\u0e12\u0e19\u0e32\u0e41\u0e2d\u0e1b\u0e2a\u0e21\u0e31\u0e22\u0e43\u0e2b\u0e21\u0e48\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14",
-    show3_title: "Demo Day:<br>\u0e1e\u0e34\u0e17\u0e0a\u0e4c\u0e41\u0e1a\u0e1a\u0e1c\u0e39\u0e49\u0e01\u0e48\u0e2d\u0e15\u0e31\u0e49\u0e07",
-    show3_desc: "\u0e2a\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c\u0e17\u0e35\u0e48 5 \u0e1c\u0e39\u0e49\u0e1b\u0e01\u0e04\u0e23\u0e2d\u0e07\u0e23\u0e48\u0e27\u0e21\u0e0a\u0e21\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e19\u0e33\u0e40\u0e2a\u0e19\u0e2d\u0e41\u0e2d\u0e1b\u0e1e\u0e23\u0e49\u0e2d\u0e21\u0e2a\u0e44\u0e25\u0e14\u0e4c\u0e1e\u0e34\u0e17\u0e0a\u0e4c\u0e21\u0e37\u0e2d\u0e2d\u0e32\u0e0a\u0e35\u0e1e \u2014 \u0e40\u0e2b\u0e21\u0e37\u0e2d\u0e19\u0e1c\u0e39\u0e49\u0e01\u0e48\u0e2d\u0e15\u0e31\u0e49\u0e07\u0e2a\u0e15\u0e32\u0e23\u0e4c\u0e17\u0e2d\u0e31\u0e1e\u0e08\u0e23\u0e34\u0e07",
-    show3_btn: "\u0e25\u0e07\u0e17\u0e30\u0e40\u0e1a\u0e35\u0e22\u0e19\u0e23\u0e31\u0e1a\u0e02\u0e48\u0e32\u0e27\u0e2a\u0e32\u0e23",
-    cta_title: "\u0e08\u0e2d\u0e07\u0e17\u0e35\u0e48\u0e19\u0e31\u0e48\u0e07\u0e02\u0e2d\u0e07\u0e04\u0e38\u0e13", cta_sub: "\u0e23\u0e31\u0e1a\u0e08\u0e33\u0e01\u0e31\u0e14\u0e40\u0e1e\u0e35\u0e22\u0e07 10 \u0e04\u0e19\u0e15\u0e48\u0e2d\u0e23\u0e38\u0e48\u0e19 \u0e21\u0e32\u0e01\u0e48\u0e2d\u0e19\u0e44\u0e14\u0e49\u0e01\u0e48\u0e2d\u0e19",
-    cta_price_sub: "\u0e15\u0e48\u0e2d\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19 &middot; 5 \u0e04\u0e23\u0e31\u0e49\u0e07 &middot; \u0e23\u0e27\u0e21\u0e2d\u0e38\u0e1b\u0e01\u0e23\u0e13\u0e4c\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14",
-    detail_date: "13 \u0e21\u0e34.\u0e22. \u2013 11 \u0e01.\u0e04.", detail_date_sub: "\u0e17\u0e38\u0e01\u0e27\u0e31\u0e19\u0e40\u0e2a\u0e32\u0e23\u0e4c",
-    detail_time: "9:00 \u2013 12:00 \u0e19.", detail_time_sub: "3 \u0e0a\u0e31\u0e48\u0e27\u0e42\u0e21\u0e07 / \u0e04\u0e23\u0e31\u0e49\u0e07",
-    detail_grade: "\u0e1b.6\u2013\u0e21.3", detail_grade_sub: "\u0e2d\u0e32\u0e22\u0e38 11\u201315 \u0e1b\u0e35",
-    detail_loc: "\u0e42\u0e23\u0e07\u0e40\u0e23\u0e35\u0e22\u0e19\u0e40\u0e25\u0e34\u0e28\u0e2b\u0e25\u0e49\u0e32", detail_loc_sub: "\u0e16.\u0e01\u0e32\u0e0d\u0e08\u0e19\u0e32\u0e20\u0e34\u0e40\u0e29\u0e01",
-    footer_text: "SV Academy &times; \u0e42\u0e23\u0e07\u0e40\u0e23\u0e35\u0e22\u0e19\u0e40\u0e25\u0e34\u0e28\u0e2b\u0e25\u0e49\u0e32 \u0e16.\u0e01\u0e32\u0e0d\u0e08\u0e19\u0e32\u0e20\u0e34\u0e40\u0e29\u0e01 &middot; \u0e0b\u0e31\u0e21\u0e40\u0e21\u0e2d\u0e23\u0e4c 2569",
-    modal_title: "\u0e15\u0e34\u0e14\u0e15\u0e32\u0e21\u0e02\u0e48\u0e32\u0e27\u0e2a\u0e32\u0e23", modal_desc: "\u0e23\u0e31\u0e1a\u0e2d\u0e31\u0e1b\u0e40\u0e14\u0e15\u0e01\u0e32\u0e23\u0e23\u0e31\u0e1a\u0e2a\u0e21\u0e31\u0e04\u0e23 \u0e15\u0e32\u0e23\u0e32\u0e07\u0e40\u0e23\u0e35\u0e22\u0e19 \u0e41\u0e25\u0e30\u0e42\u0e1b\u0e23\u0e42\u0e21\u0e0a\u0e31\u0e48\u0e19\u0e1e\u0e34\u0e40\u0e28\u0e29",
-    modal_submit: "\u0e25\u0e07\u0e17\u0e30\u0e40\u0e1a\u0e35\u0e22\u0e19", modal_success: "\u0e25\u0e07\u0e17\u0e30\u0e40\u0e1a\u0e35\u0e22\u0e19\u0e2a\u0e33\u0e40\u0e23\u0e47\u0e08!", modal_alt: "\u0e2b\u0e23\u0e37\u0e2d\u0e2a\u0e21\u0e31\u0e04\u0e23\u0e42\u0e14\u0e22\u0e15\u0e23\u0e07\u0e1c\u0e48\u0e32\u0e19"
+    nav_about: "เกี่ยวกับเรา", nav_mentors: "ที่ปรึกษา", nav_program: "โปรแกรม", nav_apply: "สมัคร",
+    nav_join: "สมัครเลย", nav_join_full: "สมัครเลย", nav_apply_btn: "สมัครเลย",
+    hero_badge: "ซัมเมอร์ 2569 &middot; รับจำกัดเพียง 10 คน",
+    hero_title_1: "สร้างอนาคต,", hero_title_2: "ทีละแอป",
+    hero_desc: 'นักเรียน<strong style="color:var(--text);font-weight:500">ป.6–ม.3</strong> ออกแบบ, สร้าง, และปล่อยแอป AI ของจริงใน 5 สัปดาห์ — โดยมี<strong style="color:var(--text);font-weight:500">วิศวกรจาก Silicon Valley</strong> เป็นที่ปรึกษา',
+    hero_no_code: "ไม่ต้องเขียนโค้ดเป็นมาก่อน",
+    stat_sat: "วันเสาร์", stat_stu: "นักเรียนสูงสุด", stat_app: "แอปจริง", stat_men: "ที่ปรึกษา",
+    cta_apply: "สมัครเลย", cta_join: "สมัครเลย",
+    mentors_label: "ที่ปรึกษาของคุณ", mentors_title: "สอนโดยผู้สร้างจริง,<br>ไม่ใช่แค่ตำราเรียน",
+    dot_prom: "พรหม", dot_march: "March", dot_charlie: "Charlie",
+    prom_role: "ผู้อำนวยการฝ่ายสร้างสรรค์ & บริหารงาน",
+    prom_tag2: "ผู้ช่วยผู้อำนวยการ", prom_tag4: "กราฟิกดีไซน์",
+    prom_bio: "ผู้ช่วยผู้อำนวยการโรงเรียนเลิศหล้า จบปริญญาตรีด้าน Graphic Communication & Design จาก University of Sunderland, UK คุณพรหมดูแลกลยุทธ์ประชาสัมพันธ์ ออกแบบแอป และสอนนักเรียนใช้เครื่องมือ AI ออกแบบ UI ในชั้นเรียน",
+    march_role: "หัวหน้าฝ่ายเทคนิค",
+    march_bio: "วิศวกรซอฟต์แวร์อาวุโสที่ Magic Eden ซานฟรานซิสโก เชี่ยวชาญด้าน Web3, ระบบกระจาย และวิศวกรรมผลิตภัณฑ์ เคยทำงานที่ Uniswap Labs, Amazon และ Databricks จบจากจุฬาลงกรณ์ ปริญญาโท Johns Hopkins อยู่ประจำกรุงเทพฯตลอด 5 สัปดาห์",
+    charlie_role: "โครงสร้างระบบและ Backend",
+    charlie_bio: "Senior Software Engineer ที่ Robinhood เคยสร้างระบบส่งของอัตโนมัติที่ Google X Wing และโครงสร้างพื้นฐานระดับโลกที่ Meta เชี่ยวชาญด้าน backend และ infrastructure ดูแลสถาปัตยกรรมระบบและโค้ช Demo Day มาสอนด้วยตัวเองทุกสัปดาห์",
+    program_label: "โปรแกรม", program_title: "5 วันเสาร์<br>1 แอปจริง",
+    program_desc: "ทุกวันเสาร์ 9:00 – 12:00 น. ที่ห้องคอมพิวเตอร์ Apple โรงเรียนเลิศหล้า เครื่องพร้อมใช้งาน สภาพแวดล้อมมืออาชีพ — ไม่ต้องพกแล็ปท็อปมา",
+    w1_label: "สัปดาห์ที่ 1", w1_title: "พิมพ์เขียว",
+    w1_desc: "รู้จักเครื่องมือทั้งหมด เรียนรู้ว่า prompt คืออะไร AI ทำงานยังไง แล้วลงมือสร้างแอพตัวอย่างด้วยกัน จากนั้นเริ่มแอปของตัวเอง เขียน PRD ตั้ง KPI แล้วออกแบบหน้าจอแรก",
+    w1_deliverables: "ปล่อย template app · เขียน PRD เสร็จ · เริ่ม design V1",
+    w2_label: "สัปดาห์ที่ 2", w2_title: "สร้างและขัดเกลา",
+    w2_desc: "ทดสอบความรู้จากสัปดาห์แรก สร้างแอปของตัวเอง ออกแบบ เขียนโค้ด ดูตัวอย่าง แก้บัค ติดตั้งระบบวิเคราะห์ข้อมูล และ deploy ขึ้น internet แอปของเธอจะ live จริงๆ",
+    w2_deliverables: "ปล่อยแอปมี URL จริง · ติดตั้ง analytics · โค้ดอยู่บน GitHub",
+    w3_label: "สัปดาห์ที่ 3", w3_title: "ปล่อยแอปและสังเกตการณ์",
+    w3_desc: "เซสชั่นวิจารณ์เชิงสร้างสรรค์ นำเสนอแอปต่อเพื่อนและ mentor รับ feedback จริง ปรับปรุงแอปตาม feedback อัพเดต PRD เพิ่ม test case อัตโนมัติ เรียนรู้คำว่า regression",
+    w3_deliverables: "แอปที่ดีขึ้น · อัพเดต PRD · เพิ่ม test case",
+    w4_label: "สัปดาห์ที่ 4", w4_title: "สปรินท์ฟีเจอร์ใหม่",
+    w4_desc: "วิเคราะห์ข้อมูลจากผู้ใช้จริง ดูว่าคนใช้แอปยังไง เจอ error ตรงไหน สร้างฟีเจอร์ใหม่จากข้อมูลและ feedback เตรียมสไลด์ 5 แผ่นสำหรับ Demo Day",
+    w4_deliverables: "ปล่อยฟีเจอร์ใหม่ · สไลด์ pitch deck พร้อม",
+    w5_label: "สัปดาห์ที่ 5", w5_title: "วันนำเสนอ",
+    w5_desc: "ขัดเกลาครั้งสุดท้าย ผู้ปกครองมาถึง 10:30 นักเรียนแต่ละคนนำเสนอแอป 3 นาที + ถามตอบ 2 นาที รับใบประกาศ ตอนนี้เธอเป็นคนสร้างแอปแล้ว",
+    w5_deliverables: "นำเสนอ pitch เสร็จ · รับใบประกาศ · แอป live",
+    learn_label: "สิ่งที่จะได้เรียนรู้",
+    learn_title: "สิ่งที่จะได้เรียนรู้จริงๆ",
+    learn_01: "01", learn_01_title: "คิดแบบคนสร้างโปรดักต์",
+    learn_01_desc: "วางแผนว่าจะสร้างอะไร ทำไมถึงสร้าง ใครจะใช้ เขียน PRD เหมือน product manager ในบริษัทเทคจริงๆ",
+    learn_02: "02", learn_02_title: "รู้จักใช้ AI เป็นเครื่องมือ",
+    learn_02_desc: "ใช้ AI เป็นเครื่องมือสร้างของจริง ไม่ใช่แค่ของเล่น เรียนรู้วิธีสั่ง วิธีปรับ วิธีทำงานร่วมกับ AI จนได้ผลงานระดับมืออาชีพ",
+    learn_03: "03", learn_03_title: "ปล่อของจริง",
+    learn_03_desc: "สร้างแอปจริง ปล่อยขึ้น internet มีคนใช้จริง วิเคราะห์ข้อมูลจริง แล้วนำเสนอต่อหน้าผู้ปกครองใน Demo Day",
+    workflow_label: "เวิร์คโฟลว์", workflow_title: "ออกแบบ. สร้าง. ปล่อย. ทำซ้ำ.",
+    tool1_name: "Stitch", tool1_sub: "ออกแบบ",
+    tool1_desc: "เปลี่ยนไอเดียให้เป็นหน้าตาแอปสวยๆ ด้วย AI แค่บอกว่าอยากได้แบบไหน ปรับแต่งจนพอใจ ไม่ต้องเป็น Figma",
+    tool2_name: "Claude Code", tool2_sub: "สร้างแอป",
+    tool2_desc: "AI เขียนโค้ดคู่กับเธอ เปลี่ยน design เป็นแอปที่ใช้งานได้จริง ใช้ NextJS, NestJS, TypeScript เหมือนบริษัทเทคจริงๆ",
+    tool3_name: "Claude Chat", tool3_sub: "ระดมไอเดีย + PRD",
+    tool3_desc: "คุยกับ Claude เพื่อระดมไอเดีย วางแผนฟีเจอร์ เขียน PRD ตั้ง KPI และช่วยแก้ปัญหาระหว่างทาง",
+    tool4_name: "Vercel", tool4_sub: "ปล่อย",
+    tool4_desc: "ปล่อยแอปขึ้น internet คลิกเดียว ได้ URL จริง มีคนใช้จริง อัพเดตอัตโนมัติทุกครั้งที่ push โค้ด",
+    tool_footer: "ขับเคลื่อนด้วย Claude + Stitch + Vercel &middot; เครื่องมือทั้งหมดจัดให้ในชั้นเรียน",
+    tech_stack: "NextJS &middot; NestJS &middot; TypeScript &middot; Postgres &middot; R2 &middot; Redis &middot; PostHog &middot; Sentry",
+    show1_title: "เครื่องมือระดับมืออาชีพ,<br>ไม่ใช่แค่ของเล่น",
+    show1_desc: "นักเรียนทุกคนใช้เครื่องมือระดับ production จริงๆ ทั้ง NextJS, NestJS, TypeScript, Postgres, PostHog, Sentry เหมือนที่ startup จริงๆ ใช้",
+    show2_title: "จากไอเดียสู่แอปที่ใช้ได้จริง",
+    show2_desc: "Claude Chat ระดมไอเดีย Stitch ออกแบบ UI Claude Code สร้างแอป Vercel ปล่อยแอป ทุกขั้นตอนต่อเนื่องกันเป็นธรรมชาติ",
+    show3_title: "Demo Day:<br>พิทช์แบบผู้ก่อตั้ง",
+    show3_desc: "สัปดาห์ที่ 5 ผู้ปกครองร่วมชมนักเรียนนำเสนอแอปพร้อมสไลด์พิทช์มืออาชีพ — เหมือนผู้ก่อตั้งสตาร์ทอัพจริง",
+    show3_btn: "สมัครเลย",
+    prereq_label: "ก่อนเริ่มเรียนวันแรก",
+    prereq_title: "ก่อนเริ่มเรียนวันแรก",
+    prereq_sub: "นักเรียนต้องเตรียม 4 บัญชีนี้ให้พร้อม เราจะส่งวิธีตั้งค่าให้ 1 สัปดาห์ก่อนเริ่ม",
+    prereq_note: "คอมพิวเตอร์ในห้องเรียนติดตั้งเครื่องมือทุกอย่างไว้แล้ว ไม่ต้องเอาแล็ปท็อปมา",
+    cta_title: "จองที่นั่งของคุณ", cta_sub: "รับจำกัดเพียง 10 คนต่อรุ่น มาก่อนได้ก่อน",
+    cta_no_code: "ไม่ต้องเขียนโค้ดเป็นมาก่อน",
+    cta_price_sub: "ต่อนักเรียน &middot; 5 ครั้ง &middot; รวมอุปกรณ์ทั้งหมด",
+    detail_date: "13 มิ.ย. – 11 ก.ค.", detail_date_sub: "ทุกวันเสาร์",
+    detail_time: "9:00 – 12:00 น.", detail_time_sub: "3 ชั่วโมง / ครั้ง",
+    detail_grade: "ป.6–ม.3", detail_grade_sub: "อายุ 11–15 ปี",
+    detail_loc: "โรงเรียนเลิศหล้า", detail_loc_sub: "ถ.กาญจนาภิเษก",
+    footer_text: "SV Academy &times; โรงเรียนเลิศหล้า ถ.กาญจนาภิเษก &middot; ซัมเมอร์ 2569",
+    form_title: "สมัครเรียน",
+    form_sub: "รับแค่ 10 คน เล่าให้เราฟังเกี่ยวกับตัวเองและไอเดียของเธอ",
+    form_sec1: "เกี่ยวกับตัวเอง",
+    form_sec2: "ไอเดียของเธอ",
+    form_sec3: "ตัวตนในฐานะคนสร้าง",
+    form_submit: "ส่งใบสมัคร / Submit Application",
+    form_success: "ส่งใบสมัครเรียบร้อย! เราจะติดต่อกลับทาง LINE ภายใน 3 วัน",
+    form_success_th: "ส่งใบสมัครเรียบร้อย! เราจะติดต่อกลับทาง LINE ภายใน 3 วัน",
+    modal_title: "ติดตามข่าวสาร", modal_desc: "รับอัปเดตการรับสมัคร ตารางเรียน และโปรโมชั่นพิเศษ",
+    modal_submit: "ลงทะเบียน", modal_success: "ลงทะเบียนสำเร็จ!", modal_alt: "หรือสมัครโดยตรงผ่าน"
   }
 };
 

@@ -158,6 +158,11 @@ img{max-width:100%;display:block}
 .modal-input{width:100%;background:var(--tag-bg);border:1px solid var(--border4);border-radius:12px;padding:12px 16px;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color 0.3s,background 0.6s,color 0.6s}
 .modal-input:focus{border-color:rgba(0,113,227,0.5)}
 .modal-input::placeholder{color:var(--text3)}
+.app-input{width:100%;background:var(--tag-bg);border:1px solid var(--border4);border-radius:12px;padding:12px 16px;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color 0.3s,background 0.6s,color 0.6s;resize:vertical;box-sizing:border-box}
+.app-input:focus{border-color:rgba(0,113,227,0.5);box-shadow:0 0 0 3px rgba(0,113,227,0.08)}
+.app-input::placeholder{color:var(--text3)}
+.app-input:invalid:not(:placeholder-shown){border-color:rgba(239,68,68,0.5)}
+select.app-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 6 5-6' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 
 #mobile-menu-btn{display:none}
 @media(max-width:768px){#mobile-menu-btn{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;transition:all 0.3s;border:1px solid var(--border);background:var(--tag-bg)}#mobile-menu-btn:hover{background:rgba(0,113,227,0.1);transform:scale(1.05)}#mobile-menu-btn:active{transform:scale(0.95)}#mobile-menu-btn svg{transition:transform 0.3s cubic-bezier(0.4,0,0.2,1)}}
@@ -248,7 +253,7 @@ img{max-width:100%;display:block}
       <span id="theme-icon-sun" style="display:none">&#9728;&#65039;</span>
       <span id="theme-icon-moon">&#127769;</span>
     </button>
-    <button onclick="openModal()" class="join-list-btn nav-join-btn" data-i18n="nav_join">Join Mailing List</button>
+    <button onclick="scrollToApplyForm()" class="join-list-btn nav-join-btn" data-i18n="nav_join">Apply Now</button>
     <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-expanded="false" aria-label="Toggle navigation menu">
       <svg id="menu-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="transition:all 0.25s cubic-bezier(0.4,0,0.2,1)"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       <svg id="menu-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;transition:all 0.25s cubic-bezier(0.4,0,0.2,1)"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -261,7 +266,7 @@ img{max-width:100%;display:block}
   <a href="#mentors" onclick="closeMobileMenu()" data-i18n="nav_mentors">Mentors</a>
   <a href="#program" onclick="closeMobileMenu()" data-i18n="nav_program">Program</a>
   <div class="mobile-cta">
-    <button onclick="closeMobileMenu();openModal()" class="mobile-join-btn" data-i18n="nav_join_full">Join Mailing List</button>
+    <button onclick="closeMobileMenu();scrollToApplyForm()" class="mobile-join-btn" data-i18n="nav_join_full">Apply Now</button>
   </div>
 </div>
 
@@ -312,10 +317,11 @@ img{max-width:100%;display:block}
     </div>
 
     <div class="hero-cta" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;margin-bottom:24px">
-      <button onclick="openModal()" class="btn-glow sm-w-auto" style="width:100%;background:linear-gradient(to right,#0071E3,#3b82f6);color:#fff;padding:16px 40px;border-radius:9999px;font-weight:700;font-size:18px;transition:all 0.3s;box-shadow:0 0 20px rgba(59,130,246,0.25);display:inline-flex;align-items:center;justify-content:center;gap:8px">
-        <span data-i18n="cta_join">Join Mailing List</span>
+      <button onclick="scrollToApplyForm()" class="btn-glow sm-w-auto" style="width:100%;background:linear-gradient(to right,#0071E3,#3b82f6);color:#fff;padding:16px 40px;border-radius:9999px;font-weight:700;font-size:18px;transition:all 0.3s;box-shadow:0 0 20px rgba(59,130,246,0.25);display:inline-flex;align-items:center;justify-content:center;gap:8px">
+        <span data-i18n="cta_join">Apply Now</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
+      <p style="font-size:13px;color:var(--text3);font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;transition:color 0.6s" data-i18n="hero_no_code">No coding experience needed.</p>
     </div>
   </div>
 </section>
@@ -397,14 +403,14 @@ img{max-width:100%;display:block}
           </div>
           <div style="flex:1;text-align:center" class="md-text-left">
             <div style="font-size:30px;font-weight:800;letter-spacing:-0.025em;margin-bottom:4px">Charlie Pisuraj</div>
-            <div style="font-size:14px;font-weight:600;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px" data-i18n="charlie_role">Product, Strategy &amp; Student Experience</div>
+            <div style="font-size:14px;font-weight:600;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px" data-i18n="charlie_role">Infrastructure &amp; Backend</div>
             <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;justify-content:center" class="md-justify-start">
               <span class="tag-pill" style="font-size:12px;padding:6px 12px;border-radius:9999px">Robinhood</span>
               <span class="tag-pill" style="font-size:12px;padding:6px 12px;border-radius:9999px">ex-Google X / Wing</span>
               <span class="tag-pill" style="font-size:12px;padding:6px 12px;border-radius:9999px">ex-Meta</span>
               <span class="tag-pill" style="font-size:12px;padding:6px 12px;border-radius:9999px">UC Irvine</span>
             </div>
-            <p style="font-size:15px;color:var(--text2);line-height:1.625;max-width:440px;margin:0 auto;transition:color 0.6s" class="md-mx-0" data-i18n="charlie_bio">Senior Software Engineer at Robinhood. Previously built autonomous delivery at Google X's Wing and hyper-scale infrastructure at Meta. Expert in scaling mission-critical systems for billions of users. Leads program strategy, Demo Day coaching, and student experience. On-site for all 5 sessions.</p>
+            <p style="font-size:15px;color:var(--text2);line-height:1.625;max-width:440px;margin:0 auto;transition:color 0.6s" class="md-mx-0" data-i18n="charlie_bio">Senior Software Engineer at Robinhood. Previously built autonomous delivery at Google X's Wing and hyper-scale infrastructure at Meta. Expert in backend systems, infrastructure, and scaling. Leads technical architecture and Demo Day coaching. On-site for all 5 sessions.</p>
           </div>
         </div>
       </div>
@@ -431,11 +437,52 @@ img{max-width:100%;display:block}
     <h2 class="fade-up" style="font-weight:800;letter-spacing:-0.025em;line-height:1.1;margin-bottom:24px;font-size:clamp(36px,5vw,56px)" data-i18n="program_title">5 Saturdays.<br>1 real app.</h2>
     <p class="fade-up" style="font-size:16px;color:var(--text2);margin-bottom:48px;max-width:600px;transition:color 0.6s" data-i18n="program_desc">Every Saturday 9:00 AM &#8211; 12:00 PM at the Lertlah School Apple Computer Lab. Pre-configured machines, professional environment &#8212; no laptop required.</p>
     <div class="program-grid" style="display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
-      <div class="program-card tilt-card glow-border glass-panel-dark" style="border-radius:20px;padding:28px;will-change:transform"><div style="font-size:24px;margin-bottom:12px">&#x1F4CB;</div><div style="font-size:10px;font-weight:700;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px" data-i18n="w1_label">Week 1</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px" data-i18n="w1_title">The Blueprint</h3><p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="w1_desc">Scope your app idea, write a Design Doc with KPIs, and deploy your first version live.</p></div>
-      <div class="program-card tilt-card glow-border glass-panel-dark" style="border-radius:20px;padding:28px;will-change:transform"><div style="font-size:24px;margin-bottom:12px">&#x1F6E0;&#xFE0F;</div><div style="font-size:10px;font-weight:700;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px" data-i18n="w2_label">Week 2</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px" data-i18n="w2_title">Debug &amp; Polish</h3><p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="w2_desc">Mobile-first refinement, AI pair-programming, and writing tests to prevent regression.</p></div>
-      <div class="program-card tilt-card glow-border glass-panel-dark" style="border-radius:20px;padding:28px;will-change:transform"><div style="font-size:24px;margin-bottom:12px">&#x1F680;</div><div style="font-size:10px;font-weight:700;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px" data-i18n="w3_label">Week 3</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px" data-i18n="w3_title">Ship &amp; Observe</h3><p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="w3_desc">Install analytics, run user testing, take feedback and iterate on your live app.</p></div>
-      <div class="program-card tilt-card glow-border glass-panel-dark" style="border-radius:20px;padding:28px;will-change:transform"><div style="font-size:24px;margin-bottom:12px">&#x26A1;</div><div style="font-size:10px;font-weight:700;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px" data-i18n="w4_label">Week 4</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px" data-i18n="w4_title">Feature Sprint</h3><p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="w4_desc">Add features based on real feedback, stress-test your app, and run peer critique sessions.</p></div>
-      <div class="program-card tilt-card glow-border glass-panel-dark" style="border-radius:20px;padding:28px;will-change:transform"><div style="font-size:24px;margin-bottom:12px">&#x1F3A4;</div><div style="font-size:10px;font-weight:700;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px" data-i18n="w5_label">Week 5</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px" data-i18n="w5_title">The Keynote</h3><p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="w5_desc">Build your pitch deck, final deploy, and Demo Day &#8212; parents attend at 11:00 AM.</p></div>
+      <div class="program-card tilt-card glow-border glass-panel-dark" style="border-radius:20px;padding:28px;will-change:transform"><div style="font-size:24px;margin-bottom:12px">&#x1F4CB;</div><div style="font-size:10px;font-weight:700;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px" data-i18n="w1_label">Week 1</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px" data-i18n="w1_title">The Blueprint</h3><p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s;margin-bottom:12px" data-i18n="w1_desc">Meet the tools (Claude Chat, Stitch, Claude Code, Vercel, GitHub). Learn what a prompt is, how AI works, and key terminology. Build a template app together. Then start YOUR app — write a PRD with KPIs and design your first UI.</p><p style="font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;transition:color 0.6s" data-i18n="w1_deliverables">Template app deployed &middot; PRD complete &middot; V1 design started</p></div>
+      <div class="program-card tilt-card glow-border glass-panel-dark" style="border-radius:20px;padding:28px;will-change:transform"><div style="font-size:24px;margin-bottom:12px">&#x1F6E0;&#xFE0F;</div><div style="font-size:10px;font-weight:700;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px" data-i18n="w2_label">Week 2</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px" data-i18n="w2_title">Debug &amp; Polish</h3><p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s;margin-bottom:12px" data-i18n="w2_desc">Quiz on Week 1 concepts. Build your app — design, code, preview, fix. Install analytics and error tracking. Push to GitHub. Deploy to Vercel. Your app is now LIVE.</p><p style="font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;transition:color 0.6s" data-i18n="w2_deliverables">App deployed with live URL &middot; analytics installed &middot; code on GitHub</p></div>
+      <div class="program-card tilt-card glow-border glass-panel-dark" style="border-radius:20px;padding:28px;will-change:transform"><div style="font-size:24px;margin-bottom:12px">&#x1F680;</div><div style="font-size:10px;font-weight:700;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px" data-i18n="w3_label">Week 3</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px" data-i18n="w3_title">Ship &amp; Observe</h3><p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s;margin-bottom:12px" data-i18n="w3_desc">Peer critique session — learn constructive feedback, present your app, get real comments. Improve based on feedback. Update your PRD. Add automated tests. Learn what 'regression' means and why it matters.</p><p style="font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;transition:color 0.6s" data-i18n="w3_deliverables">Improved app &middot; updated PRD &middot; test cases added</p></div>
+      <div class="program-card tilt-card glow-border glass-panel-dark" style="border-radius:20px;padding:28px;will-change:transform"><div style="font-size:24px;margin-bottom:12px">&#x26A1;</div><div style="font-size:10px;font-weight:700;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px" data-i18n="w4_label">Week 4</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px" data-i18n="w4_title">Feature Sprint</h3><p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s;margin-bottom:12px" data-i18n="w4_desc">Analyze real user data — page views, latency, daily users, error logs, web vitals. Build new features based on data and user feedback. Prepare your 5-slide pitch deck for Demo Day.</p><p style="font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;transition:color 0.6s" data-i18n="w4_deliverables">New feature shipped &middot; pitch deck ready</p></div>
+      <div class="program-card tilt-card glow-border glass-panel-dark" style="border-radius:20px;padding:28px;will-change:transform"><div style="font-size:24px;margin-bottom:12px">&#x1F3A4;</div><div style="font-size:10px;font-weight:700;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px" data-i18n="w5_label">Week 5</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px" data-i18n="w5_title">The Keynote</h3><p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s;margin-bottom:12px" data-i18n="w5_desc">Final polish. Parents arrive at 10:30. Each student pitches their app: 3 minutes + 2 minutes Q&amp;A. Certificates awarded. You are now an app builder.</p><p style="font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;transition:color 0.6s" data-i18n="w5_deliverables">Pitch delivered &middot; certificate earned &middot; app live</p></div>
+    </div>
+  </div>
+</section>
+
+<div style="position:relative;height:80px;overflow:hidden;display:flex;align-items:center;justify-content:center">
+  <div class="code-divider-line"></div>
+  <div style="position:absolute;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 24px;z-index:10;transition:background 0.6s">
+    <span style="font-family:monospace;font-size:12px;letter-spacing:0.1em"><span style="color:rgba(34,197,94,0.4)">&gt;_</span><span style="color:rgba(77,163,255,0.25)"> learning</span></span>
+  </div>
+</div>
+
+<!-- What You'll Learn Section -->
+<section style="position:relative;padding:80px 24px;overflow:hidden">
+  <div class="texture-dots" style="position:absolute;inset:0;pointer-events:none;opacity:0.2"></div>
+  <div style="max-width:1200px;margin:0 auto;position:relative;z-index:10">
+    <div style="text-align:center;margin-bottom:56px">
+      <div class="fade-up" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px">
+        <svg viewBox="0 0 120 120" width="32" height="32" fill="none" class="logo-glow" style="flex-shrink:0"><rect width="120" height="120" rx="24" fill="var(--logo-bg)"/><rect x="2" y="2" width="116" height="116" rx="22" fill="none" stroke="var(--logo-border)" stroke-width="2"/><text x="14" y="28" font-family="monospace" font-weight="700" font-size="12" fill="#22c55e" opacity="0.6">&gt;_</text><text x="60" y="76" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="52" fill="var(--logo-sv)">SV</text><circle cx="18" cy="106" r="3" fill="#ff5f57"/><circle cx="30" cy="106" r="3" fill="#febc2e"/><circle cx="42" cy="106" r="3" fill="#28c840"/></svg>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#22c55e;letter-spacing:3px;text-transform:uppercase" data-i18n="learn_label"><span style="color:#22c55e;opacity:0.6">&gt;</span> What You'll Learn</span>
+      </div>
+      <h2 class="fade-up" style="font-weight:800;letter-spacing:-0.025em;line-height:1.1;font-size:clamp(28px,4vw,44px)" data-i18n="learn_title">What You'll Actually Learn</h2>
+    </div>
+    <div class="tool-grid" style="display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+      <div class="tool-card tilt-card glow-border glass-panel-dark fade-up" style="border-radius:16px;padding:36px;will-change:transform;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;border-radius:16px 16px 0 0;background:linear-gradient(90deg,rgba(77,163,255,0.4),#4DA3FF)"></div>
+        <div style="font-family:monospace;font-size:11px;font-weight:700;letter-spacing:0.15em;margin-bottom:20px;color:#4DA3FF" data-i18n="learn_01">01</div>
+        <h3 style="font-size:22px;font-weight:800;letter-spacing:-0.025em;margin-bottom:12px" data-i18n="learn_01_title">Product Thinking</h3>
+        <p style="font-size:15px;color:var(--text2);line-height:1.7;transition:color 0.6s" data-i18n="learn_01_desc">Plan what to build, why you're building it, and who will use it. Write a PRD like a real product manager at a tech company.</p>
+      </div>
+      <div class="tool-card tilt-card glow-border glass-panel-dark fade-up" style="border-radius:16px;padding:36px;will-change:transform;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;border-radius:16px 16px 0 0;background:linear-gradient(90deg,rgba(34,197,94,0.4),#22c55e)"></div>
+        <div style="font-family:monospace;font-size:11px;font-weight:700;letter-spacing:0.15em;margin-bottom:20px;color:#22c55e" data-i18n="learn_02">02</div>
+        <h3 style="font-size:22px;font-weight:800;letter-spacing:-0.025em;margin-bottom:12px" data-i18n="learn_02_title">AI Literacy</h3>
+        <p style="font-size:15px;color:var(--text2);line-height:1.7;transition:color 0.6s" data-i18n="learn_02_desc">Use AI as a real building tool — not just a toy. Learn to prompt, direct, and iterate with AI to create production-quality apps.</p>
+      </div>
+      <div class="tool-card tilt-card glow-border glass-panel-dark fade-up" style="border-radius:16px;padding:36px;will-change:transform;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;border-radius:16px 16px 0 0;background:linear-gradient(90deg,rgba(245,158,11,0.4),#f59e0b)"></div>
+        <div style="font-family:monospace;font-size:11px;font-weight:700;letter-spacing:0.15em;margin-bottom:20px;color:#f59e0b" data-i18n="learn_03">03</div>
+        <h3 style="font-size:22px;font-weight:800;letter-spacing:-0.025em;margin-bottom:12px" data-i18n="learn_03_title">Ship It</h3>
+        <p style="font-size:15px;color:var(--text2);line-height:1.7;transition:color 0.6s" data-i18n="learn_03_desc">Build a real app, deploy it on the internet, get real users, analyze real data, and present it to parents on Demo Day.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -462,36 +509,37 @@ img{max-width:100%;display:block}
         <div style="position:absolute;top:0;left:0;right:0;height:4px;border-radius:16px 16px 0 0;background:linear-gradient(90deg,rgba(77,163,255,0.4),#4DA3FF)"></div>
         <div style="font-family:monospace;font-size:12px;font-weight:700;letter-spacing:0.1em;margin-bottom:16px;color:#4DA3FF">01</div>
         <svg width="40" height="40" viewBox="0 0 40 40" style="margin:0 auto 12px"><rect width="40" height="40" rx="10" fill="rgba(77,163,255,0.1)"/><path d="M12 14h6v6h-6zM22 14h6v6h-6zM12 24h6v-2h4v-2h-4v-2h6v6h-6v2h-4v2h4v-2z" fill="#4DA3FF" opacity="0.9"/></svg>
-        <div style="font-size:24px;font-weight:800;margin-bottom:4px">Stitch</div>
+        <div style="font-size:24px;font-weight:800;margin-bottom:4px" data-i18n="tool1_name">Stitch</div>
         <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;color:#4DA3FF" data-i18n="tool1_sub">Design</div>
-        <p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="tool1_desc">Turn your idea into a pixel-perfect UI with Google's AI design tool. No Figma skills needed.</p>
+        <p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="tool1_desc">Turn your idea into a pixel-perfect UI with Google's AI design tool. Describe what you want, refine until you're happy — no Figma skills needed.</p>
       </div>
       <div class="tool-card tilt-card glow-border glass-panel-dark" style="border-radius:16px;padding:32px;text-align:center;will-change:transform;position:relative;overflow:hidden">
         <div style="position:absolute;top:0;left:0;right:0;height:4px;border-radius:16px 16px 0 0;background:linear-gradient(90deg,rgba(34,197,94,0.4),#22c55e)"></div>
         <div style="font-family:monospace;font-size:12px;font-weight:700;letter-spacing:0.1em;margin-bottom:16px;color:#22c55e">02</div>
-        <svg width="40" height="40" viewBox="0 0 40 40" style="margin:0 auto 12px"><rect width="40" height="40" rx="10" fill="rgba(34,197,94,0.1)"/><path d="M20 8l10 6v12l-10 6-10-6V14l10-6z" fill="none" stroke="#FFCA28" stroke-width="1.5"/><path d="M20 12l6 3.5v7L20 26l-6-3.5v-7L20 12z" fill="#FFCA28" opacity="0.3"/><path d="M15 18l5 3 5-3" stroke="#FF6F00" stroke-width="1.5" fill="none"/></svg>
-        <div style="font-size:24px;font-weight:800;margin-bottom:4px">Firebase Studio</div>
-        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;color:#22c55e" data-i18n="tool2_sub">Implement</div>
-        <p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="tool2_desc">AI pair-programs with you to turn designs into working React Native code, deployed live.</p>
+        <svg width="40" height="40" viewBox="0 0 40 40" style="margin:0 auto 12px"><rect width="40" height="40" rx="10" fill="rgba(34,197,94,0.1)"/><path d="M13 14l-5 6 5 6" stroke="#22c55e" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M27 14l5 6-5 6" stroke="#22c55e" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M22 11l-4 18" stroke="#4DA3FF" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <div style="font-size:24px;font-weight:800;margin-bottom:4px" data-i18n="tool2_name">Claude Code</div>
+        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;color:#22c55e" data-i18n="tool2_sub">Build</div>
+        <p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="tool2_desc">AI pair-programs with you to turn designs into a working app. NextJS frontend, NestJS backend, TypeScript — real production code.</p>
       </div>
       <div class="tool-card tilt-card glow-border glass-panel-dark" style="border-radius:16px;padding:32px;text-align:center;will-change:transform;position:relative;overflow:hidden">
         <div style="position:absolute;top:0;left:0;right:0;height:4px;border-radius:16px 16px 0 0;background:linear-gradient(90deg,rgba(139,92,246,0.4),#8b5cf6)"></div>
         <div style="font-family:monospace;font-size:12px;font-weight:700;letter-spacing:0.1em;margin-bottom:16px;color:#8b5cf6">03</div>
-        <svg width="40" height="40" viewBox="0 0 40 40" style="margin:0 auto 12px"><rect width="40" height="40" rx="10" fill="rgba(139,92,246,0.1)"/><path d="M20 10l2.5 5 5.5.8-4 3.9.9 5.5L20 22.7l-4.9 2.5.9-5.5-4-3.9 5.5-.8z" fill="#8b5cf6" opacity="0.8"/><circle cx="28" cy="14" r="2.5" fill="#4DA3FF" opacity="0.6"/></svg>
-        <div style="font-size:24px;font-weight:800;margin-bottom:4px">Gemini</div>
-        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;color:#8b5cf6" data-i18n="tool3_sub">Brainstorm</div>
-        <p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="tool3_desc">Chat with Google's most advanced AI to brainstorm features, debug code, and explore ideas.</p>
+        <svg width="40" height="40" viewBox="0 0 40 40" style="margin:0 auto 12px"><rect width="40" height="40" rx="10" fill="rgba(139,92,246,0.1)"/><circle cx="20" cy="20" r="8" fill="none" stroke="#8b5cf6" stroke-width="1.8"/><path d="M16 17c0-2 1.5-3 4-3s4 1.5 4 3.5c0 2-2 3-4 5v1" stroke="#8b5cf6" stroke-width="1.8" stroke-linecap="round" fill="none"/><circle cx="20" cy="27" r="1" fill="#8b5cf6"/></svg>
+        <div style="font-size:24px;font-weight:800;margin-bottom:4px" data-i18n="tool3_name">Claude Chat</div>
+        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;color:#8b5cf6" data-i18n="tool3_sub">Brainstorm + PRD</div>
+        <p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="tool3_desc">Chat with Claude to brainstorm your app idea, define features, write a PRD with KPIs, and debug problems along the way.</p>
       </div>
       <div class="tool-card tilt-card glow-border glass-panel-dark" style="border-radius:16px;padding:32px;text-align:center;will-change:transform;position:relative;overflow:hidden">
         <div style="position:absolute;top:0;left:0;right:0;height:4px;border-radius:16px 16px 0 0;background:linear-gradient(90deg,rgba(245,158,11,0.4),#f59e0b)"></div>
         <div style="font-family:monospace;font-size:12px;font-weight:700;letter-spacing:0.1em;margin-bottom:16px;color:#f59e0b">04</div>
-        <svg width="40" height="40" viewBox="0 0 40 40" style="margin:0 auto 12px"><rect width="40" height="40" rx="10" fill="rgba(245,158,11,0.1)"/><path d="M10 22c0-5.5 4.5-10 10-10h2c4.4 0 8 3.6 8 8 0 3.3-2.7 6-6 6H10z" fill="none" stroke="#f59e0b" stroke-width="1.8"/><path d="M14 22a6 6 0 0112 0" fill="#f59e0b" opacity="0.25"/></svg>
-        <div style="font-size:24px;font-weight:800;margin-bottom:4px">Cloudflare</div>
+        <svg width="40" height="40" viewBox="0 0 40 40" style="margin:0 auto 12px"><rect width="40" height="40" rx="10" fill="rgba(245,158,11,0.1)"/><path d="M10 28l8-14 5 8 4-6 7 12" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="30" cy="14" r="3" fill="#f59e0b" opacity="0.6"/></svg>
+        <div style="font-size:24px;font-weight:800;margin-bottom:4px" data-i18n="tool4_name">Vercel</div>
         <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;color:#f59e0b" data-i18n="tool4_sub">Deploy</div>
-        <p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="tool4_desc">Ship your app to the world on Cloudflare's edge network. Real URL, real users, real impact.</p>
+        <p style="font-size:14px;color:var(--text2);line-height:1.625;transition:color 0.6s" data-i18n="tool4_desc">Ship your app to the internet with one click. Real URL, real users. Auto-deploys every time you push to GitHub.</p>
       </div>
     </div>
-    <p class="fade-up" style="text-align:center;font-size:12px;color:var(--text3);margin-top:32px;font-family:monospace;letter-spacing:0.05em;transition:color 0.6s" data-i18n="tool_footer">Powered by Google Suite &middot; All tools provided in-class</p>
+    <p class="fade-up" style="text-align:center;font-size:12px;color:var(--text3);margin-top:32px;font-family:monospace;letter-spacing:0.05em;transition:color 0.6s" data-i18n="tool_footer">Powered by Claude + Stitch + Vercel &middot; All tools provided in-class</p>
+    <p class="fade-up" style="text-align:center;font-size:11px;color:var(--text3);margin-top:12px;font-family:'JetBrains Mono',monospace;letter-spacing:0.06em;opacity:0.7;transition:color 0.6s" data-i18n="tech_stack">NextJS &middot; NestJS &middot; TypeScript &middot; Postgres &middot; R2 &middot; Redis &middot; PostHog &middot; Sentry</p>
   </div>
 </section>
 
@@ -508,7 +556,7 @@ img{max-width:100%;display:block}
         </div>
         <div style="padding:24px 24px 28px">
           <h3 style="font-size:20px;font-weight:800;letter-spacing:-0.025em;margin-bottom:12px" data-i18n="show1_title">Real Infrastructure,<br>Not Just Syntax</h3>
-          <p style="font-size:14px;color:var(--text2);line-height:1.6;transition:color 0.6s" data-i18n="show1_desc">Every student works with the same professional tools used by top tech companies &#8212; Google AI Studio, Cloudflare, and real APIs. No toy environments.</p>
+          <p style="font-size:14px;color:var(--text2);line-height:1.6;transition:color 0.6s" data-i18n="show1_desc">Every student works with production-grade tools — NextJS, NestJS, TypeScript, Postgres, PostHog analytics, and Sentry error tracking. The same stack used by real startups.</p>
         </div>
       </div>
 
@@ -518,8 +566,8 @@ img{max-width:100%;display:block}
           <div style="position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top,var(--bg2),transparent);transition:background 0.6s"></div>
         </div>
         <div style="padding:24px 24px 28px">
-          <h3 style="font-size:20px;font-weight:800;letter-spacing:-0.025em;margin-bottom:12px" data-i18n="show2_title">AI-Powered Design Pipeline</h3>
-          <p style="font-size:14px;color:var(--text2);line-height:1.6;transition:color 0.6s" data-i18n="show2_desc">From Google Stitch UI designs to Gemini-powered code generation to live deployment &#8212; students learn the complete modern app development workflow.</p>
+          <h3 style="font-size:20px;font-weight:800;letter-spacing:-0.025em;margin-bottom:12px" data-i18n="show2_title">From Idea to Live App</h3>
+          <p style="font-size:14px;color:var(--text2);line-height:1.6;transition:color 0.6s" data-i18n="show2_desc">Claude Chat for brainstorming, Stitch for UI design, Claude Code for building, Vercel for deployment — a complete pipeline where each step flows naturally into the next.</p>
         </div>
       </div>
 
@@ -536,8 +584,8 @@ img{max-width:100%;display:block}
 
     </div>
     <div style="text-align:center;margin-top:40px" class="fade-up">
-      <button onclick="openModal()" class="btn-glow btn-cta-animated" style="background:linear-gradient(135deg,#0071E3,#3b82f6,#8b5cf6);color:#fff;padding:18px 48px;border-radius:9999px;font-weight:700;font-size:18px;transition:all 0.3s;display:inline-flex;align-items:center;gap:10px">
-        <span data-i18n="show3_btn">Join the Mailing List</span>
+      <button onclick="scrollToApplyForm()" class="btn-glow btn-cta-animated" style="background:linear-gradient(135deg,#0071E3,#3b82f6,#8b5cf6);color:#fff;padding:18px 48px;border-radius:9999px;font-weight:700;font-size:18px;transition:all 0.3s;display:inline-flex;align-items:center;gap:10px">
+        <span data-i18n="show3_btn">Apply Now</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
     </div>
@@ -545,6 +593,43 @@ img{max-width:100%;display:block}
 </div>
 
 <div style="position:relative;height:96px;overflow:hidden"><div class="wave-divider"></div></div>
+
+<!-- Prerequisites Section -->
+<section style="position:relative;padding:80px 24px;overflow:hidden;background:var(--bg2);transition:background 0.6s">
+  <div class="texture-dots" style="position:absolute;inset:0;pointer-events:none;opacity:0.2"></div>
+  <div style="max-width:900px;margin:0 auto;position:relative;z-index:10">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="fade-up" style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#22c55e;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px" data-i18n="prereq_label"><span style="color:#22c55e;opacity:0.6">&gt;</span> Before Day 1</span>
+      <h2 class="fade-up" style="font-weight:800;letter-spacing:-0.025em;line-height:1.1;font-size:clamp(24px,3.5vw,38px);margin-bottom:12px" data-i18n="prereq_title">Before Day 1</h2>
+      <p class="fade-up" style="font-size:15px;color:var(--text2);max-width:540px;margin:0 auto;line-height:1.6;transition:color 0.6s" data-i18n="prereq_sub">Students need these 4 accounts ready — we'll send setup instructions one week before.</p>
+    </div>
+    <div class="fade-up" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:32px">
+      <div class="glass-panel-dark" style="border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border4)">
+        <div style="font-size:28px;margin-bottom:10px">📧</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:4px">Gmail</div>
+        <div style="font-size:12px;color:var(--text3);font-family:'JetBrains Mono',monospace;transition:color 0.6s">พร้อมใช้งาน</div>
+      </div>
+      <div class="glass-panel-dark" style="border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border4)">
+        <div style="font-size:28px;margin-bottom:10px">🐙</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:4px">GitHub</div>
+        <div style="font-size:12px;color:var(--text3);font-family:'JetBrains Mono',monospace;transition:color 0.6s">ล็อกอินด้วย Gmail</div>
+      </div>
+      <div class="glass-panel-dark" style="border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border4)">
+        <div style="font-size:28px;margin-bottom:10px">▲</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:4px">Vercel</div>
+        <div style="font-size:12px;color:var(--text3);font-family:'JetBrains Mono',monospace;transition:color 0.6s">ล็อกอินด้วย Gmail</div>
+      </div>
+      <div class="glass-panel-dark" style="border-radius:16px;padding:24px;text-align:center;border:1px solid var(--border4)">
+        <div style="font-size:28px;margin-bottom:10px">📊</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:4px">PostHog</div>
+        <div style="font-size:12px;color:var(--text3);font-family:'JetBrains Mono',monospace;transition:color 0.6s">สมัครด้วย Gmail</div>
+      </div>
+    </div>
+    <p class="fade-up" style="text-align:center;font-size:13px;color:var(--text3);font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;line-height:1.6;transition:color 0.6s" data-i18n="prereq_note">All lab computers come pre-configured with Claude Code, Git, and development tools. No laptop needed.</p>
+  </div>
+</section>
+
+<div style="height:1px;max-width:800px;margin:0 auto"><div style="height:100%;background:linear-gradient(to right,transparent,rgba(0,113,227,0.3),transparent)" class="animate-shimmer"></div></div>
 
 <section id="apply" class="parallax-section" style="position:relative;padding:128px 24px;overflow:hidden">
   <div class="parallax-bg" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(0,113,227,0.1),transparent)"></div>
@@ -557,10 +642,11 @@ img{max-width:100%;display:block}
       <div class="text-linear" style="font-weight:900;margin-bottom:8px;font-size:clamp(36px,8vw,60px)">&#x0E3F;20,000</div>
       <div style="font-size:14px;color:var(--text3);margin-bottom:32px;transition:color 0.6s" data-i18n="cta_price_sub">per student &middot; 5 sessions &middot; all materials included</div>
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;margin-bottom:40px">
-        <button onclick="openModal()" class="btn-glow sm-w-auto" style="width:100%;background:linear-gradient(to right,#0071E3,#3b82f6);color:#fff;padding:20px 48px;border-radius:9999px;font-weight:700;font-size:20px;transition:all 0.3s;box-shadow:0 0 30px rgba(59,130,246,0.25);display:inline-flex;align-items:center;justify-content:center;gap:8px">
-          <span data-i18n="cta_join">Join Mailing List</span>
+        <button onclick="scrollToApplyForm()" class="btn-glow sm-w-auto" style="width:100%;background:linear-gradient(to right,#0071E3,#3b82f6);color:#fff;padding:20px 48px;border-radius:9999px;font-weight:700;font-size:20px;transition:all 0.3s;box-shadow:0 0 30px rgba(59,130,246,0.25);display:inline-flex;align-items:center;justify-content:center;gap:8px">
+          <span data-i18n="cta_join">Apply Now</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
+        <p style="font-size:13px;color:var(--text3);font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;transition:color 0.6s" data-i18n="cta_no_code">No coding experience needed.</p>
       </div>
       <div class="cta-details" style="display:flex;flex-wrap:wrap;justify-content:center;gap:32px;border-top:1px solid var(--border4);padding-top:32px">
         <div style="text-align:center"><div style="font-weight:700;font-size:14px" data-i18n="detail_date">Jun 13 &#8211; Jul 11</div><div style="font-size:12px;color:var(--text3);transition:color 0.6s" data-i18n="detail_date_sub">Every Saturday</div></div>
@@ -568,6 +654,120 @@ img{max-width:100%;display:block}
         <div style="text-align:center"><div style="font-weight:700;font-size:14px" data-i18n="detail_grade">Grades 6&#8211;9</div><div style="font-size:12px;color:var(--text3);transition:color 0.6s" data-i18n="detail_grade_sub">Ages 11&#8211;15</div></div>
         <div style="text-align:center"><div style="font-weight:700;font-size:14px" data-i18n="detail_loc">Lertlah School</div><div style="font-size:12px;color:var(--text3);transition:color 0.6s" data-i18n="detail_loc_sub">Kanchanapisek Road</div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Application Form Section -->
+<section id="apply-form" style="position:relative;padding:96px 24px;overflow:hidden;background:var(--bg);transition:background 0.6s">
+  <div class="texture-dots" style="position:absolute;inset:0;pointer-events:none;opacity:0.15"></div>
+  <div style="max-width:720px;margin:0 auto;position:relative;z-index:10">
+    <div style="text-align:center;margin-bottom:48px">
+      <span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#22c55e;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px"><span style="color:#22c55e;opacity:0.6">&gt;</span> <span data-i18n="form_title">Apply Now</span></span>
+      <h2 style="font-weight:800;letter-spacing:-0.025em;line-height:1.1;font-size:clamp(28px,4vw,44px);margin-bottom:12px" data-i18n="form_title">Apply Now</h2>
+      <p style="font-size:16px;color:var(--text2);transition:color 0.6s" data-i18n="form_sub">Limited to 10 students. Tell us about yourself and your ideas.</p>
+    </div>
+
+    <div id="apply-form-content">
+      <form onsubmit="submitApplication(event)" style="display:flex;flex-direction:column;gap:32px">
+        <!-- Honeypot -->
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+        <!-- Section 1 -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#4DA3FF;text-transform:uppercase;letter-spacing:0.15em;font-family:'JetBrains Mono',monospace;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border4)" data-i18n="form_sec1">About You</div>
+          <div style="display:grid;gap:16px;grid-template-columns:1fr 1fr">
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Full Name <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">ชื่อ-นามสกุล</span></label>
+              <input type="text" name="full_name" required class="app-input" placeholder="First Last">
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Nickname <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">ชื่อเล่น</span></label>
+              <input type="text" name="nickname" required class="app-input" placeholder="ชื่อเล่น">
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Age <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">อายุ</span></label>
+              <input type="number" name="age" required class="app-input" placeholder="12" min="10" max="18">
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Grade <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">ระดับชั้น</span></label>
+              <select name="grade" required class="app-input">
+                <option value="">-- เลือก --</option>
+                <option value="ป.6">ป.6</option>
+                <option value="ม.1">ม.1</option>
+                <option value="ม.2">ม.2</option>
+                <option value="ม.3">ม.3</option>
+              </select>
+            </div>
+            <div style="grid-column:1/-1">
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">School <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">โรงเรียน</span></label>
+              <input type="text" name="school" required class="app-input" placeholder="ชื่อโรงเรียน">
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Parent's LINE ID <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">LINE ผู้ปกครอง</span></label>
+              <input type="text" name="parent_line" required class="app-input" placeholder="@lineid">
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Parent's Phone <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">เบอร์โทรผู้ปกครอง</span></label>
+              <input type="tel" name="parent_phone" required class="app-input" placeholder="08X-XXX-XXXX">
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:0.15em;font-family:'JetBrains Mono',monospace;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border4)" data-i18n="form_sec2">Your Ideas</div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">If you could build any app, what would it be? <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">ถ้าสร้างแอปได้ 1 ตัว จะสร้างอะไร?</span></label>
+              <textarea name="app_idea" required class="app-input" rows="3" placeholder="Describe your app idea..."></textarea>
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">What problem would it solve? <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">แอปนี้แก้ปัญหาอะไร?</span></label>
+              <textarea name="problem_solved" required class="app-input" rows="3" placeholder="What's the problem you're solving?"></textarea>
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Who would use it? <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">ใครจะเป็นคนใช้?</span></label>
+              <input type="text" name="target_users" required class="app-input" placeholder="e.g. students, parents, gamers...">
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Have you ever built anything with technology? <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">เคยสร้างอะไรด้วยเทคโนโลยีมาก่อนไหม? (เว็บ เกม วิดีโอ อะไรก็ได้ ไม่เคยก็ไม่เป็นไร)</span></label>
+              <textarea name="prior_experience" required class="app-input" rows="3" placeholder="Website, game, video — anything counts. 'No' is fine too."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#8b5cf6;text-transform:uppercase;letter-spacing:0.15em;font-family:'JetBrains Mono',monospace;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border4)" data-i18n="form_sec3">You as a Builder</div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">What app or website do you use every day and why do you like it? <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">แอปหรือเว็บที่ใช้ทุกวันคืออะไร ชอบเพราะอะไร?</span></label>
+              <textarea name="fav_app" required class="app-input" rows="3" placeholder="e.g. YouTube, because..."></textarea>
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Who inspires you? <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">ใครเป็นแรงบันดาลใจ? ใครก็ได้ นักสร้างสรรค์ ผู้ก่อตั้ง ครู หรือคนในครอบครัว</span></label>
+              <textarea name="inspiration" required class="app-input" rows="3" placeholder="A creator, founder, teacher, family member..."></textarea>
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Why do you want to join SV Academy? <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">ทำไมอยากมาเรียนที่ SV Academy?</span></label>
+              <textarea name="why_sv" required class="app-input" rows="4" placeholder="Tell us what excites you about this program..."></textarea>
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Anything else you want us to know? <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">มีอะไรอยากบอกเราเพิ่มไหม? (ไม่บังคับ)</span></label>
+              <textarea name="extra" class="app-input" rows="3" placeholder="Optional..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-glow" style="width:100%;background:linear-gradient(to right,#0071E3,#3b82f6);color:#fff;padding:18px;border-radius:14px;font-weight:700;font-size:16px;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:8px" data-i18n="form_submit">Submit Application / ส่งใบสมัคร</button>
+      </form>
+    </div>
+
+    <div id="apply-form-success" style="display:none;text-align:center;padding:64px 0">
+      <div style="font-size:56px;margin-bottom:16px">✅</div>
+      <h3 style="font-size:24px;font-weight:800;margin-bottom:12px;color:#22c55e" data-i18n="form_success">Application submitted!</h3>
+      <p style="font-size:16px;color:var(--text2);transition:color 0.6s">We'll contact you via LINE within 3 days.<br><span style="font-size:14px;color:var(--text3)">เราจะติดต่อกลับทาง LINE ภายใน 3 วัน</span></p>
     </div>
   </div>
 </section>
@@ -585,27 +785,7 @@ img{max-width:100%;display:block}
   </div>
 </footer>
 
-<div id="modal" class="modal-overlay" style="display:none" onclick="closeModal()">
-  <div class="modal-backdrop"></div>
-  <div class="modal-content modal-pop" onclick="event.stopPropagation()">
-    <button onclick="closeModal()" class="modal-close">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    </button>
-    <div style="margin-bottom:16px"><svg viewBox="0 0 120 120" width="56" height="56" fill="none" class="logo-glow" style="flex-shrink:0"><rect width="120" height="120" rx="24" fill="var(--logo-bg)"/><rect x="2" y="2" width="116" height="116" rx="22" fill="none" stroke="var(--logo-border)" stroke-width="2"/><text x="14" y="28" font-family="monospace" font-weight="700" font-size="12" fill="#22c55e" opacity="0.6">&gt;_</text><text x="60" y="76" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="52" fill="var(--logo-sv)">SV</text><circle cx="18" cy="106" r="3" fill="#ff5f57"/><circle cx="30" cy="106" r="3" fill="#febc2e"/><circle cx="42" cy="106" r="3" fill="#28c840"/></svg></div>
-    <h3 style="font-size:24px;font-weight:800;margin-bottom:8px" data-i18n="modal_title">Stay in the Loop</h3>
-    <p style="font-size:14px;color:var(--text2);margin-bottom:24px;transition:color 0.6s" data-i18n="modal_desc">Get updates on enrollment, schedules, and early-bird offers.</p>
-    <div id="modal-form">
-      <form onsubmit="submitEmail(event)">
-        <input type="email" id="email-input" placeholder="parent@email.com" required class="modal-input" style="margin-bottom:16px">
-        <button type="submit" class="btn-glow" style="width:100%;background:linear-gradient(to right,#0071E3,#3b82f6);color:#fff;padding:12px;border-radius:12px;font-weight:700;font-size:14px;transition:all 0.3s" data-i18n="modal_submit">Join Mailing List</button>
-      </form>
-    </div>
-    <div id="modal-success" style="display:none;text-align:center;padding:24px 0">
-      <div style="font-size:30px;margin-bottom:8px">&#10003;</div>
-      <p style="color:#4DA3FF;font-weight:600" data-i18n="modal_success">You're on the list!</p>
-    </div>
-  </div>
-</div>
+<!-- modal removed — Apply Now buttons scroll to #apply-form -->
 
 <script src="./gsap.min.js"></script>
 <script src="./ScrollTrigger.min.js"></script>
