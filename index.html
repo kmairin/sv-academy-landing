@@ -703,6 +703,10 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
               <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">School <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">โรงเรียน</span></label>
               <input type="text" name="school" required class="app-input" placeholder="ชื่อโรงเรียน">
             </div>
+            <div style="grid-column:1/-1">
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Student's Email <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">อีเมลนักเรียน</span></label>
+              <input type="email" name="student_email" required class="app-input" placeholder="student@email.com">
+            </div>
             <div>
               <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Parent's LINE ID <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">LINE ผู้ปกครอง</span></label>
               <input type="text" name="parent_line" required class="app-input" placeholder="@lineid">
@@ -731,8 +735,18 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
               <input type="text" name="target_users" required class="app-input" placeholder="e.g. students, parents, gamers...">
             </div>
             <div>
-              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Have you ever built anything with technology? <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">เคยสร้างอะไรด้วยเทคโนโลยีมาก่อนไหม? (เว็บ เกม วิดีโอ อะไรก็ได้ ไม่เคยก็ไม่เป็นไร)</span></label>
-              <textarea name="prior_experience" required class="app-input" rows="3" placeholder="Website, game, video — anything counts. 'No' is fine too."></textarea>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Experience Level <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">ระดับประสบการณ์ด้านเทคโนโลยี</span></label>
+              <select name="experience_level" required class="app-input">
+                <option value="" disabled selected>-- select your level --</option>
+                <option value="complete_beginner">Complete beginner — never touched code</option>
+                <option value="tried_tutorials">Tried a few tutorials (Scratch, Hour of Code, etc.)</option>
+                <option value="built_small_projects">Built small projects (website, game, simple app)</option>
+                <option value="solid_experience">I have solid coding experience</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Tell us more about what you've built <span style="display:block;font-size:11px;color:var(--text3);font-weight:400">เล่าให้ฟังถึงสิ่งที่เคยสร้าง (ถ้ามี) ไม่มีก็ไม่เป็นไร</span></label>
+              <textarea name="prior_experience" class="app-input" rows="3" placeholder="What did you make? What tools did you use? Anything counts — 'none yet' is fine too."></textarea>
             </div>
           </div>
         </div>
@@ -767,7 +781,7 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
     <div id="apply-form-success" style="display:none;text-align:center;padding:64px 0">
       <div style="font-size:56px;margin-bottom:16px">✅</div>
       <h3 style="font-size:24px;font-weight:800;margin-bottom:12px;color:#22c55e" data-i18n="form_success">Application submitted!</h3>
-      <p style="font-size:16px;color:var(--text2);transition:color 0.6s">We'll contact you via LINE within 3 days.<br><span style="font-size:14px;color:var(--text3)">เราจะติดต่อกลับทาง LINE ภายใน 3 วัน</span></p>
+      <p id="apply-form-success-msg" style="font-size:16px;color:var(--text2);transition:color 0.6s">We've received your application and will be in touch within 3–5 days.<br><span style="font-size:14px;color:var(--text3)">เราได้รับใบสมัครแล้ว และจะติดต่อกลับภายใน 3–5 วัน</span></p>
     </div>
   </div>
 </section>

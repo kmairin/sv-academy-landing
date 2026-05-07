@@ -38,6 +38,12 @@ async function submitApplication(e) {
     });
     var json = await res.json();
     if (!res.ok) throw new Error(json.error || "unknown");
+    var nick = (data["nickname"] || "").trim();
+    var greeting = nick ? "Thanks, " + nick + "! " : "";
+    var thaiGreeting = nick ? "ขอบคุณ " + nick + "! " : "";
+    document.getElementById("apply-form-success-msg").innerHTML =
+      greeting + "We’ve received your application and will be in touch within 3–5 days." +
+      "<br><span style=\"font-size:14px;color:var(--text3)\">" + thaiGreeting + "เราได้รับใบสมัครแล้ว และจะติดต่อกลับภายใน 3–5 วัน</span>";
     document.getElementById("apply-form-content").style.display = "none";
     document.getElementById("apply-form-success").style.display = "block";
   } catch (err) {
