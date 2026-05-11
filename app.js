@@ -1,6 +1,80 @@
 
 var FORMSPREE_ENDPOINT = "https://formspree.io/f/xlgznpob";
 
+// ── Multi-step form ───────────────────────────────────────────────────────────
+var currentFormStep = 1;
+var totalFormSteps  = 5;
+var formStepMeta = [
+  { label: "> mission_01: who_are_you? 👾",    progress: 20  },
+  { label: "> mission_02: contact_details 📡", progress: 40  },
+  { label: "> mission_03: big_idea_time 💡",   progress: 60  },
+  { label: "> mission_04: skill_check 🎮",     progress: 80  },
+  { label: "> mission_05: final_boss 🚀",      progress: 100 },
+];
+
+function formNext() {
+  var stepEl = document.getElementById("form-step-" + currentFormStep);
+  var fields  = stepEl.querySelectorAll("[required]");
+  var valid   = true;
+  fields.forEach(function(f) {
+    if (!f.value || !f.value.trim()) { f.classList.add("input-error"); valid = false; }
+    else                              { f.classList.remove("input-error"); }
+  });
+  var errEl = document.getElementById("form-error-msg");
+  if (!valid) { if (errEl) errEl.style.display = "block"; return; }
+  if (errEl) errEl.style.display = "none";
+  if (currentFormStep >= totalFormSteps) return;
+
+  var cur  = document.getElementById("form-step-" + currentFormStep);
+  var next = document.getElementById("form-step-" + (currentFormStep + 1));
+  cur.style.transition = "opacity 0.2s ease, transform 0.2s ease";
+  cur.style.opacity = "0"; cur.style.transform = "translateX(-24px)";
+  setTimeout(function() {
+    cur.style.display = "none"; cur.style.opacity = ""; cur.style.transform = "";
+    currentFormStep++;
+    next.style.display = "block"; next.style.opacity = "0"; next.style.transform = "translateX(24px)";
+    setTimeout(function() { next.style.opacity = "1"; next.style.transform = "translateX(0)"; }, 16);
+    updateFormStepUI();
+  }, 200);
+}
+
+function formPrev() {
+  if (currentFormStep <= 1) return;
+  var cur  = document.getElementById("form-step-" + currentFormStep);
+  var prev = document.getElementById("form-step-" + (currentFormStep - 1));
+  cur.style.transition = "opacity 0.2s ease, transform 0.2s ease";
+  cur.style.opacity = "0"; cur.style.transform = "translateX(24px)";
+  setTimeout(function() {
+    cur.style.display = "none"; cur.style.opacity = ""; cur.style.transform = "";
+    currentFormStep--;
+    prev.style.display = "block"; prev.style.opacity = "0"; prev.style.transform = "translateX(-24px)";
+    setTimeout(function() { prev.style.opacity = "1"; prev.style.transform = "translateX(0)"; }, 16);
+    updateFormStepUI();
+  }, 200);
+}
+
+function updateFormStepUI() {
+  var meta = formStepMeta[currentFormStep - 1];
+  var labelEl    = document.getElementById("step-label");
+  var counterEl  = document.getElementById("step-counter");
+  var progressEl = document.getElementById("form-progress-fill");
+  if (labelEl)    labelEl.textContent   = meta.label;
+  if (counterEl)  counterEl.textContent = "[ " + currentFormStep + " / " + totalFormSteps + " ]";
+  if (progressEl) progressEl.style.width = meta.progress + "%";
+  for (var i = 1; i <= totalFormSteps; i++) {
+    var dot = document.getElementById("dot-" + i);
+    if (dot) dot.textContent = i <= currentFormStep ? "🟢" : "⚪";
+  }
+  var prevBtn   = document.getElementById("form-btn-prev");
+  var nextBtn   = document.getElementById("form-btn-next");
+  var submitBtn = document.getElementById("form-btn-submit");
+  if (prevBtn)   prevBtn.style.display   = currentFormStep > 1 ? "block" : "none";
+  if (nextBtn)   nextBtn.style.display   = currentFormStep < totalFormSteps ? "flex" : "none";
+  if (submitBtn) submitBtn.style.display = currentFormStep === totalFormSteps ? "block" : "none";
+  var errEl = document.getElementById("form-error-msg");
+  if (errEl) errEl.style.display = "none";
+}
+
 function scrollToApplyForm() {
   var el = document.getElementById("apply-form");
   if (el) {
