@@ -162,7 +162,7 @@ img{max-width:100%;display:block}
 .app-input:focus{border-color:rgba(0,113,227,0.5);box-shadow:0 0 0 3px rgba(0,113,227,0.08)}
 .app-input::placeholder{color:var(--text3)}
 .app-input:invalid:not(:placeholder-shown){border-color:rgba(239,68,68,0.5)}
-.terminal-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;font-family:'JetBrains Mono',monospace;outline:none;transition:border-color 0.25s,box-shadow 0.25s,background 0.25s;resize:vertical;box-sizing:border-box}.terminal-input:focus{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,0.15);background:rgba(34,197,94,0.04)}.terminal-input::placeholder{color:rgba(255,255,255,0.2)}.terminal-input.input-error{border-color:#ff5f57 !important;box-shadow:0 0 0 3px rgba(255,95,87,0.15) !important}select.terminal-input{cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 6 5-6' stroke='%2322c55e' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.terminal-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:#fff;font-size:15px;font-family:'JetBrains Mono',monospace;outline:none;transition:border-color 0.25s,box-shadow 0.25s,background 0.25s;resize:vertical;box-sizing:border-box}.terminal-input:focus{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,0.15);background:rgba(34,197,94,0.04)}.terminal-input::placeholder{color:rgba(255,255,255,0.2)}.terminal-input.input-error{border-color:#ff5f57 !important;box-shadow:0 0 0 3px rgba(255,95,87,0.15) !important}@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.75)}}@keyframes bounce-down{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}@keyframes terminal-glow{0%,100%{box-shadow:0 25px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(34,197,94,0)}50%{box-shadow:0 25px 60px rgba(0,0,0,0.5),0 0 40px rgba(34,197,94,0.18),0 0 0 1px rgba(34,197,94,0.25)}}@keyframes blink-cur{0%,100%{opacity:1}49%{opacity:1}50%,99%{opacity:0}}@keyframes gradient-pan{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}@keyframes float-emoji{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}select.terminal-input{cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 6 5-6' stroke='%2322c55e' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 select.app-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 6 5-6' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 
 #mobile-menu-btn{display:none}
@@ -665,13 +665,23 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
   <div class="texture-dots" style="position:absolute;inset:0;pointer-events:none;opacity:0.15"></div>
   <div style="max-width:720px;margin:0 auto;position:relative;z-index:10">
     <div style="text-align:center;margin-bottom:48px">
-      <span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#22c55e;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px"><span style="color:#22c55e;opacity:0.6">&gt;</span> <span data-i18n="form_title">Apply Now</span></span>
-      <h2 style="font-weight:800;letter-spacing:-0.025em;line-height:1.1;font-size:clamp(28px,4vw,44px);margin-bottom:12px" data-i18n="form_title">Apply Now</h2>
-      <p style="font-size:16px;color:var(--text2);transition:color 0.6s" data-i18n="form_sub">Limited to 10 students. Tell us about yourself and your ideas.</p>
+      <!-- Live badge -->
+      <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,95,87,0.12);border:1px solid rgba(255,95,87,0.35);border-radius:9999px;padding:8px 20px;margin-bottom:24px">
+        <span style="width:9px;height:9px;border-radius:50%;background:#ff5f57;display:block;animation:pulse-dot 1.5s ease-in-out infinite;flex-shrink:0"></span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#ff5f57">&#x1F525; Applications Open &middot; Only 10 Spots</span>
+      </div>
+      <!-- Animated gradient label -->
+      <div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;background:linear-gradient(90deg,#22c55e,#4DA3FF,#8b5cf6,#22c55e);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradient-pan 4s ease infinite"><span style="opacity:0.7">&gt;</span> Apply Now</div>
+      <!-- Big title -->
+      <h2 style="font-weight:900;letter-spacing:-0.03em;line-height:1.05;font-size:clamp(36px,6vw,64px);margin-bottom:16px" data-i18n="form_title">Apply Now</h2>
+      <!-- Subtitle -->
+      <p style="font-size:18px;color:var(--text2);max-width:480px;margin:0 auto 32px;line-height:1.6;transition:color 0.6s" data-i18n="form_sub">Limited to 10 students.<br>Tell us about yourself and your ideas.</p>
+      <!-- Bouncing arrow -->
+      <div style="font-size:28px;animation:bounce-down 1.5s ease-in-out infinite;margin-bottom:8px">&#x1F447;</div>
     </div>
 
     <div id="apply-form-content">
-  <div style="background:#0d0f14;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);box-shadow:0 25px 60px rgba(0,0,0,0.5)">
+  <div style="background:#0d0f14;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);box-shadow:0 25px 60px rgba(0,0,0,0.5);animation:terminal-glow 3s ease-in-out infinite">
 
     <!-- Title Bar -->
     <div style="background:#161820;padding:12px 20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.06)">
@@ -680,15 +690,15 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
         <span style="width:12px;height:12px;border-radius:50%;background:#febc2e;display:block"></span>
         <span style="width:12px;height:12px;border-radius:50%;background:#28c840;display:block"></span>
       </div>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.3);flex:1;text-align:center">sv_academy &#8212; mission_control.sh</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.3);flex:1;text-align:center">sv_academy &#8212; mission_control.sh<span style="animation:blink-cur 1s step-end infinite;margin-left:2px">&#x258C;</span></span>
       <span>&#x1F680;</span>
     </div>
 
     <!-- Progress -->
     <div style="padding:20px 24px 0">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-        <span id="step-label" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#22c55e;font-weight:600">&gt; mission_01: who_are_you? &#x1F47E;</span>
-        <span id="step-counter" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.25)">[ 1 / 5 ]</span>
+        <span id="step-label" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#22c55e;font-weight:600">&gt; mission_01: who_are_you? &#x1F47E;</span>
+        <span id="step-counter" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">[ 1 / 5 ]</span>
       </div>
       <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:9999px;overflow:hidden">
         <div id="form-progress-fill" style="height:100%;width:20%;background:linear-gradient(90deg,#22c55e,#4DA3FF,#8b5cf6);border-radius:9999px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)"></div>
@@ -709,26 +719,26 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
       <!-- ── Step 1: Who are you? ───────────────────────────────── -->
       <div id="form-step-1" style="transition:opacity 0.25s ease,transform 0.25s ease">
         <div style="margin-bottom:24px">
-          <div style="font-size:36px;margin-bottom:8px">&#x1F47E;</div>
-          <h3 style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#fff;margin-bottom:4px">Who are you?</h3>
-          <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.35)">// let&#x27;s start with the basics &#x1F44B;</p>
+          <div style="font-size:40px;margin-bottom:10px;display:inline-block;animation:float-emoji 3s ease-in-out infinite">&#x1F47E;</div>
+          <h3 style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">Who are you?</h3>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">// let&#x27;s start with the basics &#x1F44B;</p>
         </div>
         <div style="display:flex;flex-direction:column;gap:18px">
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#22c55e;font-weight:600;margin-bottom:6px">&gt; full_name: <span style="color:rgba(255,255,255,0.25);font-weight:400">// &#xE0A2;&#xE0B7;&#xE0AD;-&#xE0B9;&#xE0B2;&#xE0A1;&#xE0AA;&#xE0B8;&#xE0A5;</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#22c55e;font-weight:600;margin-bottom:8px">&gt; full_name: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// &#xE0A2;&#xE0B7;&#xE0AD;-&#xE0B9;&#xE0B2;&#xE0A1;&#xE0AA;&#xE0B8;&#xE0A5;</span></label>
             <input type="text" name="full_name" required class="terminal-input" placeholder="First Last">
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#22c55e;font-weight:600;margin-bottom:6px">&gt; nickname: <span style="color:rgba(255,255,255,0.25);font-weight:400">// &#xE0A2;&#xE0B7;&#xE0AD;&#xE0B7;&#xE0AD;</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#22c55e;font-weight:600;margin-bottom:8px">&gt; nickname: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// &#xE0A2;&#xE0B7;&#xE0AD;&#xE0B7;&#xE0AD;</span></label>
             <input type="text" name="nickname" required class="terminal-input" placeholder="ชื่อเล่น">
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
             <div>
-              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#22c55e;font-weight:600;margin-bottom:6px">&gt; age: <span style="color:rgba(255,255,255,0.25);font-weight:400">// อายุ</span></label>
+              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#22c55e;font-weight:600;margin-bottom:8px">&gt; age: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// อายุ</span></label>
               <input type="number" name="age" required class="terminal-input" placeholder="12" min="10" max="18">
             </div>
             <div>
-              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#22c55e;font-weight:600;margin-bottom:6px">&gt; grade: <span style="color:rgba(255,255,255,0.25);font-weight:400">// ระดับชั้น</span></label>
+              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#22c55e;font-weight:600;margin-bottom:8px">&gt; grade: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// ระดับชั้น</span></label>
               <select name="grade" required class="terminal-input" style="appearance:none;-webkit-appearance:none">
                 <option value="" style="background:#0d0f14">-- เลือก --</option>
                 <option value="ป.6" style="background:#0d0f14">ป.6</option>
@@ -744,26 +754,26 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
       <!-- ── Step 2: Contact Details ───────────────────────────── -->
       <div id="form-step-2" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
         <div style="margin-bottom:24px">
-          <div style="font-size:36px;margin-bottom:8px">&#x1F4E1;</div>
-          <h3 style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#fff;margin-bottom:4px">How to reach you?</h3>
-          <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.35)">// we&#x27;ll need this to follow up &#x1F44B;</p>
+          <div style="font-size:40px;margin-bottom:10px;display:inline-block;animation:float-emoji 3s ease-in-out infinite">&#x1F4E1;</div>
+          <h3 style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">How to reach you?</h3>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">// we&#x27;ll need this to follow up &#x1F44B;</p>
         </div>
         <div style="display:flex;flex-direction:column;gap:18px">
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4DA3FF;font-weight:600;margin-bottom:6px">&gt; school: <span style="color:rgba(255,255,255,0.25);font-weight:400">// โรงเรียน</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#4DA3FF;font-weight:600;margin-bottom:8px">&gt; school: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// โรงเรียน</span></label>
             <input type="text" name="school" required class="terminal-input" placeholder="ชื่อโรงเรียน">
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4DA3FF;font-weight:600;margin-bottom:6px">&gt; student_email: <span style="color:rgba(255,255,255,0.25);font-weight:400">// อีเมลนักเรียน</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#4DA3FF;font-weight:600;margin-bottom:8px">&gt; student_email: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// อีเมลนักเรียน</span></label>
             <input type="email" name="student_email" required class="terminal-input" placeholder="student@email.com">
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
             <div>
-              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4DA3FF;font-weight:600;margin-bottom:6px">&gt; parent_line: <span style="color:rgba(255,255,255,0.25);font-weight:400">// LINE ผู้ปกครอง</span></label>
+              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#4DA3FF;font-weight:600;margin-bottom:8px">&gt; parent_line: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// LINE ผู้ปกครอง</span></label>
               <input type="text" name="parent_line" required class="terminal-input" placeholder="@lineid">
             </div>
             <div>
-              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4DA3FF;font-weight:600;margin-bottom:6px">&gt; parent_phone: <span style="color:rgba(255,255,255,0.25);font-weight:400">// เบอร์โทร</span></label>
+              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#4DA3FF;font-weight:600;margin-bottom:8px">&gt; parent_phone: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// เบอร์โทร</span></label>
               <input type="tel" name="parent_phone" required class="terminal-input" placeholder="08X-XXX-XXXX">
             </div>
           </div>
@@ -773,21 +783,21 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
       <!-- ── Step 3: Your Big Idea ─────────────────────────────── -->
       <div id="form-step-3" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
         <div style="margin-bottom:24px">
-          <div style="font-size:36px;margin-bottom:8px">&#x1F4A1;</div>
-          <h3 style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#fff;margin-bottom:4px">Your big idea</h3>
-          <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.35)">// the fun part &#x2014; dream big! &#x1F31F;</p>
+          <div style="font-size:40px;margin-bottom:10px;display:inline-block;animation:float-emoji 3s ease-in-out infinite">&#x1F4A1;</div>
+          <h3 style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">Your big idea</h3>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">// the fun part &#x2014; dream big! &#x1F31F;</p>
         </div>
         <div style="display:flex;flex-direction:column;gap:18px">
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#f59e0b;font-weight:600;margin-bottom:6px">&gt; app_idea: <span style="color:rgba(255,255,255,0.25);font-weight:400">// หากสร้างแอปได้ 1 ตัว จะสร้างอะไร?</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#f59e0b;font-weight:600;margin-bottom:8px">&gt; app_idea: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// หากสร้างแอปได้ 1 ตัว จะสร้างอะไร?</span></label>
             <textarea name="app_idea" required class="terminal-input" rows="3" placeholder="Describe your app idea..."></textarea>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#f59e0b;font-weight:600;margin-bottom:6px">&gt; problem_solved: <span style="color:rgba(255,255,255,0.25);font-weight:400">// แอปนี้ช่วยแก้ปัญหาเรื่องใด?</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#f59e0b;font-weight:600;margin-bottom:8px">&gt; problem_solved: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// แอปนี้ช่วยแก้ปัญหาเรื่องใด?</span></label>
             <textarea name="problem_solved" required class="terminal-input" rows="3" placeholder="What's the problem you're solving?"></textarea>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#f59e0b;font-weight:600;margin-bottom:6px">&gt; target_users: <span style="color:rgba(255,255,255,0.25);font-weight:400">// กลุ่มเป้าหมายคือใคร?</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#f59e0b;font-weight:600;margin-bottom:8px">&gt; target_users: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// กลุ่มเป้าหมายคือใคร?</span></label>
             <input type="text" name="target_users" required class="terminal-input" placeholder="e.g. students, parents, gamers...">
           </div>
         </div>
@@ -796,13 +806,13 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
       <!-- ── Step 4: Skill Check ───────────────────────────────── -->
       <div id="form-step-4" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
         <div style="margin-bottom:24px">
-          <div style="font-size:36px;margin-bottom:8px">&#x1F3AE;</div>
-          <h3 style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#fff;margin-bottom:4px">Your skill level</h3>
-          <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.35)">// no judgment &#x2014; we love all levels! &#x1F91D;</p>
+          <div style="font-size:40px;margin-bottom:10px;display:inline-block;animation:float-emoji 3s ease-in-out infinite">&#x1F3AE;</div>
+          <h3 style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">Your skill level</h3>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">// no judgment &#x2014; we love all levels! &#x1F91D;</p>
         </div>
         <div style="display:flex;flex-direction:column;gap:18px">
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8b5cf6;font-weight:600;margin-bottom:6px">&gt; experience_level: <span style="color:rgba(255,255,255,0.25);font-weight:400">// ระดับความรู้และประสบการณ์</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#8b5cf6;font-weight:600;margin-bottom:8px">&gt; experience_level: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// ระดับความรู้และประสบการณ์</span></label>
             <select name="experience_level" required class="terminal-input" style="appearance:none;-webkit-appearance:none">
               <option value="" disabled selected style="background:#0d0f14">-- select your level --</option>
               <option value="complete_beginner" style="background:#0d0f14">&#x1F331; Complete beginner &#x2014; never touched code</option>
@@ -812,7 +822,7 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
             </select>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8b5cf6;font-weight:600;margin-bottom:6px">&gt; prior_builds: <span style="color:rgba(255,255,255,0.25);font-weight:400">// เล่าให้ฟังถึงสิ่งที่เคยสร้าง (optional)</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#8b5cf6;font-weight:600;margin-bottom:8px">&gt; prior_builds: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// เล่าให้ฟังถึงสิ่งที่เคยสร้าง (optional)</span></label>
             <textarea name="prior_experience" class="terminal-input" rows="3" placeholder="What did you make? What tools? &#x2018;None yet&#x2019; is totally fine!"></textarea>
           </div>
         </div>
@@ -821,25 +831,25 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
       <!-- ── Step 5: Final Boss ────────────────────────────────── -->
       <div id="form-step-5" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
         <div style="margin-bottom:24px">
-          <div style="font-size:36px;margin-bottom:8px">&#x1F680;</div>
-          <h3 style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#fff;margin-bottom:4px">You as a builder</h3>
-          <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.35)">// almost there &#x2014; you&#x27;ve got this! &#x1F4AA;</p>
+          <div style="font-size:40px;margin-bottom:10px;display:inline-block;animation:float-emoji 3s ease-in-out infinite">&#x1F680;</div>
+          <h3 style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">You as a builder</h3>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">// almost there &#x2014; you&#x27;ve got this! &#x1F4AA;</p>
         </div>
         <div style="display:flex;flex-direction:column;gap:18px">
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#ec4899;font-weight:600;margin-bottom:6px">&gt; fav_app: <span style="color:rgba(255,255,255,0.25);font-weight:400">// แอปที่ใช้ทุกวัน ชอบเพราะอะไร?</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#ec4899;font-weight:600;margin-bottom:8px">&gt; fav_app: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// แอปที่ใช้ทุกวัน ชอบเพราะอะไร?</span></label>
             <textarea name="fav_app" required class="terminal-input" rows="2" placeholder="e.g. YouTube, because it always knows what I want to watch..."></textarea>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#ec4899;font-weight:600;margin-bottom:6px">&gt; inspiration: <span style="color:rgba(255,255,255,0.25);font-weight:400">// บุคคลที่เป็นแรงบันดาลใจ?</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#ec4899;font-weight:600;margin-bottom:8px">&gt; inspiration: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// บุคคลที่เป็นแรงบันดาลใจ?</span></label>
             <textarea name="inspiration" required class="terminal-input" rows="2" placeholder="A creator, founder, teacher, family member..."></textarea>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#ec4899;font-weight:600;margin-bottom:6px">&gt; why_sv: <span style="color:rgba(255,255,255,0.25);font-weight:400">// เหตุใดจึงสนใจเข้าร่วม SV Academy?</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#ec4899;font-weight:600;margin-bottom:8px">&gt; why_sv: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// เหตุใดจึงสนใจเข้าร่วม SV Academy?</span></label>
             <textarea name="why_sv" required class="terminal-input" rows="3" placeholder="Tell us what excites you about this program..."></textarea>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#ec4899;font-weight:600;margin-bottom:6px">&gt; extra: <span style="color:rgba(255,255,255,0.25);font-weight:400">// มีอะไรอยากบอกเพิ่มไหม? (optional)</span></label>
+            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#ec4899;font-weight:600;margin-bottom:8px">&gt; extra: <span style="color:rgba(255,255,255,0.55);font-weight:400;font-size:13px">// มีอะไรอยากบอกเพิ่มไหม? (optional)</span></label>
             <textarea name="extra" class="terminal-input" rows="2" placeholder="Optional..."></textarea>
           </div>
         </div>
