@@ -5,11 +5,11 @@ var FORMSPREE_ENDPOINT = "https://formspree.io/f/xlgznpob";
 var currentFormStep = 1;
 var totalFormSteps  = 5;
 var formStepMeta = [
-  { label: "> mission_01: who_are_you? 👾",    progress: 20  },
-  { label: "> mission_02: contact_details 📡", progress: 40  },
-  { label: "> mission_03: big_idea_time 💡",   progress: 60  },
-  { label: "> mission_04: skill_check 🎮",     progress: 80  },
-  { label: "> mission_05: final_boss 🚀",      progress: 100 },
+  { label: "Who are you? 👾",         progress: 20  },
+  { label: "How do we reach you? 📡", progress: 40  },
+  { label: "Your big idea 💡",        progress: 60  },
+  { label: "Your skill level 🎮",     progress: 80  },
+  { label: "Almost there! 🚀",        progress: 100 },
 ];
 
 function formNext() {
@@ -59,11 +59,21 @@ function updateFormStepUI() {
   var counterEl  = document.getElementById("step-counter");
   var progressEl = document.getElementById("form-progress-fill");
   if (labelEl)    labelEl.textContent   = meta.label;
-  if (counterEl)  counterEl.textContent = "[ " + currentFormStep + " / " + totalFormSteps + " ]";
+  if (counterEl)  counterEl.textContent = "Step " + currentFormStep + " of " + totalFormSteps;
   if (progressEl) progressEl.style.width = meta.progress + "%";
   for (var i = 1; i <= totalFormSteps; i++) {
     var dot = document.getElementById("dot-" + i);
-    if (dot) dot.textContent = i <= currentFormStep ? "🟢" : "⚪";
+    if (dot) {
+      if (i < currentFormStep) {
+        dot.style.background = "#22c55e"; dot.style.color = "#fff"; dot.textContent = "✓";
+      } else if (i === currentFormStep) {
+        dot.style.background = "linear-gradient(135deg,#4DA3FF,#8b5cf6)"; dot.style.color = "#fff"; dot.textContent = String(i);
+      } else {
+        dot.style.background = ""; dot.style.color = ""; dot.textContent = String(i);
+      }
+    }
+    var line = document.getElementById("dot-line-" + i);
+    if (line) line.style.background = i < currentFormStep ? "#22c55e" : "";
   }
   var prevBtn   = document.getElementById("form-btn-prev");
   var nextBtn   = document.getElementById("form-btn-next");
@@ -171,7 +181,7 @@ function handleFormLaunch() {
   }).catch(function() {
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.textContent = "🚀 launch_application()";
+      submitBtn.textContent = "Submit Application 🎉";
       submitBtn.style.opacity = "1";
     }
     alert(currentLang === "th" ? "เกิดข้อผิดพลาด กรุณาลองใหม่" : "Submission failed. Please try again.");

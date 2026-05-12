@@ -163,7 +163,7 @@ img{max-width:100%;display:block}
 .app-input::placeholder{color:var(--text3)}
 .app-input:invalid:not(:placeholder-shown){border-color:rgba(239,68,68,0.5)}
 .terminal-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:#fff;font-size:15px;font-family:'JetBrains Mono',monospace;outline:none;transition:border-color 0.25s,box-shadow 0.25s,background 0.25s;resize:vertical;box-sizing:border-box}.terminal-input:focus{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,0.15);background:rgba(34,197,94,0.04)}.terminal-input::placeholder{color:rgba(255,255,255,0.2)}.terminal-input.input-error{border-color:#ff5f57 !important;box-shadow:0 0 0 3px rgba(255,95,87,0.15) !important}@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.75)}}@keyframes bounce-down{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}@keyframes terminal-glow{0%,100%{box-shadow:0 25px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(34,197,94,0)}50%{box-shadow:0 25px 60px rgba(0,0,0,0.5),0 0 40px rgba(34,197,94,0.18),0 0 0 1px rgba(34,197,94,0.25)}}@keyframes blink-cur{0%,100%{opacity:1}49%{opacity:1}50%,99%{opacity:0}}@keyframes gradient-pan{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}@keyframes float-emoji{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}@keyframes launch-particle{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-520px) rotate(720deg) scale(0.2);opacity:0}}select.terminal-input{cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 6 5-6' stroke='%2322c55e' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
-select.app-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 6 5-6' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+select.app-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 6 5-6' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}.form-input{width:100%;background:var(--bg);border:1.5px solid var(--border2);border-radius:12px;padding:12px 16px;color:var(--text1);font-size:15px;font-family:inherit;outline:none;transition:border-color 0.2s,box-shadow 0.2s,background 0.2s;resize:vertical;box-sizing:border-box}.form-input:focus{border-color:#4DA3FF;box-shadow:0 0 0 3px rgba(77,163,255,0.12);background:var(--bg)}.form-input::placeholder{color:var(--text3)}.form-input.input-error{border-color:#ef4444!important;box-shadow:0 0 0 3px rgba(239,68,68,0.1)!important}select.form-input{cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 6 5-6' stroke='%234DA3FF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 
 #mobile-menu-btn{display:none}
 @media(max-width:768px){#mobile-menu-btn{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;transition:all 0.3s;border:1px solid var(--border);background:var(--tag-bg)}#mobile-menu-btn:hover{background:rgba(0,113,227,0.1);transform:scale(1.05)}#mobile-menu-btn:active{transform:scale(0.95)}#mobile-menu-btn svg{transition:transform 0.3s cubic-bezier(0.4,0,0.2,1)}}
@@ -680,222 +680,200 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
     </div>
 
     <div id="apply-form-content">
-  <div style="background:#0d0f14;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);box-shadow:0 25px 60px rgba(0,0,0,0.5);animation:terminal-glow 3s ease-in-out infinite">
+  <div style="background:var(--bg2);border-radius:24px;border:1.5px solid var(--border2);box-shadow:0 4px 32px rgba(0,0,0,0.06);overflow:hidden;transition:background 0.6s,border-color 0.6s">
 
-    <!-- Title Bar -->
-    <div style="background:#161820;padding:12px 20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.06)">
-      <div style="display:flex;gap:6px;flex-shrink:0">
-        <span style="width:12px;height:12px;border-radius:50%;background:#ff5f57;display:block"></span>
-        <span style="width:12px;height:12px;border-radius:50%;background:#febc2e;display:block"></span>
-        <span style="width:12px;height:12px;border-radius:50%;background:#28c840;display:block"></span>
+    <!-- Step indicator -->
+    <div style="padding:22px 28px 18px;border-bottom:1px solid var(--border2);transition:border-color 0.6s">
+      <div style="display:flex;align-items:center;margin-bottom:14px">
+        <span id="dot-1" style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4DA3FF,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.3s">1</span>
+        <div id="dot-line-1" style="flex:1;height:2px;background:var(--border2);transition:background 0.3s"></div>
+        <span id="dot-2" style="width:30px;height:30px;border-radius:50%;background:var(--border2);color:var(--text3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.3s">2</span>
+        <div id="dot-line-2" style="flex:1;height:2px;background:var(--border2);transition:background 0.3s"></div>
+        <span id="dot-3" style="width:30px;height:30px;border-radius:50%;background:var(--border2);color:var(--text3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.3s">3</span>
+        <div id="dot-line-3" style="flex:1;height:2px;background:var(--border2);transition:background 0.3s"></div>
+        <span id="dot-4" style="width:30px;height:30px;border-radius:50%;background:var(--border2);color:var(--text3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.3s">4</span>
+        <div id="dot-line-4" style="flex:1;height:2px;background:var(--border2);transition:background 0.3s"></div>
+        <span id="dot-5" style="width:30px;height:30px;border-radius:50%;background:var(--border2);color:var(--text3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.3s">5</span>
       </div>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.3);flex:1;text-align:center">sv_academy &#8212; mission_control.sh<span style="animation:blink-cur 1s step-end infinite;margin-left:2px">&#x258C;</span></span>
-      <span>&#x1F680;</span>
-    </div>
-
-    <!-- Progress -->
-    <div style="padding:20px 24px 0">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-        <span id="step-label" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#22c55e;font-weight:600">&gt; mission_01: who_are_you? &#x1F47E;</span>
-        <span id="step-counter" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">[ 1 / 5 ]</span>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
+        <span id="step-label" style="font-size:14px;font-weight:700;color:var(--text1);transition:color 0.6s">Who are you? 👾</span>
+        <span id="step-counter" style="font-size:12px;color:var(--text3);transition:color 0.6s">Step 1 of 5</span>
       </div>
-      <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:9999px;overflow:hidden">
-        <div id="form-progress-fill" style="height:100%;width:20%;background:linear-gradient(90deg,#22c55e,#4DA3FF,#8b5cf6);border-radius:9999px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)"></div>
-      </div>
-      <div style="display:flex;gap:6px;margin-top:10px">
-        <span id="dot-1" style="font-size:11px">&#x1F7E2;</span>
-        <span id="dot-2" style="font-size:11px">&#x26AA;</span>
-        <span id="dot-3" style="font-size:11px">&#x26AA;</span>
-        <span id="dot-4" style="font-size:11px">&#x26AA;</span>
-        <span id="dot-5" style="font-size:11px">&#x26AA;</span>
+      <div style="height:3px;background:var(--border2);border-radius:9999px;overflow:hidden;transition:background 0.6s">
+        <div id="form-progress-fill" style="height:100%;width:20%;background:linear-gradient(90deg,#4DA3FF,#8b5cf6);border-radius:9999px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)"></div>
       </div>
     </div>
 
-    <!-- Form -->
-    <form id="apply-form-el" onsubmit="return false" novalidate style="padding:24px 24px 28px">
+    <form id="apply-form-el" onsubmit="return false" novalidate style="padding:28px">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
-      <!-- ── Step 1: Who are you? ───────────────────────────────── -->
+      <!-- Step 1 -->
       <div id="form-step-1" style="transition:opacity 0.25s ease,transform 0.25s ease">
-        <div style="margin-bottom:24px">
-          <div style="font-size:40px;margin-bottom:10px;display:inline-block;animation:float-emoji 3s ease-in-out infinite">&#x1F47E;</div>
-          <h3 style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">Who are you?</h3>
-          <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">// let&#x27;s start with the basics &#x1F44B;</p>
+        <div style="margin-bottom:22px">
+          <div style="font-size:36px;margin-bottom:8px">👾</div>
+          <h3 style="font-size:20px;font-weight:700;color:var(--text1);margin-bottom:4px;transition:color 0.6s">Who are you?</h3>
+          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">Let's start with the basics 👋</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:16px">
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#22c55e;font-weight:600;margin-bottom:8px">&gt; full_name: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// What is your full name?</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">ชื่อ-นามสกุล</span></label>
-            <input type="text" name="full_name" required class="terminal-input" placeholder="First Last">
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Full name <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">ชื่อ-นามสกุล</span></label>
+            <input type="text" name="full_name" required class="form-input" placeholder="First Last">
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#22c55e;font-weight:600;margin-bottom:8px">&gt; nickname: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// What do your friends call you?</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">ชื่อเล่น</span></label>
-            <input type="text" name="nickname" required class="terminal-input" placeholder="ชื่อเล่น">
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Nickname — what do your friends call you? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">ชื่อเล่น</span></label>
+            <input type="text" name="nickname" required class="form-input" placeholder="Your nickname">
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
             <div>
-              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#22c55e;font-weight:600;margin-bottom:8px">&gt; age: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// How old are you?</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">อายุ</span></label>
-              <input type="number" name="age" required class="terminal-input" placeholder="12" min="10" max="18">
+              <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Age <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">อายุ</span></label>
+              <input type="number" name="age" required class="form-input" placeholder="12" min="10" max="18">
             </div>
             <div>
-              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#22c55e;font-weight:600;margin-bottom:8px">&gt; grade: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// What year are you in?</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">ระดับชั้น</span></label>
-              <select name="grade" required class="terminal-input" style="appearance:none;-webkit-appearance:none">
-                <option value="" style="background:#0d0f14">-- เลือก --</option>
-                <option value="ป.6" style="background:#0d0f14">ป.6</option>
-                <option value="ม.1" style="background:#0d0f14">ม.1</option>
-                <option value="ม.2" style="background:#0d0f14">ม.2</option>
-                <option value="ม.3" style="background:#0d0f14">ม.3</option>
+              <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Grade <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">ระดับชั้น</span></label>
+              <select name="grade" required class="form-input">
+                <option value="">— select —</option>
+                <option value="ป.6">ป.6</option>
+                <option value="ม.1">ม.1</option>
+                <option value="ม.2">ม.2</option>
+                <option value="ม.3">ม.3</option>
               </select>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ── Step 2: Contact Details ───────────────────────────── -->
+      <!-- Step 2 -->
       <div id="form-step-2" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
-        <div style="margin-bottom:24px">
-          <div style="font-size:40px;margin-bottom:10px;display:inline-block;animation:float-emoji 3s ease-in-out infinite">&#x1F4E1;</div>
-          <h3 style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">How to reach you?</h3>
-          <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">// we&#x27;ll need this to follow up &#x1F44B;</p>
+        <div style="margin-bottom:22px">
+          <div style="font-size:36px;margin-bottom:8px">📡</div>
+          <h3 style="font-size:20px;font-weight:700;color:var(--text1);margin-bottom:4px;transition:color 0.6s">How do we reach you?</h3>
+          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">We'll need this to follow up 👋</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:16px">
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#4DA3FF;font-weight:600;margin-bottom:8px">&gt; school: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// Which school do you currently attend?</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">โรงเรียน</span></label>
-            <input type="text" name="school" required class="terminal-input" placeholder="ชื่อโรงเรียน">
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">School name <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">โรงเรียน — which school do you currently attend?</span></label>
+            <input type="text" name="school" required class="form-input" placeholder="School name">
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#4DA3FF;font-weight:600;margin-bottom:8px">&gt; student_email: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// Your email address — we'll send the acceptance letter here</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">อีเมลนักเรียน</span></label>
-            <input type="email" name="student_email" required class="terminal-input" placeholder="student@email.com">
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Your email address <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">อีเมลนักเรียน — we'll send the acceptance letter here</span></label>
+            <input type="email" name="student_email" required class="form-input" placeholder="student@email.com">
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
             <div>
-              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#4DA3FF;font-weight:600;margin-bottom:8px">&gt; parent_line: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// Parent's LINE ID — for class updates &amp; announcements</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">LINE ผู้ปกครอง</span></label>
-              <input type="text" name="parent_line" required class="terminal-input" placeholder="@lineid">
+              <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Parent's LINE ID <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">LINE ผู้ปกครอง — for class updates</span></label>
+              <input type="text" name="parent_line" required class="form-input" placeholder="@lineid">
             </div>
             <div>
-              <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#4DA3FF;font-weight:600;margin-bottom:8px">&gt; parent_phone: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// Parent's phone number</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">เบอร์โทร</span></label>
-              <input type="tel" name="parent_phone" required class="terminal-input" placeholder="08X-XXX-XXXX">
+              <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Parent's phone <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">เบอร์โทร</span></label>
+              <input type="tel" name="parent_phone" required class="form-input" placeholder="08X-XXX-XXXX">
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ── Step 3: Your Big Idea ─────────────────────────────── -->
+      <!-- Step 3 -->
       <div id="form-step-3" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
-        <div style="margin-bottom:24px">
-          <div style="font-size:40px;margin-bottom:10px;display:inline-block;animation:float-emoji 3s ease-in-out infinite">&#x1F4A1;</div>
-          <h3 style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">Your big idea</h3>
-          <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">// the fun part &#x2014; dream big! &#x1F31F;</p>
+        <div style="margin-bottom:22px">
+          <div style="font-size:36px;margin-bottom:8px">💡</div>
+          <h3 style="font-size:20px;font-weight:700;color:var(--text1);margin-bottom:4px;transition:color 0.6s">Your big idea</h3>
+          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">The fun part — dream big! 🌟</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:16px">
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#f59e0b;font-weight:600;margin-bottom:8px">&gt; app_idea: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// If you could build any one app right now — what would it be and what would it do?</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">หากสร้างแอปได้ 1 ตัว จะสร้างอะไร?</span></label>
-            <textarea name="app_idea" required class="terminal-input" rows="3" placeholder="e.g. An AI study buddy that explains hard topics using memes and short videos — like having a tutor in your pocket..."></textarea>
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">If you could build any one app — what would it be? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">หากสร้างแอปได้ 1 ตัว จะสร้างอะไร?</span></label>
+            <textarea name="app_idea" required class="form-input" rows="3" placeholder="e.g. An AI study buddy that explains hard topics using memes and short videos — like having a tutor in your pocket..."></textarea>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#f59e0b;font-weight:600;margin-bottom:8px">&gt; problem_solved: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// What real-life problem does your app fix? Who experiences this problem and why does it bother them?</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">แอปนี้ช่วยแก้ปัญหาเรื่องใด?</span></label>
-            <textarea name="problem_solved" required class="terminal-input" rows="3" placeholder="e.g. My little sister has no one to help her with homework when our parents are busy, and existing apps are too boring for kids..."></textarea>
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">What real-life problem does it solve? Who has this problem? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">แอปนี้ช่วยแก้ปัญหาเรื่องใด?</span></label>
+            <textarea name="problem_solved" required class="form-input" rows="3" placeholder="e.g. My little sister has no one to help her with homework when our parents are busy, and existing apps are too boring for kids..."></textarea>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#f59e0b;font-weight:600;margin-bottom:8px">&gt; target_users: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// Who will actually use your app? Be specific — age, situation, why they'd need it</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">กลุ่มเป้าหมายคือใคร?</span></label>
-            <input type="text" name="target_users" required class="terminal-input" placeholder="e.g. Middle school students who struggle with studying alone at home...">
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Who will use your app? Be specific! <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">กลุ่มเป้าหมายคือใคร? — age, situation, why they'd need it</span></label>
+            <input type="text" name="target_users" required class="form-input" placeholder="e.g. Middle school students who struggle with studying alone at home...">
           </div>
         </div>
       </div>
 
-      <!-- ── Step 4: Skill Check ───────────────────────────────── -->
+      <!-- Step 4 -->
       <div id="form-step-4" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
-        <div style="margin-bottom:24px">
-          <div style="font-size:40px;margin-bottom:10px;display:inline-block;animation:float-emoji 3s ease-in-out infinite">&#x1F3AE;</div>
-          <h3 style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">Your skill level</h3>
-          <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">// no judgment &#x2014; we love all levels! &#x1F91D;</p>
+        <div style="margin-bottom:22px">
+          <div style="font-size:36px;margin-bottom:8px">🎮</div>
+          <h3 style="font-size:20px;font-weight:700;color:var(--text1);margin-bottom:4px;transition:color 0.6s">Your skill level</h3>
+          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">No judgment — we love all levels! 🤝</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:16px">
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#8b5cf6;font-weight:600;margin-bottom:8px">&gt; experience_level: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// How much coding experience do you have? (Be honest — all levels are welcome!)</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">ระดับความรู้และประสบการณ์</span></label>
-            <select name="experience_level" required class="terminal-input" style="appearance:none;-webkit-appearance:none">
-              <option value="" disabled selected style="background:#0d0f14">-- select your level --</option>
-              <option value="complete_beginner" style="background:#0d0f14">&#x1F331; Complete beginner &#x2014; never touched code</option>
-              <option value="tried_tutorials" style="background:#0d0f14">&#x1F33F; Tried a few tutorials (Scratch, Hour of Code&#x2026;)</option>
-              <option value="built_small_projects" style="background:#0d0f14">&#x1F333; Built small projects (website, game, app)</option>
-              <option value="solid_experience" style="background:#0d0f14">&#x1F680; I have solid coding experience</option>
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">How much coding experience do you have? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">ระดับความรู้และประสบการณ์ — be honest, all levels are welcome!</span></label>
+            <select name="experience_level" required class="form-input">
+              <option value="" disabled selected>— select your level —</option>
+              <option value="complete_beginner">🌱 Complete beginner — never touched code</option>
+              <option value="tried_tutorials">🌿 Tried a few tutorials (Scratch, Hour of Code…)</option>
+              <option value="built_small_projects">🌳 Built small projects (website, game, app)</option>
+              <option value="solid_experience">🚀 I have solid coding experience</option>
             </select>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#8b5cf6;font-weight:600;margin-bottom:8px">&gt; prior_builds: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// Have you built or created anything before? Website, game, app, Scratch project — anything counts! (optional)</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">เล่าให้ฟังถึงสิ่งที่เคยสร้าง (optional)</span></label>
-            <textarea name="prior_experience" class="terminal-input" rows="3" placeholder="e.g. I made a Scratch game about a jumping frog — it took 2 weeks and I learned about loops!"></textarea>
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Have you built anything before? Anything counts! <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">เล่าให้ฟังถึงสิ่งที่เคยสร้าง — website, game, Scratch project... (optional)</span></label>
+            <textarea name="prior_experience" class="form-input" rows="3" placeholder="e.g. I made a Scratch game about a jumping frog — it took 2 weeks and I learned about loops!"></textarea>
           </div>
         </div>
       </div>
 
-      <!-- ── Step 5: Final Boss ────────────────────────────────── -->
+      <!-- Step 5 -->
       <div id="form-step-5" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
-        <div style="margin-bottom:24px">
-          <div style="font-size:40px;margin-bottom:10px;display:inline-block;animation:float-emoji 3s ease-in-out infinite">&#x1F680;</div>
-          <h3 style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">You as a builder</h3>
-          <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,0.5)">// almost there &#x2014; you&#x27;ve got this! &#x1F4AA;</p>
+        <div style="margin-bottom:22px">
+          <div style="font-size:36px;margin-bottom:8px">🚀</div>
+          <h3 style="font-size:20px;font-weight:700;color:var(--text1);margin-bottom:4px;transition:color 0.6s">Almost there!</h3>
+          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">You've got this! 💪</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:16px">
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#ec4899;font-weight:600;margin-bottom:8px">&gt; fav_app: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// What app do you use the most — and what makes it so good? What keeps you coming back?</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">แอปที่ใช้ทุกวัน ชอบเพราะอะไร?</span></label>
-            <textarea name="fav_app" required class="terminal-input" rows="2" placeholder="e.g. YouTube — the algorithm always knows exactly what I want to watch next, even before I do..."></textarea>
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">What app do you use the most — and what makes it so good? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">แอปที่ใช้ทุกวัน ชอบเพราะอะไร? — what keeps you coming back?</span></label>
+            <textarea name="fav_app" required class="form-input" rows="2" placeholder="e.g. YouTube — the algorithm always knows exactly what I want to watch next, even before I do..."></textarea>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#ec4899;font-weight:600;margin-bottom:8px">&gt; inspiration: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// Who inspires you the most and why? Could be a founder, YouTuber, teacher, or someone in your family</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">บุคคลที่เป็นแรงบันดาลใจ?</span></label>
-            <textarea name="inspiration" required class="terminal-input" rows="2" placeholder="e.g. MrBeast — he turns big crazy ideas into reality and proves that if you put your mind to it, anything is possible..."></textarea>
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Who inspires you the most and why? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">บุคคลที่เป็นแรงบันดาลใจ? — founder, YouTuber, teacher, or family member</span></label>
+            <textarea name="inspiration" required class="form-input" rows="2" placeholder="e.g. MrBeast — he turns big crazy ideas into reality and proves that if you put your mind to it, anything is possible..."></textarea>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#ec4899;font-weight:600;margin-bottom:8px">&gt; why_sv: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// Why do you want to join SV Academy? What do you hope to build, learn, or experience by the end?</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">เหตุใดจึงสนใจเข้าร่วม SV Academy?</span></label>
-            <textarea name="why_sv" required class="terminal-input" rows="3" placeholder="e.g. I want to finally turn my app idea into something real that my friends can actually use — not just a sketch in my notebook..."></textarea>
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Why do you want to join SV Academy? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">เหตุใดจึงสนใจเข้าร่วม SV Academy? — what do you hope to build or learn?</span></label>
+            <textarea name="why_sv" required class="form-input" rows="3" placeholder="e.g. I want to finally turn my app idea into something real that my friends can actually use — not just a sketch in my notebook..."></textarea>
           </div>
           <div>
-            <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#ec4899;font-weight:600;margin-bottom:8px">&gt; extra: <span style="color:#f1f5f9;font-weight:500;font-size:13px">// Anything else you want us to know? Fun facts, questions, or anything that didn't fit above (optional)</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.45);font-family:sans-serif;font-weight:400;margin-top:3px">มีอะไรอยากบอกเพิ่มไหม? (optional)</span></label>
-            <textarea name="extra" class="terminal-input" rows="2" placeholder="Optional — but we love reading these!"></textarea>
+            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Anything else you want us to know? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">มีอะไรอยากบอกเพิ่มไหม? — fun facts, questions, anything that didn't fit above (optional)</span></label>
+            <textarea name="extra" class="form-input" rows="2" placeholder="Optional — but we love reading these!"></textarea>
           </div>
         </div>
       </div>
 
-      <!-- Error message -->
-      <div id="form-error-msg" style="display:none;margin-top:14px;padding:10px 14px;background:rgba(255,95,87,0.1);border:1px solid rgba(255,95,87,0.3);border-radius:8px">
-        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#ff5f57">// error: please fill in all required fields above &#x1F446;</span>
+      <div id="form-error-msg" style="display:none;margin-top:14px;padding:12px 16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px">
+        <span style="font-size:13px;color:#ef4444">Please fill in all required fields above 👆</span>
       </div>
 
-      <!-- Navigation -->
-      <div style="display:flex;align-items:center;margin-top:28px;gap:12px">
-        <button type="button" id="form-btn-prev" onclick="formPrev()" style="display:none;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);padding:12px 20px;border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all 0.2s;flex-shrink:0">&#x2190; back</button>
+      <div style="display:flex;align-items:center;margin-top:24px;gap:12px">
+        <button type="button" id="form-btn-prev" onclick="formPrev()" style="display:none;background:transparent;color:var(--text2);padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;border:1.5px solid var(--border2);cursor:pointer;transition:all 0.2s;flex-shrink:0">← Back</button>
         <div style="flex:1"></div>
-        <button type="button" id="form-btn-next" onclick="formNext()" style="background:linear-gradient(135deg,#22c55e,#4DA3FF);color:#fff;padding:12px 28px;border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;flex-shrink:0">next mission &#x2192;</button>
-        <button type="button" id="form-btn-submit" onclick="handleFormLaunch()" style="display:none;background:linear-gradient(135deg,#22c55e,#4DA3FF,#8b5cf6);color:#fff;padding:12px 28px;border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:all 0.2s;flex-shrink:0">&#x1F680; launch_application()</button>
+        <button type="button" id="form-btn-next" onclick="formNext()" style="background:linear-gradient(135deg,#4DA3FF,#8b5cf6);color:#fff;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;flex-shrink:0">Continue →</button>
+        <button type="button" id="form-btn-submit" onclick="handleFormLaunch()" style="display:none;background:linear-gradient(135deg,#22c55e,#4DA3FF);color:#fff;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:all 0.2s;flex-shrink:0">Submit Application 🎉</button>
       </div>
     </form>
   </div>
 </div>
 
-    <div id="apply-form-success" style="display:none;background:#0d0f14;border-radius:20px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.08);box-shadow:0 25px 60px rgba(0,0,0,0.5)">
-      <!-- Particle container -->
+    <div id="apply-form-success" style="display:none;background:var(--bg2);border-radius:24px;overflow:hidden;position:relative;border:1.5px solid var(--border2);box-shadow:0 4px 32px rgba(0,0,0,0.06);transition:background 0.6s,border-color 0.6s">
       <div id="launch-rockets" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1"></div>
-      <!-- Title bar -->
-      <div style="background:#161820;padding:12px 20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.06)">
-        <div style="display:flex;gap:6px;flex-shrink:0">
-          <span style="width:12px;height:12px;border-radius:50%;background:#ff5f57;display:block"></span>
-          <span style="width:12px;height:12px;border-radius:50%;background:#febc2e;display:block"></span>
-          <span style="width:12px;height:12px;border-radius:50%;background:#28c840;display:block"></span>
+      <div style="position:relative;z-index:2;padding:48px 28px;text-align:center">
+        <div style="font-size:64px;margin-bottom:20px;display:inline-block;animation:float-emoji 2s ease-in-out infinite">🚀</div>
+        <h3 id="success-greeting" style="font-size:22px;font-weight:800;color:var(--text1);margin-bottom:20px;line-height:1.3;transition:color 0.6s">See you soon!</h3>
+        <div style="max-width:320px;margin:0 auto 24px;text-align:left;display:flex;flex-direction:column;gap:10px">
+          <div id="status-line-1" style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text2);opacity:0;transition:opacity 0.5s ease,color 0.6s"><span style="color:#22c55e;font-size:16px;flex-shrink:0;margin-top:1px">✓</span>Application received by SV Academy</div>
+          <div id="status-line-2" style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text2);opacity:0;transition:opacity 0.5s ease,color 0.6s"><span style="color:#22c55e;font-size:16px;flex-shrink:0;margin-top:1px">✓</span>We'll follow up within 3–5 days 📬</div>
+          <div id="status-line-3" style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text2);opacity:0;transition:opacity 0.5s ease,color 0.6s"><span style="color:#4DA3FF;font-size:16px;flex-shrink:0;margin-top:1px">✓</span>Get ready to build something incredible 🔥</div>
+          <div id="status-line-4" style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text2);opacity:0;transition:opacity 0.5s ease,color 0.6s"><span style="color:#8b5cf6;font-size:16px;flex-shrink:0;margin-top:1px">✓</span>See you at Demo Day 🏆</div>
         </div>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.3);flex:1;text-align:center">sv_academy &#8212; mission_complete.sh &#x2705;</span>
-      </div>
-      <!-- Content -->
-      <div style="position:relative;z-index:2;padding:44px 28px 40px;text-align:center">
-        <div style="font-size:64px;margin-bottom:20px;display:inline-block;animation:float-emoji 2s ease-in-out infinite">&#x1F680;</div>
-        <!-- Status lines -->
-        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:left;max-width:380px;margin:0 auto 28px;background:rgba(255,255,255,0.03);border-radius:12px;padding:16px 20px;border:1px solid rgba(255,255,255,0.06)">
-          <div id="status-line-1" style="color:#22c55e;margin-bottom:7px;opacity:0;transition:opacity 0.5s ease">&#x2714; form_data transmitted successfully</div>
-          <div id="status-line-2" style="color:#22c55e;margin-bottom:7px;opacity:0;transition:opacity 0.5s ease">&#x2714; application received by SV Academy</div>
-          <div id="status-line-3" style="color:#4DA3FF;margin-bottom:7px;opacity:0;transition:opacity 0.5s ease">&#x2714; mission_complete &#x1F3AF;</div>
-          <div id="status-line-4" style="color:rgba(255,255,255,0.35);opacity:0;transition:opacity 0.5s ease">$ <span style="animation:blink-cur 1s step-end infinite">&#x258C;</span></div>
-        </div>
-        <h3 id="success-greeting" style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:#fff;margin-bottom:14px;line-height:1.3">See you soon! &#x1F680;</h3>
-        <p id="apply-form-success-msg" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.55);line-height:2.1;margin-bottom:20px">&gt; response_time: 3&#x2013;5 days &#x1F4EC;<br>&gt; get_ready: to build something incredible &#x1F525;<br>&gt; see_you: at Demo Day &#x1F3C6;</p>
-        <p style="font-size:14px;color:rgba(255,255,255,0.4);font-family:sans-serif;line-height:1.8">เราได้รับใบสมัครแล้ว<br>จะติดต่อกลับภายใน 3&#x2013;5 วัน &#x1F64F;</p>
-        <div style="margin-top:28px;font-size:24px;letter-spacing:8px;animation:float-emoji 3s ease-in-out infinite 0.5s">&#x1F31F;&#x2728;&#x1F389;&#x1F4AB;</div>
+        <p id="apply-form-success-msg" style="font-size:14px;color:var(--text3);margin-bottom:8px;transition:color 0.6s">We'll be in touch soon!</p>
+        <p style="font-size:13px;color:var(--text3);font-family:sans-serif;line-height:1.7;transition:color 0.6s">เราได้รับใบสมัครแล้ว<br>จะติดต่อกลับภายใน 3–5 วัน 🙏</p>
+        <div style="margin-top:28px;font-size:24px;letter-spacing:8px;animation:float-emoji 3s ease-in-out infinite 0.5s">🌟✨🎉💫</div>
       </div>
     </div>
   </div>
