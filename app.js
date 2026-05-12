@@ -127,6 +127,127 @@ async function submitApplication(e) {
   }
 }
 
+// ── New submit handler (fixes hidden-field HTML5 validation bug on mobile) ────
+function handleFormLaunch() {
+  // Validate only the visible step-5 required fields
+  var stepEl = document.getElementById("form-step-5");
+  if (!stepEl) return;
+  var fields = stepEl.querySelectorAll("[required]");
+  var valid = true;
+  fields.forEach(function(f) {
+    if (!f.value || !f.value.trim()) { f.classList.add("input-error"); valid = false; }
+    else                              { f.classList.remove("input-error"); }
+  });
+  var errEl = document.getElementById("form-error-msg");
+  if (!valid) { if (errEl) errEl.style.display = "block"; return; }
+  if (errEl) errEl.style.display = "none";
+
+  var form = document.getElementById("apply-form-el");
+  var submitBtn = document.getElementById("form-btn-submit");
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "⏳ transmitting...";
+    submitBtn.style.opacity = "0.75";
+  }
+
+  var data = {};
+  form.querySelectorAll("input,select,textarea").forEach(function(el) {
+    if (el.name && el.name !== "_honey") data[el.name] = el.value;
+  });
+  data["_subject"] = "New SV Academy Application — " + (data["full_name"] || "Unknown");
+  var nick = (data["nickname"] || "").trim();
+
+  fetch(FORMSPREE_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify(data)
+  }).then(function(res) {
+    return res.json().then(function(json) {
+      if (!res.ok) throw new Error(json.error || "unknown");
+      return json;
+    });
+  }).then(function() {
+    showLaunchAnimation(nick);
+  }).catch(function() {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "🚀 launch_application()";
+      submitBtn.style.opacity = "1";
+    }
+    alert(currentLang === "th" ? "เกิดข้อผิดพลาด กรุณาลองใหม่" : "Submission failed. Please try again.");
+  });
+}
+
+function showLaunchAnimation(nickname) {
+  var content = document.getElementById("apply-form-content");
+  var success  = document.getElementById("apply-form-success");
+  if (!content || !success) return;
+
+  // Fade out the terminal form
+  content.style.transition = "opacity 0.45s ease, transform 0.45s ease";
+  content.style.opacity    = "0";
+  content.style.transform  = "scale(0.96)";
+
+  setTimeout(function() {
+    content.style.display = "none";
+
+    // Personalise greeting
+    var greetEl = document.getElementById("success-greeting");
+    if (greetEl) {
+      greetEl.textContent = nickname
+        ? "See you soon, " + nickname + "! 🚀"
+        : "See you soon! 🚀";
+    }
+
+    // Reveal success block with spring animation
+    success.style.display    = "block";
+    success.style.opacity    = "0";
+    success.style.transform  = "translateY(32px) scale(0.95)";
+    success.style.transition = "none";
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        success.style.transition = "opacity 0.6s ease, transform 0.65s cubic-bezier(0.175,0.885,0.32,1.275)";
+        success.style.opacity    = "1";
+        success.style.transform  = "translateY(0) scale(1)";
+      });
+    });
+
+    // Stagger in the status lines
+    [1, 2, 3, 4].forEach(function(n) {
+      var el = document.getElementById("status-line-" + n);
+      if (el) setTimeout(function() { el.style.opacity = "1"; }, 500 + n * 550);
+    });
+
+    // Launch the particle burst
+    launchParticles();
+  }, 480);
+}
+
+function launchParticles() {
+  var container = document.getElementById("launch-rockets");
+  if (!container) return;
+  var pool = ["🚀","⭐","✨","🌟","🎉","🎊","💫","🛸","🔥","🏆","👏","🙌"];
+  for (var i = 0; i < 30; i++) {
+    (function(idx) {
+      setTimeout(function() {
+        var el  = document.createElement("span");
+        el.textContent = pool[Math.floor(Math.random() * pool.length)];
+        var size = 13 + Math.random() * 22;
+        var left = 5  + Math.random() * 90;
+        var dur  = 1.6 + Math.random() * 2.4;
+        var delay = Math.random() * 0.3;
+        el.style.cssText =
+          "position:absolute;font-size:" + size + "px;" +
+          "left:" + left + "%;bottom:-40px;" +
+          "animation:launch-particle " + dur + "s " + delay + "s ease-out forwards;" +
+          "pointer-events:none;z-index:1;user-select:none";
+        container.appendChild(el);
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, (dur + delay + 0.3) * 1000);
+      }, idx * 100);
+    })(i);
+  }
+}
+
 async function submitEmail(e) {
   e.preventDefault();
   scrollToApplyForm();
