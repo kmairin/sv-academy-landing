@@ -683,7 +683,7 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
     <div id="apply-form-content">
   <div style="background:var(--bg2);border-radius:24px;border:1.5px solid var(--border2);box-shadow:0 4px 32px rgba(0,0,0,0.06);overflow:hidden;transition:background 0.6s,border-color 0.6s">
 
-    <!-- Step indicator -->
+    <!-- Step indicator: 3 dots / 2 lines -->
     <div style="padding:22px 28px 18px;border-bottom:1px solid var(--border2);transition:border-color 0.6s">
       <div style="display:flex;align-items:center;margin-bottom:14px">
         <span id="dot-1" style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4DA3FF,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.3s">1</span>
@@ -691,165 +691,119 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
         <span id="dot-2" style="width:30px;height:30px;border-radius:50%;background:var(--border2);color:var(--text3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.3s">2</span>
         <div id="dot-line-2" style="flex:1;height:2px;background:var(--border2);transition:background 0.3s"></div>
         <span id="dot-3" style="width:30px;height:30px;border-radius:50%;background:var(--border2);color:var(--text3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.3s">3</span>
-        <div id="dot-line-3" style="flex:1;height:2px;background:var(--border2);transition:background 0.3s"></div>
-        <span id="dot-4" style="width:30px;height:30px;border-radius:50%;background:var(--border2);color:var(--text3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.3s">4</span>
-        <div id="dot-line-4" style="flex:1;height:2px;background:var(--border2);transition:background 0.3s"></div>
-        <span id="dot-5" style="width:30px;height:30px;border-radius:50%;background:var(--border2);color:var(--text3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.3s">5</span>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
-        <span id="step-label" style="font-size:14px;font-weight:700;color:var(--text1);transition:color 0.6s">Who are you? 👾</span>
-        <span id="step-counter" style="font-size:12px;color:var(--text3);transition:color 0.6s">Step 1 of 5</span>
+        <span id="step-label" style="font-size:18px;font-weight:800;color:var(--text1);transition:color 0.6s">คุณคือใคร? 👾</span>
+        <span id="step-counter" style="font-size:13px;color:var(--text3);font-weight:600;transition:color 0.6s">1 / 3</span>
       </div>
       <div style="height:3px;background:var(--border2);border-radius:9999px;overflow:hidden;transition:background 0.6s">
-        <div id="form-progress-fill" style="height:100%;width:20%;background:linear-gradient(90deg,#4DA3FF,#8b5cf6);border-radius:9999px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)"></div>
+        <div id="form-progress-fill" style="height:100%;width:33%;background:linear-gradient(90deg,#4DA3FF,#8b5cf6);border-radius:9999px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)"></div>
       </div>
     </div>
 
     <form id="apply-form-el" onsubmit="return false" novalidate style="padding:28px">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
-      <!-- Step 1 -->
+      <!-- Step 1: Who you are -->
       <div id="form-step-1" style="transition:opacity 0.25s ease,transform 0.25s ease">
         <div style="margin-bottom:22px">
           <div style="font-size:36px;margin-bottom:8px">👾</div>
-          <h3 style="font-size:20px;font-weight:700;color:var(--text1);margin-bottom:4px;transition:color 0.6s">Who are you?</h3>
-          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">Let's start with the basics 👋</p>
+          <h3 style="font-size:24px;font-weight:800;color:var(--text1);margin-bottom:4px;letter-spacing:-0.01em;transition:color 0.6s">คุณคือใคร?</h3>
+          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">Who are you? · บอกเราพื้นฐานเรื่องคุณ 👋</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;flex-direction:column;gap:18px">
           <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Full name <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">ชื่อ-นามสกุล</span></label>
-            <input type="text" name="full_name" required class="form-input" placeholder="First Last">
-          </div>
-          <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Nickname — what do your friends call you? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">ชื่อเล่น</span></label>
-            <input type="text" name="nickname" required class="form-input" placeholder="Your nickname">
+            <label style="display:block;margin-bottom:8px">
+              <span style="display:block;font-size:17px;font-weight:700;color:var(--text1);line-height:1.3;transition:color 0.6s">ชื่อเล่น</span>
+              <span style="display:block;font-size:13px;color:var(--text3);font-weight:500;margin-top:2px;transition:color 0.6s">Nickname — what should we call you?</span>
+            </label>
+            <input type="text" name="nickname" required class="form-input" placeholder="ชื่อเล่น">
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
             <div>
-              <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Age <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">อายุ</span></label>
+              <label style="display:block;margin-bottom:8px">
+                <span style="display:block;font-size:17px;font-weight:700;color:var(--text1);line-height:1.3;transition:color 0.6s">อายุ</span>
+                <span style="display:block;font-size:13px;color:var(--text3);font-weight:500;margin-top:2px;transition:color 0.6s">Age</span>
+              </label>
               <input type="number" name="age" required class="form-input" placeholder="12" min="9" max="18">
             </div>
             <div>
-              <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Grade <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">ระดับชั้น</span></label>
-              <input type="text" name="grade" required class="form-input" placeholder="e.g. ป.6 / ม.1 / Grade 7">
+              <label style="display:block;margin-bottom:8px">
+                <span style="display:block;font-size:17px;font-weight:700;color:var(--text1);line-height:1.3;transition:color 0.6s">ระดับชั้น</span>
+                <span style="display:block;font-size:13px;color:var(--text3);font-weight:500;margin-top:2px;transition:color 0.6s">Grade</span>
+              </label>
+              <input type="text" name="grade" required class="form-input" placeholder="ป.6 / ม.1 / Grade 7">
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Step 2 -->
+      <!-- Step 2: Parent contact -->
       <div id="form-step-2" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
         <div style="margin-bottom:22px">
           <div style="font-size:36px;margin-bottom:8px">📡</div>
-          <h3 style="font-size:20px;font-weight:700;color:var(--text1);margin-bottom:4px;transition:color 0.6s">How do we reach you?</h3>
-          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">We'll need this to follow up 👋</p>
+          <h3 style="font-size:24px;font-weight:800;color:var(--text1);margin-bottom:4px;letter-spacing:-0.01em;transition:color 0.6s">ติดต่อผู้ปกครอง</h3>
+          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">Parent contact · เราจะติดต่อกลับทางช่องทางนี้ 📲</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;flex-direction:column;gap:18px">
           <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">School name <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">โรงเรียน — which school do you currently attend?</span></label>
-            <input type="text" name="school" required class="form-input" placeholder="School name">
+            <label style="display:block;margin-bottom:8px">
+              <span style="display:block;font-size:17px;font-weight:700;color:var(--text1);line-height:1.3;transition:color 0.6s">ชื่อผู้ปกครอง</span>
+              <span style="display:block;font-size:13px;color:var(--text3);font-weight:500;margin-top:2px;transition:color 0.6s">Parent's name</span>
+            </label>
+            <input type="text" name="parent_name" required class="form-input" placeholder="คุณพ่อ / คุณแม่ / ผู้ปกครอง">
           </div>
           <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Your email address <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">อีเมลนักเรียน — we'll send the acceptance letter here</span></label>
-            <input type="email" name="student_email" required class="form-input" placeholder="student@email.com">
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-            <div>
-              <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Parent's LINE ID <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">LINE ผู้ปกครอง — for class updates</span></label>
-              <input type="text" name="parent_line" required class="form-input" placeholder="@lineid">
-            </div>
-            <div>
-              <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Parent's phone <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">เบอร์โทร</span></label>
-              <input type="tel" name="parent_phone" required class="form-input" placeholder="08X-XXX-XXXX">
-            </div>
+            <label style="display:block;margin-bottom:8px">
+              <span style="display:block;font-size:17px;font-weight:700;color:var(--text1);line-height:1.3;transition:color 0.6s">ช่องทางติดต่อผู้ปกครอง</span>
+              <span style="display:block;font-size:13px;color:var(--text3);font-weight:500;margin-top:2px;transition:color 0.6s">Parent contact — LINE, phone, or email · เลือกอย่างใดอย่างหนึ่ง</span>
+            </label>
+            <input type="text" name="parent_contact" required class="form-input" placeholder="@lineid · 08X-XXX-XXXX · parent@email.com">
           </div>
         </div>
       </div>
 
-      <!-- Step 3 -->
+      <!-- Step 3: Tell us about you -->
       <div id="form-step-3" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
         <div style="margin-bottom:22px">
           <div style="font-size:36px;margin-bottom:8px">💡</div>
-          <h3 style="font-size:20px;font-weight:700;color:var(--text1);margin-bottom:4px;transition:color 0.6s">Your big idea</h3>
-          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">The fun part — dream big! 🌟</p>
+          <h3 style="font-size:24px;font-weight:800;color:var(--text1);margin-bottom:4px;letter-spacing:-0.01em;transition:color 0.6s">เล่าให้เราฟัง</h3>
+          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">Tell us about you · ส่วนที่สนุก! 🌟</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;flex-direction:column;gap:18px">
           <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">If you could build any one app — what would it be? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">หากสร้างแอปได้ 1 ตัว จะสร้างอะไร?</span></label>
-            <textarea name="app_idea" required class="form-input" rows="3" placeholder="e.g. An AI study buddy that explains hard topics using memes and short videos — like having a tutor in your pocket..."></textarea>
+            <label style="display:block;margin-bottom:8px">
+              <span style="display:block;font-size:17px;font-weight:700;color:var(--text1);line-height:1.3;transition:color 0.6s">ถ้าสร้างแอปได้ 1 ตัว จะสร้างอะไร?</span>
+              <span style="display:block;font-size:13px;color:var(--text3);font-weight:500;margin-top:2px;transition:color 0.6s">If you could build one app — what would it be? (1–2 ประโยคก็พอ)</span>
+            </label>
+            <textarea name="app_idea" required class="form-input" rows="3" placeholder="เช่น แอปติวเตอร์ AI ที่อธิบายเรื่องยากด้วยมีมและคลิปสั้นๆ..."></textarea>
           </div>
           <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">What real-life problem does it solve? Who has this problem? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">แอปนี้ช่วยแก้ปัญหาเรื่องใด?</span></label>
-            <textarea name="problem_solved" required class="form-input" rows="3" placeholder="e.g. My little sister has no one to help her with homework when our parents are busy, and existing apps are too boring for kids..."></textarea>
+            <label style="display:block;margin-bottom:8px">
+              <span style="display:block;font-size:17px;font-weight:700;color:var(--text1);line-height:1.3;transition:color 0.6s">ทำไมถึงสนใจ SV Academy?</span>
+              <span style="display:block;font-size:13px;color:var(--text3);font-weight:500;margin-top:2px;transition:color 0.6s">Why this excites you (1 ประโยคก็พอ)</span>
+            </label>
+            <textarea name="why_sv" required class="form-input" rows="2" placeholder="เช่น อยากเปลี่ยนไอเดียในหัวให้เป็นแอปจริง ที่เพื่อนใช้ได้..."></textarea>
           </div>
           <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Who will use your app? Be specific! <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">กลุ่มเป้าหมายคือใคร? — age, situation, why they'd need it</span></label>
-            <input type="text" name="target_users" required class="form-input" placeholder="e.g. Middle school students who struggle with studying alone at home...">
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 4 -->
-      <div id="form-step-4" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
-        <div style="margin-bottom:22px">
-          <div style="font-size:36px;margin-bottom:8px">🎮</div>
-          <h3 style="font-size:20px;font-weight:700;color:var(--text1);margin-bottom:4px;transition:color 0.6s">Your skill level</h3>
-          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">No judgment — we love all levels! 🤝</p>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">How much coding experience do you have? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">ระดับความรู้และประสบการณ์ — be honest, all levels are welcome!</span></label>
-            <select name="experience_level" required class="form-input">
-              <option value="" disabled selected>— select your level —</option>
-              <option value="complete_beginner">🌱 Complete beginner — never touched code</option>
-              <option value="tried_tutorials">🌿 Tried a few tutorials (Scratch, Hour of Code…)</option>
-              <option value="built_small_projects">🌳 Built small projects (website, game, app)</option>
-              <option value="solid_experience">🚀 I have solid coding experience</option>
-            </select>
-          </div>
-          <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Have you built anything before? Anything counts! <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">เล่าให้ฟังถึงสิ่งที่เคยสร้าง — website, game, Scratch project... (optional)</span></label>
-            <textarea name="prior_experience" class="form-input" rows="3" placeholder="e.g. I made a Scratch game about a jumping frog — it took 2 weeks and I learned about loops!"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 5 -->
-      <div id="form-step-5" style="display:none;transition:opacity 0.25s ease,transform 0.25s ease">
-        <div style="margin-bottom:22px">
-          <div style="font-size:36px;margin-bottom:8px">🚀</div>
-          <h3 style="font-size:20px;font-weight:700;color:var(--text1);margin-bottom:4px;transition:color 0.6s">Almost there!</h3>
-          <p style="font-size:14px;color:var(--text3);transition:color 0.6s">You've got this! 💪</p>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">What app do you use the most — and what makes it so good? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">แอปที่ใช้ทุกวัน ชอบเพราะอะไร? — what keeps you coming back?</span></label>
-            <textarea name="fav_app" required class="form-input" rows="2" placeholder="e.g. YouTube — the algorithm always knows exactly what I want to watch next, even before I do..."></textarea>
-          </div>
-          <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Who inspires you the most and why? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">บุคคลที่เป็นแรงบันดาลใจ? — founder, YouTuber, teacher, or family member</span></label>
-            <textarea name="inspiration" required class="form-input" rows="2" placeholder="e.g. MrBeast — he turns big crazy ideas into reality and proves that if you put your mind to it, anything is possible..."></textarea>
-          </div>
-          <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Why do you want to join SV Academy? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">เหตุใดจึงสนใจเข้าร่วม SV Academy? — what do you hope to build or learn?</span></label>
-            <textarea name="why_sv" required class="form-input" rows="3" placeholder="e.g. I want to finally turn my app idea into something real that my friends can actually use — not just a sketch in my notebook..."></textarea>
-          </div>
-          <div>
-            <label style="display:block;font-size:14px;font-weight:600;color:var(--text1);margin-bottom:6px;transition:color 0.6s">Anything else you want us to know? <span style="display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:1px">มีอะไรอยากบอกเพิ่มไหม? — fun facts, questions, anything that didn't fit above (optional)</span></label>
-            <textarea name="extra" class="form-input" rows="2" placeholder="Optional — but we love reading these!"></textarea>
+            <label style="display:block;margin-bottom:8px">
+              <span style="display:block;font-size:15px;font-weight:600;color:var(--text2);line-height:1.3;transition:color 0.6s">อยากบอกอะไรเพิ่มไหม? <span style="font-size:12px;color:var(--text3);font-weight:500">(ไม่บังคับ)</span></span>
+              <span style="display:block;font-size:12px;color:var(--text3);font-weight:500;margin-top:2px;transition:color 0.6s">Anything else? — optional · fun facts, questions, anything else</span>
+            </label>
+            <textarea name="extra" class="form-input" rows="2" placeholder="Optional — บอกอะไรก็ได้ที่อยากให้เรารู้ 🙏"></textarea>
           </div>
         </div>
       </div>
 
       <div id="form-error-msg" style="display:none;margin-top:14px;padding:12px 16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px">
-        <span style="font-size:13px;color:#ef4444">Please fill in all required fields above 👆</span>
+        <span style="font-size:14px;color:#ef4444;font-weight:600">กรุณากรอกข้อมูลให้ครบ 👆 <span style="font-weight:400;font-size:13px">· Please fill in all required fields</span></span>
       </div>
 
       <div style="display:flex;align-items:center;margin-top:24px;gap:12px">
-        <button type="button" id="form-btn-prev" onclick="formPrev()" style="display:none;background:transparent;color:var(--text2);padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;border:1.5px solid var(--border2);cursor:pointer;transition:all 0.2s;flex-shrink:0">← Back</button>
+        <button type="button" id="form-btn-prev" onclick="formPrev()" style="display:none;background:transparent;color:var(--text2);padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;border:1.5px solid var(--border2);cursor:pointer;transition:all 0.2s;flex-shrink:0">← ย้อนกลับ</button>
         <div style="flex:1"></div>
-        <button type="button" id="form-btn-next" onclick="formNext()" style="background:linear-gradient(135deg,#4DA3FF,#8b5cf6);color:#fff;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;flex-shrink:0">Continue →</button>
-        <button type="button" id="form-btn-submit" onclick="handleFormLaunch()" style="display:none;background:linear-gradient(135deg,#22c55e,#4DA3FF);color:#fff;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:all 0.2s;flex-shrink:0">Submit Application 🎉</button>
+        <button type="button" id="form-btn-next" onclick="formNext()" style="background:linear-gradient(135deg,#4DA3FF,#8b5cf6);color:#fff;padding:12px 28px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;flex-shrink:0">ถัดไป →</button>
+        <button type="button" id="form-btn-submit" onclick="handleFormLaunch()" style="display:none;background:linear-gradient(135deg,#22c55e,#4DA3FF);color:#fff;padding:12px 28px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;transition:all 0.2s;flex-shrink:0">ส่งใบสมัคร 🎉</button>
       </div>
     </form>
   </div>
@@ -905,6 +859,6 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
 <script src="./gsap.min.js"></script>
 <script src="./ScrollTrigger.min.js"></script>
 
-<script src="./app.js?v=20260512-4"></script>
+<script src="./app.js?v=20260512-5"></script>
 </body>
 </html>

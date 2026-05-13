@@ -8,13 +8,11 @@ var SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbz-JajdV8f9BGeKGr
 
 // ── Multi-step form ───────────────────────────────────────────────────────────
 var currentFormStep = 1;
-var totalFormSteps  = 5;
+var totalFormSteps  = 3;
 var formStepMeta = [
-  { label: "Who are you? 👾",         progress: 20  },
-  { label: "How do we reach you? 📡", progress: 40  },
-  { label: "Your big idea 💡",        progress: 60  },
-  { label: "Your skill level 🎮",     progress: 80  },
-  { label: "Almost there! 🚀",        progress: 100 },
+  { label: "คุณคือใคร? 👾",       progress: 33  },
+  { label: "ติดต่อผู้ปกครอง 📡",  progress: 66  },
+  { label: "เล่าให้เราฟัง 💡",    progress: 100 },
 ];
 
 function formNext() {
@@ -64,7 +62,7 @@ function updateFormStepUI() {
   var counterEl  = document.getElementById("step-counter");
   var progressEl = document.getElementById("form-progress-fill");
   if (labelEl)    labelEl.textContent   = meta.label;
-  if (counterEl)  counterEl.textContent = "Step " + currentFormStep + " of " + totalFormSteps;
+  if (counterEl)  counterEl.textContent = currentFormStep + " / " + totalFormSteps;
   if (progressEl) progressEl.style.width = meta.progress + "%";
   for (var i = 1; i <= totalFormSteps; i++) {
     var dot = document.getElementById("dot-" + i);
