@@ -1,6 +1,11 @@
 
 var FORMSPREE_ENDPOINT = "https://formspree.io/f/xlgznpob";
 
+// Google Apps Script web-app URL — receives the same payload and writes it
+// to a Google Sheet. Runs in parallel with Formspree; if one fails the
+// other still catches the submission. Leave as "" to disable.
+var SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbz-JajdV8f9BGeKGrGaiM-_2yYpCGgAb7o60DF5l1nGzJaFyL7RG5HXrcon9qGANm1a9Q/exec";
+
 // ── Multi-step form ───────────────────────────────────────────────────────────
 var currentFormStep = 1;
 var totalFormSteps  = 5;
@@ -113,15 +118,41 @@ async function submitApplication(e) {
     }
   }
   data["_subject"] = "New SV Academy Application — " + (data["full_name"] || "Unknown");
+  // Source tracking: capture ?source= from the URL so we can tell booth-QR
+  // applications apart from organic web ones.
+  try {
+    data["source"] = new URLSearchParams(window.location.search).get("source") || "web";
+  } catch (e) { data["source"] = "web"; }
 
   try {
-    var res = await fetch(FORMSPREE_ENDPOINT, {
+    // Send to Formspree (existing path — email notifications + backup).
+    var formspreePromise = fetch(FORMSPREE_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify(data)
     });
-    var json = await res.json();
-    if (!res.ok) throw new Error(json.error || "unknown");
+
+    // Send to Google Sheets in parallel (our owned data store).
+    // Uses text/plain content type to avoid CORS preflight against the
+    // Apps Script web app endpoint.
+    var sheetsPromise = SHEETS_ENDPOINT
+      ? fetch(SHEETS_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(data)
+        })
+      : Promise.reject(new Error("sheets endpoint not configured"));
+
+    // Succeed if EITHER endpoint accepts the submission.
+    var results = await Promise.allSettled([formspreePromise, sheetsPromise]);
+    var anyOk = results.some(function (r) {
+      return r.status === "fulfilled" && r.value && r.value.ok;
+    });
+    if (!anyOk) {
+      var firstError = results.find(function (r) { return r.status === "rejected"; });
+      throw new Error(firstError ? String(firstError.reason) : "all endpoints failed");
+    }
+
     var nick = (data["nickname"] || "").trim();
     var greeting = nick ? "Thanks, " + nick + "! " : "";
     var thaiGreeting = nick ? "ขอบคุณ " + nick + "! " : "";
@@ -134,127 +165,6 @@ async function submitApplication(e) {
     btn.disabled = false;
     btn.textContent = currentLang === "th" ? "ส่งใบสมัคร / Submit Application" : "Submit Application / ส่งใบสมัคร";
     alert(currentLang === "th" ? "เกิดข้อผิดพลาด กรุณาลองใหม่" : "Submission failed. Please try again.");
-  }
-}
-
-// ── New submit handler (fixes hidden-field HTML5 validation bug on mobile) ────
-function handleFormLaunch() {
-  // Validate only the visible step-5 required fields
-  var stepEl = document.getElementById("form-step-5");
-  if (!stepEl) return;
-  var fields = stepEl.querySelectorAll("[required]");
-  var valid = true;
-  fields.forEach(function(f) {
-    if (!f.value || !f.value.trim()) { f.classList.add("input-error"); valid = false; }
-    else                              { f.classList.remove("input-error"); }
-  });
-  var errEl = document.getElementById("form-error-msg");
-  if (!valid) { if (errEl) errEl.style.display = "block"; return; }
-  if (errEl) errEl.style.display = "none";
-
-  var form = document.getElementById("apply-form-el");
-  var submitBtn = document.getElementById("form-btn-submit");
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.textContent = "⏳ transmitting...";
-    submitBtn.style.opacity = "0.75";
-  }
-
-  var data = {};
-  form.querySelectorAll("input,select,textarea").forEach(function(el) {
-    if (el.name && el.name !== "_honey") data[el.name] = el.value;
-  });
-  data["_subject"] = "New SV Academy Application — " + (data["full_name"] || "Unknown");
-  var nick = (data["nickname"] || "").trim();
-
-  fetch(FORMSPREE_ENDPOINT, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Accept": "application/json" },
-    body: JSON.stringify(data)
-  }).then(function(res) {
-    return res.json().then(function(json) {
-      if (!res.ok) throw new Error(json.error || "unknown");
-      return json;
-    });
-  }).then(function() {
-    showLaunchAnimation(nick);
-  }).catch(function() {
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Submit Application 🎉";
-      submitBtn.style.opacity = "1";
-    }
-    alert(currentLang === "th" ? "เกิดข้อผิดพลาด กรุณาลองใหม่" : "Submission failed. Please try again.");
-  });
-}
-
-function showLaunchAnimation(nickname) {
-  var content = document.getElementById("apply-form-content");
-  var success  = document.getElementById("apply-form-success");
-  if (!content || !success) return;
-
-  // Fade out the terminal form
-  content.style.transition = "opacity 0.45s ease, transform 0.45s ease";
-  content.style.opacity    = "0";
-  content.style.transform  = "scale(0.96)";
-
-  setTimeout(function() {
-    content.style.display = "none";
-
-    // Personalise greeting
-    var greetEl = document.getElementById("success-greeting");
-    if (greetEl) {
-      greetEl.textContent = nickname
-        ? "See you soon, " + nickname + "! 🚀"
-        : "See you soon! 🚀";
-    }
-
-    // Reveal success block with spring animation
-    success.style.display    = "block";
-    success.style.opacity    = "0";
-    success.style.transform  = "translateY(32px) scale(0.95)";
-    success.style.transition = "none";
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        success.style.transition = "opacity 0.6s ease, transform 0.65s cubic-bezier(0.175,0.885,0.32,1.275)";
-        success.style.opacity    = "1";
-        success.style.transform  = "translateY(0) scale(1)";
-      });
-    });
-
-    // Stagger in the status lines
-    [1, 2, 3, 4].forEach(function(n) {
-      var el = document.getElementById("status-line-" + n);
-      if (el) setTimeout(function() { el.style.opacity = "1"; }, 500 + n * 550);
-    });
-
-    // Launch the particle burst
-    launchParticles();
-  }, 480);
-}
-
-function launchParticles() {
-  var container = document.getElementById("launch-rockets");
-  if (!container) return;
-  var pool = ["🚀","⭐","✨","🌟","🎉","🎊","💫","🛸","🔥","🏆","👏","🙌"];
-  for (var i = 0; i < 30; i++) {
-    (function(idx) {
-      setTimeout(function() {
-        var el  = document.createElement("span");
-        el.textContent = pool[Math.floor(Math.random() * pool.length)];
-        var size = 13 + Math.random() * 22;
-        var left = 5  + Math.random() * 90;
-        var dur  = 1.6 + Math.random() * 2.4;
-        var delay = Math.random() * 0.3;
-        el.style.cssText =
-          "position:absolute;font-size:" + size + "px;" +
-          "left:" + left + "%;bottom:-40px;" +
-          "animation:launch-particle " + dur + "s " + delay + "s ease-out forwards;" +
-          "pointer-events:none;z-index:1;user-select:none";
-        container.appendChild(el);
-        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, (dur + delay + 0.3) * 1000);
-      }, idx * 100);
-    })(i);
   }
 }
 
@@ -404,7 +314,7 @@ var translations = {
     learn_02_desc: "Use AI as a real building tool — not just a toy. Learn to prompt, direct, and iterate with AI to create production-quality apps.",
     learn_03: "03", learn_03_title: "Ship It",
     learn_03_desc: "Build a real app, deploy it on the internet, get real users, analyze real data, and present it to parents on Demo Day.",
-    workflow_label: "The Workflow", workflow_title: "Brainstorm. Design. Build. Ship.",
+    workflow_label: "The Workflow", workflow_title: "Design. Build. Ship. Repeat.",
     tool1_name: "Stitch", tool1_sub: "Design",
     tool1_desc: "Turn your idea into a pixel-perfect UI with Google’s AI design tool. Describe what you want, refine until you’re happy — no Figma skills needed.",
     tool2_name: "Claude Code", tool2_sub: "Build",
@@ -441,19 +351,19 @@ var translations = {
     form_sec3: "You as a Builder",
     form_submit: "Submit Application / ส่งใบสมัคร",
     form_success: "Application submitted! We’ll contact you via LINE within 3 days.",
-    form_success_th: "ส่งใบสมัครเรียบร้อยแล้ว! เราจะติดต่อกลับภายใน 3–5 วัน",
+    form_success_th: "ส่งใบสมัครเรียบร้อย! เราจะติดต่อกลับทาง LINE ภายใน 3 วัน",
     modal_title: "Stay in the Loop", modal_desc: "Get updates on enrollment, schedules, and early-bird offers.",
     modal_submit: "Join Mailing List", modal_success: "You’re on the list!", modal_alt: "Or apply directly via"
   },
   th: {
     nav_about: "เกี่ยวกับเรา", nav_mentors: "ที่ปรึกษา", nav_program: "โปรแกรม", nav_apply: "สมัคร",
-    nav_join: "สมัครเรียน", nav_join_full: "สมัครเรียน", nav_apply_btn: "สมัครเรียน",
+    nav_join: "สมัครเลย", nav_join_full: "สมัครเลย", nav_apply_btn: "สมัครเลย",
     hero_badge: "ซัมเมอร์ 2569 &middot; รับจำกัดเพียง 10 คน",
     hero_title_1: "สร้างอนาคต,", hero_title_2: "ทีละแอป",
     hero_desc: 'นักเรียน<strong style="color:var(--text);font-weight:500">ป.6–ม.3</strong> ออกแบบ, สร้าง, และปล่อยแอป AI ของจริงใน 5 สัปดาห์ — โดยมี<strong style="color:var(--text);font-weight:500">วิศวกรจาก Silicon Valley</strong> เป็นที่ปรึกษา',
-    hero_no_code: "ไม่จำเป็นต้องมีพื้นฐานการเขียนโค้ดมาก่อน",
+    hero_no_code: "ไม่ต้องเขียนโค้ดเป็นมาก่อน",
     stat_sat: "วันเสาร์", stat_stu: "นักเรียนสูงสุด", stat_app: "แอปจริง", stat_men: "ที่ปรึกษา",
-    cta_apply: "สมัครเรียน", cta_join: "สมัครเรียน",
+    cta_apply: "สมัครเลย", cta_join: "สมัครเลย",
     mentors_label: "ที่ปรึกษาของคุณ", mentors_title: "สอนโดยผู้สร้างจริง,<br>ไม่ใช่แค่ตำราเรียน",
     dot_prom: "พรหม", dot_march: "March", dot_charlie: "Charlie",
     prom_role: "ผู้อำนวยการฝ่ายสร้างสรรค์ & บริหารงาน",
@@ -469,7 +379,7 @@ var translations = {
     w1_desc: "รู้จักเครื่องมือทั้งหมด เรียนรู้ว่า prompt คืออะไร AI ทำงานยังไง แล้วลงมือสร้างแอพตัวอย่างด้วยกัน จากนั้นเริ่มแอปของตัวเอง เขียน PRD ตั้ง KPI แล้วออกแบบหน้าจอแรก",
     w1_deliverables: "ปล่อย template app · เขียน PRD เสร็จ · เริ่ม design V1",
     w2_label: "สัปดาห์ที่ 2", w2_title: "สร้างและขัดเกลา",
-    w2_desc: "ทดสอบความรู้จากสัปดาห์แรก สร้างแอปของตัวเอง ออกแบบ เขียนโค้ด ดูตัวอย่าง แก้บัค ติดตั้งระบบวิเคราะห์ข้อมูล และ deploy ขึ้น internet แอปของนักเรียนจะ live บนอินเทอร์เน็ตจริง",
+    w2_desc: "ทดสอบความรู้จากสัปดาห์แรก สร้างแอปของตัวเอง ออกแบบ เขียนโค้ด ดูตัวอย่าง แก้บัค ติดตั้งระบบวิเคราะห์ข้อมูล และ deploy ขึ้น internet แอปของเธอจะ live จริงๆ",
     w2_deliverables: "ปล่อยแอปมี URL จริง · ติดตั้ง analytics · โค้ดอยู่บน GitHub",
     w3_label: "สัปดาห์ที่ 3", w3_title: "ปล่อยแอปและสังเกตการณ์",
     w3_desc: "เซสชั่นวิจารณ์เชิงสร้างสรรค์ นำเสนอแอปต่อเพื่อนและ mentor รับ feedback จริง ปรับปรุงแอปตาม feedback อัพเดต PRD เพิ่ม test case อัตโนมัติ เรียนรู้คำว่า regression",
@@ -478,7 +388,7 @@ var translations = {
     w4_desc: "วิเคราะห์ข้อมูลจากผู้ใช้จริง ดูว่าคนใช้แอปยังไง เจอ error ตรงไหน สร้างฟีเจอร์ใหม่จากข้อมูลและ feedback เตรียมสไลด์ 5 แผ่นสำหรับ Demo Day",
     w4_deliverables: "ปล่อยฟีเจอร์ใหม่ · สไลด์ pitch deck พร้อม",
     w5_label: "สัปดาห์ที่ 5", w5_title: "วันนำเสนอ",
-    w5_desc: "ขัดเกลาครั้งสุดท้าย ผู้ปกครองมาถึง 10:30 นักเรียนแต่ละคนนำเสนอแอป 3 นาที + ถามตอบ 2 นาที รับใบประกาศ นักเรียนก็เป็นนักพัฒนาแอปอย่างเป็นทางการแล้ว",
+    w5_desc: "ขัดเกลาครั้งสุดท้าย ผู้ปกครองมาถึง 10:30 นักเรียนแต่ละคนนำเสนอแอป 3 นาที + ถามตอบ 2 นาที รับใบประกาศ ตอนนี้เธอเป็นคนสร้างแอปแล้ว",
     w5_deliverables: "นำเสนอ pitch เสร็จ · รับใบประกาศ · แอป live",
     learn_label: "สิ่งที่จะได้เรียนรู้",
     learn_title: "สิ่งที่จะได้เรียนรู้จริงๆ",
@@ -486,11 +396,11 @@ var translations = {
     learn_01_desc: "วางแผนว่าจะสร้างอะไร ทำไมถึงสร้าง ใครจะใช้ เขียน PRD เหมือน product manager ในบริษัทเทคจริงๆ",
     learn_02: "02", learn_02_title: "รู้จักใช้ AI เป็นเครื่องมือ",
     learn_02_desc: "ใช้ AI เป็นเครื่องมือสร้างของจริง ไม่ใช่แค่ของเล่น เรียนรู้วิธีสั่ง วิธีปรับ วิธีทำงานร่วมกับ AI จนได้ผลงานระดับมืออาชีพ",
-    learn_03: "03", learn_03_title: "ปล่อยของจริง",
+    learn_03: "03", learn_03_title: "ปล่อของจริง",
     learn_03_desc: "สร้างแอปจริง ปล่อยขึ้น internet มีคนใช้จริง วิเคราะห์ข้อมูลจริง แล้วนำเสนอต่อหน้าผู้ปกครองใน Demo Day",
-    workflow_label: "เวิร์คโฟลว์", workflow_title: "ระดมไอเดีย. ออกแบบ. สร้าง. ปล่อย.",
+    workflow_label: "เวิร์คโฟลว์", workflow_title: "ออกแบบ. สร้าง. ปล่อย. ทำซ้ำ.",
     tool1_name: "Stitch", tool1_sub: "ออกแบบ",
-    tool1_desc: "เปลี่ยนไอเดียให้เป็นหน้าตาแอปสวยๆ ด้วย AI แค่บอกว่าอยากได้แบบไหน ปรับแต่งจนพอใจ ไม่จำเป็นต้องรู้จัก Figma มาก่อน",
+    tool1_desc: "เปลี่ยนไอเดียให้เป็นหน้าตาแอปสวยๆ ด้วย AI แค่บอกว่าอยากได้แบบไหน ปรับแต่งจนพอใจ ไม่ต้องเป็น Figma",
     tool2_name: "Claude Code", tool2_sub: "สร้างแอป",
     tool2_desc: "AI เขียนโค้ดคู่กับเธอ เปลี่ยน design เป็นแอปที่ใช้งานได้จริง ใช้ NextJS, NestJS, TypeScript เหมือนบริษัทเทคจริงๆ",
     tool3_name: "Claude Chat", tool3_sub: "ระดมไอเดีย + PRD",
@@ -505,13 +415,13 @@ var translations = {
     show2_desc: "Claude Chat ระดมไอเดีย Stitch ออกแบบ UI Claude Code สร้างแอป Vercel ปล่อยแอป ทุกขั้นตอนต่อเนื่องกันเป็นธรรมชาติ",
     show3_title: "Demo Day:<br>พิทช์แบบผู้ก่อตั้ง",
     show3_desc: "สัปดาห์ที่ 5 ผู้ปกครองร่วมชมนักเรียนนำเสนอแอปพร้อมสไลด์พิทช์มืออาชีพ — เหมือนผู้ก่อตั้งสตาร์ทอัพจริง",
-    show3_btn: "สมัครเรียน",
+    show3_btn: "สมัครเลย",
     prereq_label: "ก่อนเริ่มเรียนวันแรก",
     prereq_title: "ก่อนเริ่มเรียนวันแรก",
     prereq_sub: "นักเรียนต้องเตรียม 4 บัญชีนี้ให้พร้อม เราจะส่งวิธีตั้งค่าให้ 1 สัปดาห์ก่อนเริ่ม",
-    prereq_note: "คอมพิวเตอร์ในห้องเรียนติดตั้งซอฟต์แวร์ทั้งหมดไว้เรียบร้อยแล้ว ไม่จำเป็นต้องนำแล็ปท็อปมา",
+    prereq_note: "คอมพิวเตอร์ในห้องเรียนติดตั้งเครื่องมือทุกอย่างไว้แล้ว ไม่ต้องเอาแล็ปท็อปมา",
     cta_title: "จองที่นั่งของคุณ", cta_sub: "รับจำกัดเพียง 10 คนต่อรุ่น มาก่อนได้ก่อน",
-    cta_no_code: "ไม่จำเป็นต้องมีพื้นฐานการเขียนโค้ดมาก่อน",
+    cta_no_code: "ไม่ต้องเขียนโค้ดเป็นมาก่อน",
     cta_price_sub: "ต่อนักเรียน &middot; 5 ครั้ง &middot; รวมอุปกรณ์ทั้งหมด",
     detail_date: "13 มิ.ย. – 11 ก.ค.", detail_date_sub: "ทุกวันเสาร์",
     detail_time: "9:00 – 12:00 น.", detail_time_sub: "3 ชั่วโมง / ครั้ง",
@@ -519,13 +429,13 @@ var translations = {
     detail_loc: "โรงเรียนเลิศหล้า", detail_loc_sub: "ถ.กาญจนาภิเษก",
     footer_text: "SV Academy &times; โรงเรียนเลิศหล้า ถ.กาญจนาภิเษก &middot; ซัมเมอร์ 2569",
     form_title: "สมัครเรียน",
-    form_sub: "รับเพียง 10 คนต่อรุ่น กรุณาแนะนำตัวเองและแชร์ไอเดียของคุณ",
+    form_sub: "รับแค่ 10 คน เล่าให้เราฟังเกี่ยวกับตัวเองและไอเดียของเธอ",
     form_sec1: "เกี่ยวกับตัวเอง",
-    form_sec2: "แนวคิดและไอเดีย",
-    form_sec3: "คุณในฐานะนักพัฒนา",
+    form_sec2: "ไอเดียของเธอ",
+    form_sec3: "ตัวตนในฐานะคนสร้าง",
     form_submit: "ส่งใบสมัคร / Submit Application",
-    form_success: "ส่งใบสมัครเรียบร้อยแล้ว! เราจะติดต่อกลับภายใน 3–5 วัน",
-    form_success_th: "ส่งใบสมัครเรียบร้อยแล้ว! เราจะติดต่อกลับภายใน 3–5 วัน",
+    form_success: "ส่งใบสมัครเรียบร้อย! เราจะติดต่อกลับทาง LINE ภายใน 3 วัน",
+    form_success_th: "ส่งใบสมัครเรียบร้อย! เราจะติดต่อกลับทาง LINE ภายใน 3 วัน",
     modal_title: "ติดตามข่าวสาร", modal_desc: "รับอัปเดตการรับสมัคร ตารางเรียน และโปรโมชั่นพิเศษ",
     modal_submit: "ลงทะเบียน", modal_success: "ลงทะเบียนสำเร็จ!", modal_alt: "หรือสมัครโดยตรงผ่าน"
   }
