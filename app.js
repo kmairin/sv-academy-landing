@@ -243,6 +243,10 @@ async function handleFormLaunch() {
     if (content) content.style.display = "none";
     if (success) success.style.display = "block";
 
+    // Make sure any previously-shown error banner is hidden
+    var prevErr = document.getElementById("form-error-msg");
+    if (prevErr) prevErr.style.display = "none";
+
     // Stagger-fade the four status lines so they read as steps completing
     var lineIds = ["status-line-1", "status-line-2", "status-line-3", "status-line-4"];
     lineIds.forEach(function (id, idx) {
@@ -251,6 +255,9 @@ async function handleFormLaunch() {
         if (el) el.style.opacity = "1";
       }, 350 + idx * 280);
     });
+
+    // Launch the rocket particles — the #launch-rockets div is the stage
+    launchRockets();
 
     // Gentle scroll so the user actually sees the success state
     if (success && typeof success.scrollIntoView === "function") {
@@ -277,6 +284,49 @@ async function handleFormLaunch() {
         : "Submission failed. Please try again.");
     }
   }
+}
+
+// Spawn confetti + rocket particles into #launch-rockets to play the
+// celebratory "you're in" animation. Uses the existing launch-particle
+// keyframe from CSS (translateY -520px, rotate 720°, fade out).
+function launchRockets() {
+  var stage = document.getElementById("launch-rockets");
+  if (!stage) return;
+  stage.innerHTML = ""; // clear any prior run
+
+  var colors  = ["#22c55e", "#4DA3FF", "#8b5cf6", "#FFD600", "#ec4899", "#00D4FF"];
+  var emojis  = ["🚀", "✨", "💫", "⭐", "🎉", "🔥"];
+  var count   = 32;
+
+  for (var i = 0; i < count; i++) {
+    var p = document.createElement("div");
+    var useEmoji = Math.random() > 0.55;
+    if (useEmoji) {
+      p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.fontSize = (16 + Math.random() * 18) + "px";
+      p.style.lineHeight = "1";
+    } else {
+      var size = 6 + Math.random() * 9;
+      p.style.width  = size + "px";
+      p.style.height = size + "px";
+      p.style.background    = colors[Math.floor(Math.random() * colors.length)];
+      p.style.borderRadius  = Math.random() > 0.5 ? "50%" : "2px";
+      p.style.boxShadow     = "0 0 8px " + p.style.background;
+    }
+    p.style.position  = "absolute";
+    p.style.left      = (Math.random() * 100) + "%";
+    p.style.bottom    = (-10 - Math.random() * 20) + "px";
+    p.style.animation = "launch-particle " +
+                        (1.6 + Math.random() * 1.6) + "s " +
+                        "ease-out " +
+                        (Math.random() * 0.6) + "s " +
+                        "forwards";
+    p.style.willChange = "transform, opacity";
+    stage.appendChild(p);
+  }
+
+  // Clean up after the longest possible particle finishes (3.8s buffer)
+  setTimeout(function () { if (stage) stage.innerHTML = ""; }, 4000);
 }
 
 var mobileMenuOpen = false;
