@@ -173,6 +173,112 @@ async function submitEmail(e) {
   scrollToApplyForm();
 }
 
+// Submit button on the new (post-rework) form is a type="button" with
+// onclick="handleFormLaunch()". This is the only entry point the live HTML
+// uses — submitApplication() above is kept around but not wired up.
+async function handleFormLaunch() {
+  var form = document.getElementById("apply-form-el");
+  if (!form) return;
+  var btn = document.getElementById("form-btn-submit");
+  var originalLabel = btn ? btn.textContent : "";
+  if (btn) {
+    btn.disabled = true;
+    btn.style.opacity = "0.7";
+    btn.textContent = (typeof currentLang !== "undefined" && currentLang === "th")
+      ? "กำลังส่ง..."
+      : "Submitting...";
+  }
+
+  // Collect named inputs (skip honeypot)
+  var data = {};
+  var inputs = form.querySelectorAll("input,select,textarea");
+  for (var i = 0; i < inputs.length; i++) {
+    if (inputs[i].name && inputs[i].name !== "_honey") {
+      data[inputs[i].name] = inputs[i].value;
+    }
+  }
+  data["_subject"] = "New SV Academy Application — " + (data["full_name"] || "Unknown");
+  try {
+    data["source"] = new URLSearchParams(window.location.search).get("source") || "web";
+  } catch (err) { data["source"] = "web"; }
+
+  try {
+    // Dual-write: Formspree (email + backup) + Google Sheets (owned data).
+    var formspreePromise = fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(data)
+    });
+    var sheetsPromise = SHEETS_ENDPOINT
+      ? fetch(SHEETS_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(data)
+        })
+      : Promise.reject(new Error("sheets endpoint not configured"));
+
+    var results = await Promise.allSettled([formspreePromise, sheetsPromise]);
+    var anyOk = results.some(function (r) {
+      return r.status === "fulfilled" && r.value && r.value.ok;
+    });
+    if (!anyOk) {
+      var firstError = results.find(function (r) { return r.status === "rejected"; });
+      throw new Error(firstError ? String(firstError.reason) : "all endpoints failed");
+    }
+
+    // Personalize the greeting in the new success card
+    var nick = (data["nickname"] || "").trim();
+    var greetingEl = document.getElementById("success-greeting");
+    if (greetingEl) {
+      greetingEl.textContent = nick ? ("See you soon, " + nick + "! 🚀") : "See you soon! 🚀";
+    }
+    var msgEl = document.getElementById("apply-form-success-msg");
+    if (msgEl) {
+      msgEl.textContent = "We'll be in touch within 3–5 days.";
+    }
+
+    // Swap form for success state
+    var content = document.getElementById("apply-form-content");
+    var success = document.getElementById("apply-form-success");
+    if (content) content.style.display = "none";
+    if (success) success.style.display = "block";
+
+    // Stagger-fade the four status lines so they read as steps completing
+    var lineIds = ["status-line-1", "status-line-2", "status-line-3", "status-line-4"];
+    lineIds.forEach(function (id, idx) {
+      setTimeout(function () {
+        var el = document.getElementById(id);
+        if (el) el.style.opacity = "1";
+      }, 350 + idx * 280);
+    });
+
+    // Gentle scroll so the user actually sees the success state
+    if (success && typeof success.scrollIntoView === "function") {
+      try { success.scrollIntoView({ behavior: "smooth", block: "center" }); } catch (e) {}
+    }
+  } catch (err) {
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = "1";
+      btn.textContent = originalLabel || "Submit Application 🎉";
+    }
+    var errEl = document.getElementById("form-error-msg");
+    if (errEl) {
+      errEl.style.display = "block";
+      var errText = errEl.querySelector("span");
+      if (errText) {
+        errText.textContent = (typeof currentLang !== "undefined" && currentLang === "th")
+          ? "ส่งไม่สำเร็จ กรุณาลองใหม่อีกครั้ง 🙏"
+          : "Submission failed. Please try again 🙏";
+      }
+    } else {
+      alert((typeof currentLang !== "undefined" && currentLang === "th")
+        ? "เกิดข้อผิดพลาด กรุณาลองใหม่"
+        : "Submission failed. Please try again.");
+    }
+  }
+}
+
 var mobileMenuOpen = false;
 function toggleMobileMenu() { mobileMenuOpen ? closeMobileMenu() : openMobileMenu(); }
 function openMobileMenu() {
