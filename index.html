@@ -874,6 +874,11 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
   </div>
 </section>
 
+<style>
+.social-btn{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid var(--border3);color:var(--text2);transition:color 0.25s,border-color 0.25s,background 0.25s,transform 0.25s,box-shadow 0.25s;text-decoration:none}
+.social-btn:hover{color:#4DA3FF;border-color:rgba(77,163,255,0.45);background:rgba(77,163,255,0.06);transform:translateY(-1px);box-shadow:0 4px 14px rgba(77,163,255,0.15)}
+.social-btn svg{display:block}
+</style>
 <footer style="padding:40px 24px;border-top:1px solid var(--border3);background:var(--bg3);transition:background 0.6s,border-color 0.6s">
   <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
     <div style="display:flex;align-items:center;gap:12px">
@@ -882,6 +887,14 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
         <span style="font-size:14px;font-weight:700;letter-spacing:-0.01em;color:var(--text);line-height:1.25;font-family:'Outfit',system-ui,sans-serif;transition:color 0.6s">sv-academy</span>
         <span style="font-size:10px;color:var(--text3);letter-spacing:0.05em;line-height:1.25;font-family:'JetBrains Mono',monospace;transition:color 0.6s">// silicon valley academy</span>
       </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a href="https://www.instagram.com/siliconvalley.academy" target="_blank" rel="noopener noreferrer" aria-label="Follow SV Academy on Instagram" class="social-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@siliconvalley.academy" target="_blank" rel="noopener noreferrer" aria-label="Follow SV Academy on TikTok" class="social-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.85a8.16 8.16 0 0 0 4.77 1.52V6.93a4.85 4.85 0 0 1-1.84-.24z"/></svg>
+      </a>
     </div>
     <p style="font-size:13px;color:var(--text3);text-align:center;font-family:'JetBrains Mono',monospace;transition:color 0.6s" data-i18n="footer_text"><span style="color:rgba(34,197,94,0.5)">&gt;</span> sv-academy <span style="color:rgba(77,163,255,0.3)">&times;</span> lertlah-school <span style="color:rgba(77,163,255,0.3)">&middot;</span> summer_2026</p>
   </div>
