@@ -1041,3 +1041,20 @@ document.querySelectorAll(".stat-val").forEach(function(stat) {
   var obj = { val: 0 };
   gsap.to(obj, { val: target, duration: 2, ease: "power2.out", scrollTrigger: { trigger: stat, start: "top 80%" }, onUpdate: function() { stat.textContent = Math.round(obj.val); } });
 });
+
+// ── Sticky "Apply Now" button visibility ─────────────────────────────────────
+(function() {
+  function updateStickyBtn() {
+    var formEl   = document.getElementById("apply-form");
+    var stickyEl = document.getElementById("sticky-apply-btn");
+    if (!formEl || !stickyEl) return;
+    var rect   = formEl.getBoundingClientRect();
+    var inView = rect.top < window.innerHeight - 80 && rect.bottom > 80;
+    if (inView) { stickyEl.classList.add("hidden"); }
+    else        { stickyEl.classList.remove("hidden"); }
+  }
+  window.addEventListener("scroll", updateStickyBtn, { passive: true });
+  document.addEventListener("DOMContentLoaded", updateStickyBtn);
+  // run immediately in case page loads mid-scroll
+  updateStickyBtn();
+})();
