@@ -213,6 +213,9 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
 .nav-join-btn{background:rgba(0,113,227,0.12);border:1.5px solid rgba(0,113,227,0.4);color:#4DA3FF!important;padding:9px 22px;border-radius:9999px;font-size:14px;font-weight:700;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);letter-spacing:0.02em;cursor:pointer;animation:cta-pulse 2.5s ease-in-out infinite}
 .nav-join-btn:hover{background:rgba(0,113,227,0.22);border-color:#4DA3FF;transform:translateY(-1px) scale(1.04);box-shadow:0 6px 20px rgba(0,113,227,0.35)!important}
 .nav-join-btn:active{transform:scale(0.97)}
+.nav-cta-btn{background:linear-gradient(135deg,#0071E3,#3b82f6);color:#fff!important;padding:10px 22px;border-radius:9999px;font-size:14px;font-weight:700;border:none;cursor:pointer;letter-spacing:0.02em;white-space:nowrap;animation:cta-pulse 2.5s ease-in-out infinite;transition:transform 0.2s,box-shadow 0.2s}
+.nav-cta-btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 8px 24px rgba(0,113,227,0.45)!important}
+.nav-cta-btn:active{transform:scale(0.97)}
 
 .matrix-reveal-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;opacity:0;transition:opacity 0.2s}
 .matrix-reveal-canvas.active{opacity:1}
@@ -247,10 +250,11 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
       <span style="font-size:10px;color:var(--text3);line-height:1.25;font-family:'JetBrains Mono',monospace;transition:color 0.6s">// silicon valley academy</span>
     </div>
   </a>
-  <div class="nav-links" style="display:flex;align-items:center;gap:32px">
+  <div class="nav-links" style="display:flex;align-items:center;gap:28px">
     <a href="#about" class="nav-link" style="font-size:14px" data-i18n="nav_about">About</a>
     <a href="#mentors" class="nav-link" style="font-size:14px" data-i18n="nav_mentors">Mentors</a>
     <a href="#program" class="nav-link" style="font-size:14px" data-i18n="nav_program">Program</a>
+    <button onclick="scrollToApplyForm()" class="nav-cta-btn" data-i18n="nav_join">✏️ Apply Now</button>
   </div>
   <div class="toggle-group">
     <button class="lang-toggle" onclick="toggleLang()" id="lang-btn" aria-label="Toggle language">TH</button>
@@ -258,7 +262,6 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
       <span id="theme-icon-sun" style="display:none">&#9728;&#65039;</span>
       <span id="theme-icon-moon">&#127769;</span>
     </button>
-    <button onclick="scrollToApplyForm()" class="join-list-btn nav-join-btn" data-i18n="nav_join">Apply Now</button>
     <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-expanded="false" aria-label="Toggle navigation menu">
       <svg id="menu-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="transition:all 0.25s cubic-bezier(0.4,0,0.2,1)"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       <svg id="menu-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;transition:all 0.25s cubic-bezier(0.4,0,0.2,1)"><path d="M18 6L6 18M6 6l12 12"/></svg>
