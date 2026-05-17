@@ -508,8 +508,8 @@ var translations = {
     form_success_th: "ส่งใบสมัครเรียบร้อย! เราจะติดต่อกลับทาง LINE ภายใน 3 วัน",
     modal_title: "Stay in the Loop", modal_desc: "Get updates on enrollment, schedules, and early-bird offers.",
     modal_submit: "Join Mailing List", modal_success: "You’re on the list!", modal_alt: "Or apply directly via",
-    reels_title: "Students in Action 🎬",
-    reels_sub: "See what our builders are shipping week by week"
+    reels_title: "See What We're About 🎬",
+    reels_sub: "A look inside SV Academy"
   },
   th: {
     nav_about: "เกี่ยวกับเรา", nav_mentors: "ที่ปรึกษา", nav_program: "โปรแกรม", nav_apply: "สมัคร",
@@ -594,8 +594,8 @@ var translations = {
     form_success_th: "ส่งใบสมัครเรียบร้อย! เราจะติดต่อกลับทาง LINE ภายใน 3 วัน",
     modal_title: "ติดตามข่าวสาร", modal_desc: "รับอัปเดตการรับสมัคร ตารางเรียน และโปรโมชั่นพิเศษ",
     modal_submit: "ลงทะเบียน", modal_success: "ลงทะเบียนสำเร็จ!", modal_alt: "หรือสมัครโดยตรงผ่าน",
-    reels_title: "นักเรียนของเรากำลังสร้างอะไร 🎬",
-    reels_sub: "ติดตามผลงานของนักเรียนในแต่ละสัปดาห์"
+    reels_title: "SV Academy คืออะไร 🎬",
+    reels_sub: "แอบส่องชีวิตในคลาสเรียนของเรา"
   }
 };
 
