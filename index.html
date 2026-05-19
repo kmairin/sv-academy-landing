@@ -394,23 +394,22 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
           </div>
         </div>
         <div class="phone-home-bar"></div>
-        <!-- Transparent gesture layer sits above iframes — captures swipe/drag events -->
+        <!-- Gesture layer: captures swipe/drag (z-index:30) -->
         <div id="reel-overlay" style="position:absolute;top:42px;left:12px;right:12px;bottom:40px;z-index:30;border-radius:22px;touch-action:pan-y;cursor:grab"></div>
+        <!-- Nav arrows: inside phone-frame so they never overflow the section (z-index:50 > overlay) -->
+        <button class="reel-arrow" id="reel-prev" onclick="slideReel(-1)" aria-label="Previous reel" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);z-index:50;opacity:0.3">&#8249;</button>
+        <button class="reel-arrow" id="reel-next" onclick="slideReel(1)" aria-label="Next reel" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:50">&#8250;</button>
       </div>
 
-      <!-- Controls row: prev | dots | next -->
-      <div style="display:flex;align-items:center;gap:12px;margin-top:20px">
-        <button class="reel-arrow" id="reel-prev" onclick="slideReel(-1)" aria-label="Previous reel" style="opacity:0.3">&#8249;</button>
-        <div class="reel-dots-wrap">
-          <button class="reel-dot active" onclick="goToReel(0)" aria-label="Reel 1"></button>
-          <button class="reel-dot" onclick="goToReel(1)" aria-label="Reel 2"></button>
-          <button class="reel-dot" onclick="goToReel(2)" aria-label="Reel 3"></button>
-          <button class="reel-dot" onclick="goToReel(3)" aria-label="Reel 4"></button>
-          <button class="reel-dot" onclick="goToReel(4)" aria-label="Reel 5"></button>
-          <button class="reel-dot" onclick="goToReel(5)" aria-label="Reel 6"></button>
-          <button class="reel-dot" onclick="goToReel(6)" aria-label="Reel 7"></button>
-        </div>
-        <button class="reel-arrow" id="reel-next" onclick="slideReel(1)" aria-label="Next reel">&#8250;</button>
+      <!-- Dot indicators -->
+      <div class="reel-dots-wrap" style="margin-top:20px">
+        <button class="reel-dot active" onclick="goToReel(0)" aria-label="Reel 1"></button>
+        <button class="reel-dot" onclick="goToReel(1)" aria-label="Reel 2"></button>
+        <button class="reel-dot" onclick="goToReel(2)" aria-label="Reel 3"></button>
+        <button class="reel-dot" onclick="goToReel(3)" aria-label="Reel 4"></button>
+        <button class="reel-dot" onclick="goToReel(4)" aria-label="Reel 5"></button>
+        <button class="reel-dot" onclick="goToReel(5)" aria-label="Reel 6"></button>
+        <button class="reel-dot" onclick="goToReel(6)" aria-label="Reel 7"></button>
       </div>
 
     </div>
