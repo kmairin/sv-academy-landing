@@ -384,10 +384,10 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
 
     <!-- Phone + dots -->
     <div style="display:flex;flex-direction:column;align-items:center">
-      <div class="phone-frame" style="cursor:grab;user-select:none">
+      <div class="phone-frame" style="user-select:none">
         <div class="phone-notch"></div>
         <div class="phone-screen" style="width:332px">
-          <div id="reel-slider" style="display:flex;width:calc(332px * 7);transform:translateX(0);will-change:transform">
+          <div id="reel-slider" style="display:flex;width:calc(332px * 7);transform:translateX(0);will-change:transform;pointer-events:none">
             <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYeqnHkvjU8/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:332px;max-width:332px;flex-shrink:0"></blockquote>
             <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYH9uKMygRN/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:332px;max-width:332px;flex-shrink:0"></blockquote>
             <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYOvzNARXTj/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:332px;max-width:332px;flex-shrink:0"></blockquote>
@@ -398,6 +398,8 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
           </div>
         </div>
         <div class="phone-home-bar"></div>
+        <!-- Transparent gesture layer sits above iframes — captures swipe/drag events -->
+        <div id="reel-overlay" style="position:absolute;top:42px;left:12px;right:12px;bottom:40px;z-index:30;border-radius:22px;touch-action:pan-y;cursor:grab"></div>
       </div>
 
       <!-- Dot indicators -->
