@@ -218,9 +218,9 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
 .nav-cta-btn:active{transform:scale(0.97)}
 @keyframes blob-drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(28px,-18px) scale(1.06)}66%{transform:translate(-18px,24px) scale(0.94)}}
 .reels-blob{position:absolute;border-radius:50%;filter:blur(72px);pointer-events:none;will-change:transform}
-.reel-arrow{background:rgba(30,30,40,0.72);border:1.5px solid rgba(255,255,255,0.18);color:#fff;width:40px;height:40px;border-radius:9999px;font-size:28px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.2s,opacity 0.25s;padding:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 4px 16px rgba(0,0,0,0.4)}
-.reel-arrow:hover{background:rgba(60,60,80,0.9);transform:scale(1.1)}
-.reel-dots-wrap{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:20px}
+.reel-arrow{background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);color:#fff;width:36px;height:36px;border-radius:9999px;font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.2s,opacity 0.25s;padding:0;flex-shrink:0}
+.reel-arrow:hover{background:rgba(255,255,255,0.18);transform:scale(1.1)}
+.reel-dots-wrap{display:flex;align-items:center;gap:6px}
 .reel-dot{width:8px;height:8px;border-radius:9999px;background:rgba(255,255,255,0.22);border:none;cursor:pointer;padding:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1)}
 .reel-dot.active{width:28px;background:linear-gradient(90deg,#833AB4,#FD1D1D)}
 .phone-frame{background:linear-gradient(160deg,#1d1d27,#0c0c14);border-radius:46px;border:1.5px solid rgba(255,255,255,0.11);box-shadow:0 0 0 8px rgba(255,255,255,0.024),0 32px 80px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.07);padding:20px 12px 22px;position:relative}
@@ -377,12 +377,9 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
 
   <!-- Single phone slider -->
   <div style="display:flex;align-items:center;justify-content:center;position:relative;z-index:10;padding:0 24px 52px">
+    <div style="display:flex;flex-direction:column;align-items:center">
 
-    <!-- Phone + dots (position:relative so arrows float on its edges) -->
-    <div style="position:relative;display:flex;flex-direction:column;align-items:center">
-
-      <!-- Left arrow – floats on left edge of phone -->
-      <button class="reel-arrow" id="reel-prev" onclick="slideReel(-1)" aria-label="Previous reel" style="position:absolute;left:-20px;top:44%;transform:translateY(-50%);z-index:40;opacity:0.3">&#8249;</button>
+      <!-- Phone mockup -->
       <div class="phone-frame" style="user-select:none">
         <div class="phone-notch"></div>
         <div class="phone-screen" style="width:332px">
@@ -401,19 +398,21 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
         <div id="reel-overlay" style="position:absolute;top:42px;left:12px;right:12px;bottom:40px;z-index:30;border-radius:22px;touch-action:pan-y;cursor:grab"></div>
       </div>
 
-      <!-- Dot indicators -->
-      <div class="reel-dots-wrap">
-        <button class="reel-dot active" onclick="goToReel(0)" aria-label="Reel 1"></button>
-        <button class="reel-dot" onclick="goToReel(1)" aria-label="Reel 2"></button>
-        <button class="reel-dot" onclick="goToReel(2)" aria-label="Reel 3"></button>
-        <button class="reel-dot" onclick="goToReel(3)" aria-label="Reel 4"></button>
-        <button class="reel-dot" onclick="goToReel(4)" aria-label="Reel 5"></button>
-        <button class="reel-dot" onclick="goToReel(5)" aria-label="Reel 6"></button>
-        <button class="reel-dot" onclick="goToReel(6)" aria-label="Reel 7"></button>
+      <!-- Controls row: prev | dots | next -->
+      <div style="display:flex;align-items:center;gap:12px;margin-top:20px">
+        <button class="reel-arrow" id="reel-prev" onclick="slideReel(-1)" aria-label="Previous reel" style="opacity:0.3">&#8249;</button>
+        <div class="reel-dots-wrap">
+          <button class="reel-dot active" onclick="goToReel(0)" aria-label="Reel 1"></button>
+          <button class="reel-dot" onclick="goToReel(1)" aria-label="Reel 2"></button>
+          <button class="reel-dot" onclick="goToReel(2)" aria-label="Reel 3"></button>
+          <button class="reel-dot" onclick="goToReel(3)" aria-label="Reel 4"></button>
+          <button class="reel-dot" onclick="goToReel(4)" aria-label="Reel 5"></button>
+          <button class="reel-dot" onclick="goToReel(5)" aria-label="Reel 6"></button>
+          <button class="reel-dot" onclick="goToReel(6)" aria-label="Reel 7"></button>
+        </div>
+        <button class="reel-arrow" id="reel-next" onclick="slideReel(1)" aria-label="Next reel">&#8250;</button>
       </div>
 
-      <!-- Right arrow – floats on right edge of phone -->
-      <button class="reel-arrow" id="reel-next" onclick="slideReel(1)" aria-label="Next reel" style="position:absolute;right:-20px;top:44%;transform:translateY(-50%);z-index:40">&#8250;</button>
     </div>
   </div>
 
