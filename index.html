@@ -216,13 +216,14 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
 .nav-cta-btn{background:linear-gradient(135deg,#0071E3,#3b82f6);color:#fff!important;padding:10px 22px;border-radius:9999px;font-size:14px;font-weight:700;border:none;cursor:pointer;letter-spacing:0.02em;white-space:nowrap;animation:cta-pulse 2.5s ease-in-out infinite;transition:transform 0.2s,box-shadow 0.2s}
 .nav-cta-btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 8px 24px rgba(0,113,227,0.45)!important}
 .nav-cta-btn:active{transform:scale(0.97)}
-.reels-carousel::-webkit-scrollbar{display:none}
-.reels-swipe-hint{display:none}
-@media(max-width:900px){.reels-swipe-hint{display:block!important}}
 @keyframes blob-drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(28px,-18px) scale(1.06)}66%{transform:translate(-18px,24px) scale(0.94)}}
 .reels-blob{position:absolute;border-radius:50%;filter:blur(72px);pointer-events:none;will-change:transform}
-.phone-wrap{flex-shrink:0;width:356px;scroll-snap-align:start;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1)}
-.phone-wrap:hover{transform:translateY(-14px) rotate(0deg) scale(1.02)!important}
+.reel-arrow{background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.12);color:#fff;width:44px;height:44px;border-radius:9999px;font-size:30px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.2s,opacity 0.2s;flex-shrink:0;padding:0}
+.reel-arrow:hover{background:rgba(255,255,255,0.18);transform:scale(1.1)}
+@media(max-width:500px){.reel-arrow{display:none}}
+.reel-dots-wrap{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:20px}
+.reel-dot{width:8px;height:8px;border-radius:9999px;background:rgba(255,255,255,0.22);border:none;cursor:pointer;padding:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1)}
+.reel-dot.active{width:28px;background:linear-gradient(90deg,#833AB4,#FD1D1D)}
 .phone-frame{background:linear-gradient(160deg,#1d1d27,#0c0c14);border-radius:46px;border:1.5px solid rgba(255,255,255,0.11);box-shadow:0 0 0 8px rgba(255,255,255,0.024),0 32px 80px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.07);padding:20px 12px 22px;position:relative}
 .phone-notch{width:72px;height:8px;background:#07070d;border-radius:4px;margin:0 auto 14px;box-shadow:0 0 0 1.5px rgba(255,255,255,0.05)}
 .phone-screen{border-radius:22px;overflow:hidden;background:#000;display:block}
@@ -375,85 +376,44 @@ select.app-input{cursor:pointer;appearance:none;background-image:url("data:image
     </div>
   </div>
 
-  <!-- Phone mockup carousel (full-bleed) -->
-  <div class="reels-carousel" style="display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:20px 48px 52px;scrollbar-width:none;-ms-overflow-style:none;position:relative;z-index:10">
+  <!-- Single phone slider -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:24px;position:relative;z-index:10;padding:0 24px 52px">
 
-    <div class="phone-wrap" style="transform:rotate(-2deg)">
-      <div class="phone-frame">
+    <!-- Left arrow -->
+    <button class="reel-arrow" id="reel-prev" onclick="slideReel(-1)" aria-label="Previous reel" style="opacity:0.3">&#8249;</button>
+
+    <!-- Phone + dots -->
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div class="phone-frame" style="cursor:grab;user-select:none">
         <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYeqnHkvjU8/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:0;max-width:332px"></blockquote>
+        <div class="phone-screen" style="width:332px">
+          <div id="reel-slider" style="display:flex;width:calc(332px * 7);transform:translateX(0);will-change:transform">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYeqnHkvjU8/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:332px;max-width:332px;flex-shrink:0"></blockquote>
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYH9uKMygRN/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:332px;max-width:332px;flex-shrink:0"></blockquote>
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYOvzNARXTj/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:332px;max-width:332px;flex-shrink:0"></blockquote>
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYOT0ZpxklG/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:332px;max-width:332px;flex-shrink:0"></blockquote>
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYToEGNR-z-/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:332px;max-width:332px;flex-shrink:0"></blockquote>
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYRkcVexDUv/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:332px;max-width:332px;flex-shrink:0"></blockquote>
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYbmrIQyA9B/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:332px;max-width:332px;flex-shrink:0"></blockquote>
+          </div>
         </div>
         <div class="phone-home-bar"></div>
       </div>
-    </div>
 
-    <div class="phone-wrap" style="transform:rotate(1.5deg)">
-      <div class="phone-frame">
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYH9uKMygRN/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:0;max-width:332px"></blockquote>
-        </div>
-        <div class="phone-home-bar"></div>
+      <!-- Dot indicators -->
+      <div class="reel-dots-wrap">
+        <button class="reel-dot active" onclick="goToReel(0)" aria-label="Reel 1"></button>
+        <button class="reel-dot" onclick="goToReel(1)" aria-label="Reel 2"></button>
+        <button class="reel-dot" onclick="goToReel(2)" aria-label="Reel 3"></button>
+        <button class="reel-dot" onclick="goToReel(3)" aria-label="Reel 4"></button>
+        <button class="reel-dot" onclick="goToReel(4)" aria-label="Reel 5"></button>
+        <button class="reel-dot" onclick="goToReel(5)" aria-label="Reel 6"></button>
+        <button class="reel-dot" onclick="goToReel(6)" aria-label="Reel 7"></button>
       </div>
     </div>
 
-    <div class="phone-wrap" style="transform:rotate(-1deg)">
-      <div class="phone-frame">
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYOvzNARXTj/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:0;max-width:332px"></blockquote>
-        </div>
-        <div class="phone-home-bar"></div>
-      </div>
-    </div>
-
-    <div class="phone-wrap" style="transform:rotate(2.5deg)">
-      <div class="phone-frame">
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYOT0ZpxklG/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:0;max-width:332px"></blockquote>
-        </div>
-        <div class="phone-home-bar"></div>
-      </div>
-    </div>
-
-    <div class="phone-wrap" style="transform:rotate(-1.5deg)">
-      <div class="phone-frame">
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYToEGNR-z-/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:0;max-width:332px"></blockquote>
-        </div>
-        <div class="phone-home-bar"></div>
-      </div>
-    </div>
-
-    <div class="phone-wrap" style="transform:rotate(1deg)">
-      <div class="phone-frame">
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYRkcVexDUv/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:0;max-width:332px"></blockquote>
-        </div>
-        <div class="phone-home-bar"></div>
-      </div>
-    </div>
-
-    <div class="phone-wrap" style="transform:rotate(-2deg)">
-      <div class="phone-frame">
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYbmrIQyA9B/" data-instgrm-version="14" style="background:#000;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;width:332px;min-width:0;max-width:332px"></blockquote>
-        </div>
-        <div class="phone-home-bar"></div>
-      </div>
-    </div>
-
-    <div style="flex-shrink:0;width:24px"></div>
-  </div>
-
-  <!-- Mobile swipe hint -->
-  <div class="reels-swipe-hint" style="text-align:center;margin-top:4px;opacity:0.4;position:relative;z-index:10">
-    <span style="font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;letter-spacing:0.12em">← SWIPE →</span>
+    <!-- Right arrow -->
+    <button class="reel-arrow" id="reel-next" onclick="slideReel(1)" aria-label="Next reel">&#8250;</button>
   </div>
 
   <!-- Follow CTA -->

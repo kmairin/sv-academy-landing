@@ -1062,3 +1062,121 @@ document.querySelectorAll(".stat-val").forEach(function(stat) {
   // run immediately in case page loads mid-scroll
   updateStickyBtn();
 })();
+
+/* ── Reel slider ──────────────────────────────────────────────────────────── */
+(function() {
+  var TOTAL   = 7;
+  var SLIDE_W = 332;          // px per reel slide
+  var SNAP_EASE = 'transform 0.42s cubic-bezier(0.25,0.46,0.45,0.94)';
+  var current = 0;
+  var slider, dots;
+
+  function getEls() {
+    if (!slider) slider = document.getElementById('reel-slider');
+    if (!dots)   dots   = document.querySelectorAll('.reel-dot');
+  }
+
+  function snap() {
+    slider.style.transform = 'translateX(' + (-current * SLIDE_W) + 'px)';
+    updateDots();
+    updateArrows();
+  }
+
+  function updateDots() {
+    if (!dots) return;
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
+  }
+
+  function updateArrows() {
+    var prev = document.getElementById('reel-prev');
+    var next = document.getElementById('reel-next');
+    if (prev) prev.style.opacity = current === 0        ? '0.3' : '1';
+    if (next) next.style.opacity = current === TOTAL-1  ? '0.3' : '1';
+  }
+
+  /* ── touch drag ── */
+  function initTouch() {
+    var startX=0, startY=0, diffX=0, dragging=false, lockAxis=false, isHoriz=false;
+
+    slider.addEventListener('touchstart', function(e) {
+      startX=e.touches[0].clientX; startY=e.touches[0].clientY;
+      diffX=0; dragging=true; lockAxis=false; isHoriz=false;
+      slider.style.transition='none';
+    }, { passive: true });
+
+    slider.addEventListener('touchmove', function(e) {
+      if (!dragging) return;
+      var dx=e.touches[0].clientX-startX, dy=e.touches[0].clientY-startY;
+      if (!lockAxis) { lockAxis=true; isHoriz=Math.abs(dx)>Math.abs(dy); }
+      if (!isHoriz) return;
+      diffX=dx;
+      slider.style.transform='translateX('+(-current*SLIDE_W+diffX)+'px)';
+    }, { passive: true });
+
+    function onTouchEnd() {
+      if (!dragging) return;
+      dragging=false;
+      slider.style.transition=SNAP_EASE;
+      if      (diffX < -60 && current < TOTAL-1) current++;
+      else if (diffX >  60 && current > 0)        current--;
+      snap();
+    }
+    slider.addEventListener('touchend',    onTouchEnd);
+    slider.addEventListener('touchcancel', onTouchEnd);
+  }
+
+  /* ── mouse drag ── */
+  function initMouse() {
+    var mDown=false, mStartX=0, mDiffX=0;
+    var frame = slider.closest ? slider.closest('.phone-frame') : slider.parentElement.parentElement;
+
+    slider.addEventListener('mousedown', function(e) {
+      mDown=true; mStartX=e.clientX; mDiffX=0;
+      slider.style.transition='none';
+      if (frame) frame.style.cursor='grabbing';
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', function(e) {
+      if (!mDown) return;
+      mDiffX=e.clientX-mStartX;
+      slider.style.transform='translateX('+(-current*SLIDE_W+mDiffX)+'px)';
+    });
+
+    document.addEventListener('mouseup', function() {
+      if (!mDown) return;
+      mDown=false;
+      slider.style.transition=SNAP_EASE;
+      if (frame) frame.style.cursor='grab';
+      if      (mDiffX < -60 && current < TOTAL-1) current++;
+      else if (mDiffX >  60 && current > 0)        current--;
+      snap();
+    });
+  }
+
+  function init() {
+    getEls();
+    if (!slider) return;
+    initTouch();
+    initMouse();
+    snap(); // set initial state (prev arrow faded)
+  }
+
+  /* ── public API ── */
+  window.slideReel = function(dir) {
+    getEls(); if (!slider) return;
+    current = Math.max(0, Math.min(TOTAL-1, current+dir));
+    slider.style.transition = SNAP_EASE;
+    snap();
+  };
+
+  window.goToReel = function(n) {
+    getEls(); if (!slider) return;
+    current = Math.max(0, Math.min(TOTAL-1, n));
+    slider.style.transition = SNAP_EASE;
+    snap();
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
