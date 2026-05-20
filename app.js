@@ -1064,31 +1064,18 @@ document.querySelectorAll(".stat-val").forEach(function(stat) {
 })();
 
 /* ── Reel slider ──────────────────────────────────────────────────────────── */
-/*  iframes eat pointer/touch events, so we use a transparent overlay div     */
-/*  (#reel-overlay, z-index:30) that sits above the iframes and captures all  */
-/*  gestures. The overlay has touch-action:pan-y so vertical page scroll is   */
-/*  handled natively by the browser; horizontal swipes come to our JS.        */
+/*  Navigation via arrow buttons and dot indicators only.                      */
+/*  iframes receive pointer/touch events directly so videos play in-place.     */
 (function() {
-  var TOTAL    = 7;
-  var SLIDE_W  = 332;
+  var TOTAL     = 7;
+  var SLIDE_W   = 332;
   var SNAP_EASE = 'transform 0.42s cubic-bezier(0.25,0.46,0.45,0.94)';
-  var REEL_URLS = [
-    'https://www.instagram.com/reel/DYeqnHkvjU8/',
-    'https://www.instagram.com/reel/DYH9uKMygRN/',
-    'https://www.instagram.com/reel/DYOvzNARXTj/',
-    'https://www.instagram.com/reel/DYOT0ZpxklG/',
-    'https://www.instagram.com/reel/DYToEGNR-z-/',
-    'https://www.instagram.com/reel/DYRkcVexDUv/',
-    'https://www.instagram.com/reel/DYbmrIQyA9B/'
-  ];
-  var current = 0;
-  var slider, overlay, dots;
-  var lastWasDrag = false;
+  var current   = 0;
+  var slider, dots;
 
   function getEls() {
-    if (!slider)  slider  = document.getElementById('reel-slider');
-    if (!overlay) overlay = document.getElementById('reel-overlay');
-    if (!dots)    dots    = document.querySelectorAll('.reel-dot');
+    if (!slider) slider = document.getElementById('reel-slider');
+    if (!dots)   dots   = document.querySelectorAll('.reel-dot');
   }
 
   function snap() {
@@ -1109,84 +1096,16 @@ document.querySelectorAll(".stat-val").forEach(function(stat) {
     if (next) next.style.opacity = current === TOTAL-1 ? '0.3' : '1';
   }
 
-  /* ── touch: attached to overlay, not the iframes ── */
-  function initTouch() {
-    var startX=0, startY=0, diffX=0, dragging=false, lockAxis=false, isHoriz=false;
-
-    overlay.addEventListener('touchstart', function(e) {
-      startX=e.touches[0].clientX; startY=e.touches[0].clientY;
-      diffX=0; dragging=true; lockAxis=false; isHoriz=false;
-      slider.style.transition='none';
-    }, { passive: true });
-
-    overlay.addEventListener('touchmove', function(e) {
-      if (!dragging) return;
-      var dx=e.touches[0].clientX-startX, dy=e.touches[0].clientY-startY;
-      if (!lockAxis) { lockAxis=true; isHoriz=Math.abs(dx)>Math.abs(dy); }
-      if (!isHoriz) return;
-      diffX=dx;
-      slider.style.transform='translateX('+(-current*SLIDE_W+diffX)+'px)';
-    }, { passive: true });
-
-    function onTouchEnd() {
-      if (!dragging) return;
-      dragging=false;
-      lastWasDrag = Math.abs(diffX) >= 8;
-      slider.style.transition=SNAP_EASE;
-      if      (diffX < -60 && current < TOTAL-1) current++;
-      else if (diffX >  60 && current > 0)        current--;
-      snap();
-    }
-    overlay.addEventListener('touchend',    onTouchEnd);
-    overlay.addEventListener('touchcancel', onTouchEnd);
-  }
-
-  /* ── mouse: attached to overlay, not the iframes ── */
-  function initMouse() {
-    var mDown=false, mStartX=0, mDiffX=0;
-
-    overlay.addEventListener('mousedown', function(e) {
-      mDown=true; mStartX=e.clientX; mDiffX=0;
-      slider.style.transition='none';
-      overlay.style.cursor='grabbing';
-      e.preventDefault();
-    });
-
-    document.addEventListener('mousemove', function(e) {
-      if (!mDown) return;
-      mDiffX=e.clientX-mStartX;
-      slider.style.transform='translateX('+(-current*SLIDE_W+mDiffX)+'px)';
-    });
-
-    document.addEventListener('mouseup', function() {
-      if (!mDown) return;
-      mDown=false;
-      lastWasDrag = Math.abs(mDiffX) >= 8;
-      slider.style.transition=SNAP_EASE;
-      overlay.style.cursor='grab';
-      if      (mDiffX < -60 && current < TOTAL-1) current++;
-      else if (mDiffX >  60 && current > 0)        current--;
-      snap();
-    });
-
-    // tap (no drag) → open the current reel on Instagram
-    overlay.addEventListener('click', function() {
-      if (!lastWasDrag) window.open(REEL_URLS[current], '_blank', 'noopener,noreferrer');
-    });
-  }
-
   function init() {
     getEls();
-    if (!slider || !overlay) return;
-    initTouch();
-    initMouse();
+    if (!slider) return;
     snap();
   }
 
   /* ── public API (used by arrow buttons and dot buttons) ── */
   window.slideReel = function(dir) {
     getEls(); if (!slider) return;
-    current = Math.max(0, Math.min(TOTAL-1, current+dir));
+    current = Math.max(0, Math.min(TOTAL-1, current + dir));
     slider.style.transition = SNAP_EASE;
     snap();
   };
